@@ -153,10 +153,10 @@
                 <?php
                 $servername = "localhost"; // Je servernaam (bijv. localhost)
                 $username = "root";        // Je databasegebruikersnaam
-                $password = "root";            // Je databasewachtwoord
+                $password = "";            // Je databasewachtwoord
                 $dbname = "klanten_db";    // Je database naam
                 
-                $conn = new mysqli($host, $user, $pass, $db);
+                $conn = new mysqli($servername, $username, $password, $dbname);
 
                 // Controleren op verbindingse fouten
                 if ($conn->connect_error) {
