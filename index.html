@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+   
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hoofdpagina Urenregistratie</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-size: cover;
+            color: white;
+            background-image: url('images/Simple chill wallpaper 1920 x 1080 - Wallpaper.jpg'); 
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-top: 100px;
+        }
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap; /* Zorgt ervoor dat de knoppen op kleinere schermen netjes onder elkaar komen */
+        }
+        .nav-button {
+            padding: 15px;
+            width: 150px;
+            background: white;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .nav-button:hover {
+            background: lightgray;
+        }
+
+        /* Media query voor kleinere schermen (bijvoorbeeld telefoons) */
+        @media (max-width: 600px) {
+            .nav-button {
+                width: 100%;  /* Zorgt ervoor dat de knoppen de volledige breedte gebruiken op kleine schermen */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Urenregistratie Systeem</h2>
+        <p>Kies een persoonlijke urenregistratie:</p>
+        <div class="nav-container">
+            <button class="nav-button" onclick="location.href='klanteninfo.php'">klanten</button>
+            <button class="nav-button" onclick="location.href='medewerkersinfo.php'">Medewerkers</button>
+            <button class="nav-button" onclick="location.href='aanvrageninfo.php'">Aanvragen</button>
+            <button class="nav-button" onclick="location.href='werkzaamhedeninfo.php'">werkzaamheden</button>
+        </div>
+    </div>
+</body>
+</html>
