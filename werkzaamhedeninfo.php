@@ -1,10 +1,6 @@
 
 <?php
-// Database verbinding
-$servername = "localhost";
-$username = "root"; // Jouw database gebruikersnaam
-$password = ""; // Jouw database wachtwoord
-$dbname = "klanten_db"; // Jouw database naam
+require 'config.php';
 
 // Maak verbinding met de database
 $conn = new mysqli($servername, $username, $password, $dbname);

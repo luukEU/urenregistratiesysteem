@@ -1,9 +1,5 @@
 <?php
-// Databaseverbinding
-$servername = "localhost";
-$username = "root"; // Pas aan als nodig
-$password = ""; // Pas aan als nodig
-$dbname = "klanten_db";
+require 'config.php';
 
 try {
     $pdo = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8", $username, $password);

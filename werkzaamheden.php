@@ -1,9 +1,5 @@
 <?php
-// Database-instellingen
-$servername = "localhost";  // Servernaam
-$username = "root";         // Pas aan indien nodig
-$password = "";             // Pas aan indien nodig
-$dbname = "klanten_db";     // Naam van de database
+require 'config.php';
 
 // Verbinding maken met de database
 try {

@@ -1,9 +1,5 @@
 <?php 
-// Verbinding maken met de database
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "klanten_db";
+require 'config.php';
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
