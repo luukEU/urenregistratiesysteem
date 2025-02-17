@@ -1,3 +1,4 @@
+
 <?php
 // Database verbinding
 $servername = "localhost";
@@ -13,27 +14,7 @@ if ($conn->connect_error) {
     die("Verbinding mislukt: " . $conn->connect_error);
 }
 
-// Verwijder medewerker als de delete-knop is ingedrukt
-if (isset($_GET['delete'])) {
-    $id = $_GET['delete'];
-    
-    // Gebruik prepared statements om SQL-injecties te voorkomen
-    $stmt = $conn->prepare("DELETE FROM werkzaamheden WHERE id = ?");
-    $stmt->bind_param("i", $id);
-    
-    if ($stmt->execute()) {
-        echo "<script>
-                alert('Werkzaamheden succesvol verwijderd!');
-                window.location.href = 'view_werkzaamheden.php';
-              </script>";
-    } else {
-        echo "<script>
-                alert('Fout bij verwijderen van werkzaamheden.');
-                window.location.href = 'view_werkzaamheden.php';
-              </script>";
-    }
-    $stmt->close();
-}
+
 
 // Haal werkzaamheden op
 $sql = "SELECT * FROM werkzaamheden";
@@ -55,10 +36,17 @@ $result = $conn->query($sql);
             top: 0;
             left: 0;
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start; /* Links uitlijnen */
             align-items: center;
             z-index: 1000;
         }
+
+        .navbar .left {
+            display: flex;
+            align-items: center;
+            gap: 15px; /* Ruimte tussen de knoppen */
+        }
+
         .navbar a {
             color: white;
             text-decoration: none;
@@ -66,6 +54,27 @@ $result = $conn->query($sql);
             font-size: 16px;
             border-radius: 5px;
         }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        @media print {
+            button { 
+                display: none;
+            }
+        }
+
         body {
             font-family: Arial, sans-serif;
             background-image: url('images/Simple chill wallpaper 1920 x 1080 - Wallpaper.jpg');
@@ -76,6 +85,7 @@ $result = $conn->query($sql);
             padding: 0;
             color: #fff;
         }
+
         .container {
             width: 80%;
             margin: 80px auto 0;
@@ -83,66 +93,95 @@ $result = $conn->query($sql);
             background-color: rgba(0, 0, 0, 0.6);
             border-radius: 10px;
         }
+
         table {
-            width: 100%;
+            width: 90%;
+            margin: 20px 0 20px 5%;
             border-collapse: collapse;
-            margin-bottom: 20px;
         }
+
         th, td {
             padding: 10px;
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
+
         th {
             background-color: #333;
             color: white;
         }
+
+        .actions-cell {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            white-space: nowrap;
+        }
+
         .btn {
-            padding: 10px 15px;
+            padding: 6px 10px;
             border: none;
             cursor: pointer;
             border-radius: 5px;
-            font-size: 14px;
+            font-size: 12px;
         }
+
         .add-button {
             background-color: #5cb85c;
             color: white;
-            margin-bottom: 10px;
         }
+
         .add-button:hover {
             background-color: #4cae4c;
         }
+
         .delete-button {
             background-color: #d9534f;
             color: white;
         }
+
         .delete-button:hover {
             background-color: #c9302c;
         }
+
+        /* Knop boven de tabel */
+        .add-btn {
+            display: flex;
+            justify-content: center; /* Centraal uitlijnen van de knop */
+            margin-bottom: 20px;
+        }
+
+        .add-btn a {
+            text-decoration: none;
+        }
+
     </style>
 </head>
 <body>
 
 <div class="navbar">
-    <a href="index.html">⬅ Terug naar Home</a>
+    <div class="left">
+        <a href="index.html">⬅ Terug naar Home</a>
+        <button onclick="window.print()">PDF omzetten</button>
+    </div>
 </div>
 
 <div class="container">
     <h1>Werkzaamheden Overzicht</h1>
     
-    <!-- ✅ Toevoegen-knop naar werkzaamheden.html -->
-    <a href="werkzaamheden.html"><button class="btn add-button">➕ Toevoegen</button></a>
+    <!-- Toevoegen knop boven de tabel -->
+    <div class="add-btn">
+        <a href="aanvragen.html"><button class="add-button">Toevoegen</button></a>
+    </div>
 
     <table>
         <thead>
             <tr>
-                <th>ID</th>
                 <th>Naam Medewerker</th>
                 <th>Tussenvoegsel</th>
                 <th>Aantal Uren</th>
                 <th>Projectnaam</th>
                 <th>Omschrijving Werkzaamheden</th>
-                <th>Acties</th>
             </tr>
         </thead>
         <tbody>
@@ -150,17 +189,11 @@ $result = $conn->query($sql);
             if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
                     echo "<tr>
-                            <td>" . $row['id'] . "</td>
                             <td>" . $row['naam'] . "</td>
                             <td>" . $row['tussenvoegsel'] . "</td>
                             <td>" . $row['aantal_uren'] . "</td>
                             <td>" . $row['projectnaam'] . "</td>
                             <td>" . $row['omschrijving'] . "</td>
-                            <td>
-                                <a href='view_werkzaamheden.php?delete=" . $row['id'] . "' onclick='return confirm(\"Weet je zeker dat je deze werkzaamheden wilt verwijderen?\");'>
-                                    <button class='btn delete-button'>❌ Verwijderen</button>
-                                </a>
-                            </td>
                           </tr>";
                 }
             } else {

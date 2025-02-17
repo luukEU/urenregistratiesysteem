@@ -1,4 +1,4 @@
-<?php
+<?php 
 // Verbinding maken met de database
 $servername = "localhost";
 $username = "root";
@@ -12,21 +12,11 @@ if ($conn->connect_error) {
     die("Verbinding mislukt: " . $conn->connect_error);
 }
 
-// Medewerker verwijderen als op ❌ wordt geklikt
-if (isset($_GET['delete_id'])) {
-    $id = intval($_GET['delete_id']);
-    $sql = "DELETE FROM medewerkers WHERE id = $id";
-    if ($conn->query($sql) === TRUE) {
-        header("Location: medewerkers.php"); // Ververs pagina
-        exit();
-    } else {
-        echo "Fout bij verwijderen: " . $conn->error;
-    }
-}
-
 // Haal gegevens uit de database
 $sql = "SELECT id, naam, tussenvoegsel, geboortedatum, functie, werkmail, kantoorruimte FROM medewerkers";
 $result = $conn->query($sql);
+
+
 ?>
 
 <!DOCTYPE html>
@@ -40,11 +30,7 @@ $result = $conn->query($sql);
             background: url('images/Simple chill wallpaper 1920 x 1080 - Wallpaper.jpg') no-repeat center center fixed;
             background-size: cover;
             font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
+            color: white;
         }
         .navbar {
             width: 100%;
@@ -54,7 +40,6 @@ $result = $conn->query($sql);
             top: 0;
             left: 0;
             display: flex;
-            justify-content: space-between;
             align-items: center;
             z-index: 1000;
         }
@@ -64,48 +49,61 @@ $result = $conn->query($sql);
             padding: 10px 20px;
             font-size: 16px;
             border-radius: 5px;
-        }
-        .navbar a:hover {
-            background: #444;
-        }
-        .plus-button, .delete-button {
-            border: none;
-            padding: 10px;
-            font-size: 14px;
-            border-radius: 5px;
+            background: #222;  /* Kleur van de knop gelijk aan de navbar */
             cursor: pointer;
         }
-        .plus-button {
+        .navbar a:hover {
+            background: #444;  /* Hover kleur van de knop */
+        }
+        .pdf-button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+        .pdf-button:hover {
+            background-color: #0056b3;
+        }
+        .container {
+            width: 80%;
+            margin: 100px auto 20px;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+        }
+        .table-container {
+            display: flex;
+            justify-content: center; /* Knop in het midden plaatsen */
+            margin-bottom: 20px;
+        }
+        .add-button {
             background-color: #28a745;
             color: white;
-            margin-right: 5px;
+            padding: 10px 15px;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
         }
-        .plus-button:hover {
+        .add-button:hover {
             background-color: #218838;
         }
-        .delete-button {
-            background-color: #dc3545;
-            color: white;
-        }
-        .delete-button:hover {
-            background-color: #c82333;
-        }
         table {
+            width: 100%;
+            border-collapse: collapse;
             background: rgba(34, 34, 34, 0.9);
             color: white;
             padding: 20px;
             border-radius: 12px;
-            width: 90%;
-            max-width: 1000px;
-            text-align: center;
-            margin-top: 80px;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
-            border-collapse: collapse;
         }
         th, td {
             padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
         }
         th {
             background-color: #333;
@@ -119,48 +117,58 @@ $result = $conn->query($sql);
         .action-buttons {
             display: flex;
             justify-content: center;
-            gap: 5px;
+            gap: 10px;
+        }
+        .delete-button {
+            background-color: #dc3545;
+            color: white;
+            padding: 5px 10px;
+            font-size: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .delete-button:hover {
+            background-color: #c82333;
         }
     </style>
 </head>
 <body>
     <div class="navbar">
-        <a href="index.html">⬅ Terug naar Home</a>
+        <a href="index.html">⬅ Terug naar Home</a>  <!-- Terug naar Home knop met dezelfde stijl als navbar -->
+        <button class="pdf-button" onclick="window.print()">PDF omzetten</button>
     </div>
 
     <div class="container">
-        <center>
-            <h2>Medewerkers Overzicht</h2>
-        </center>
-        <?php if ($result->num_rows > 0): ?>
+        <h2>Medewerkers Overzicht</h2>
+        <div class="table-container">
+            <a href="aanvragen.html" class="add-button">+ Toevoegen</a>
+        </div>
+        
+        <?php if (isset($result) && $result->num_rows > 0): ?>
             <table>
-                <tr>
-                    <th>Naam</th>
-                    <th>Tussenvoegsel</th>
-                    <th>Geboortedatum</th>
-                    <th>Functie</th>
-                    <th>Werkmail</th>
-                    <th>Kantoorruimte</th>
-                    <th>Acties</th>
-                </tr>
-                <?php while($row = $result->fetch_assoc()): ?>
+                <thead>
                     <tr>
-                        <td><?= htmlspecialchars($row["naam"]) ?></td>
-                        <td><?= htmlspecialchars($row["tussenvoegsel"]) ?></td>
-                        <td><?= htmlspecialchars($row["geboortedatum"]) ?></td>
-                        <td><?= htmlspecialchars($row["functie"]) ?></td>
-                        <td><?= htmlspecialchars($row["werkmail"]) ?></td>
-                        <td><?= htmlspecialchars($row["kantoorruimte"]) ?></td>
-                        <td class="action-buttons">
-                            <a href="medewerkers.php?delete_id=<?= $row["id"] ?>">
-                                <button class="delete-button">❌ Verwijderen</button>
-                            </a>
-                            <a href="medewerkers.html">
-                                <button class="plus-button">➕ Toevoegen</button>
-                            </a>
-                        </td>
+                        <th>Naam</th>
+                        <th>Tussenvoegsel</th>
+                        <th>Geboortedatum</th>
+                        <th>Functie</th>
+                        <th>Werkmail</th>
+                        <th>Kantoorruimte</th>
                     </tr>
-                <?php endwhile; ?>
+                </thead>
+                <tbody>
+                    <?php while($row = $result->fetch_assoc()): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($row["naam"]) ?></td>
+                            <td><?= htmlspecialchars($row["tussenvoegsel"]) ?></td>
+                            <td><?= htmlspecialchars($row["geboortedatum"]) ?></td>
+                            <td><?= htmlspecialchars($row["functie"]) ?></td>
+                            <td><?= htmlspecialchars($row["werkmail"]) ?></td>
+                            <td><?= htmlspecialchars($row["kantoorruimte"]) ?></td>
+                        </tr>
+                    <?php endwhile; ?>
+                </tbody>
             </table>
         <?php else: ?>
             <p>Geen medewerkers gevonden.</p>

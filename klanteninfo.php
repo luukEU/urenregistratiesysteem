@@ -55,6 +55,7 @@ try {
             padding: 20px;
             background-color: rgba(0, 0, 0, 0.6);
             border-radius: 10px;
+            margin-top: 60px; /* Zorg ervoor dat de container niet onder de fixed navbar zit */
         }
         table {
             width: 100%;
@@ -77,32 +78,69 @@ try {
             cursor: pointer;
             border-radius: 5px;
         }
-        .delete-button {
-            background-color: #d9534f;
-        }
-        .delete-button:hover {
-            background-color: #c9302c;
-        }
+
         .add-button {
             background-color: #5cb85c; /* Groen */
         }
-        .add-button:hover {
-            background-color: #4cae4c; /* Donkerder groen bij hover */
+
+        .add-btn-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .add-btn {
+            float: right;
+            padding: 10px 20px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-add-small {
+            background-color: #5cb85c; /* Groene knop */
+        }
+
+        button {
+            background-color: #007bff; /* Blauwe achtergrond */
+            color: white; /* Witte tekst */
+            padding: 10px 20px; /* Ruimte rondom tekst */
+            font-size: 16px; /* Grotere tekst */
+            border: none; /* Geen rand */
+            border-radius: 5px; /* Afgeronde hoeken */
+            cursor: pointer; /* Hand-icoon bij hover */
+        }
+
+        button:hover {
+            background-color: #0056b3; /* Donkerdere kleur bij hover */
+        }
+
+        @media print {
+            button { 
+                display: none; /* Verberg knop bij printen */
+            }
         }
     </style>
 </head>
 <body>
 <div class="navbar">
     <a href="index.html">⬅ Terug naar Home</a>
+    <button onclick="window.print()">PDF omzetten</button>
 </div>
 
 <div class="container">
+    <div class="add-btn-container">
+    </div>
     <h1>Klanten Overzicht</h1>
-    
+    <center>
+
+    <a href="aanvragen.html"><button class="btn-add-small">Toevoegen</button></a>
+    </span>
+    </center>
     <table>
         <thead>
             <tr>
-                <th>ID</th>
+               
                 <th>Naam</th>
                 <th>Tussenvoegsel</th>
                 <th>Bedrijf</th>
@@ -111,7 +149,7 @@ try {
                 <th>Adres</th>
                 <th>Email</th>
                 <th>Bericht</th>
-                <th>Acties</th>
+                
             </tr>
         </thead>
         <tbody>
@@ -122,7 +160,7 @@ try {
                 $stmt = $pdo->query($sql);
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                     echo "<tr>
-                            <td>" . $row['id'] . "</td>
+                           
                             <td>" . $row['naam'] . "</td>
                             <td>" . $row['tussenvoegsel'] . "</td>
                             <td>" . $row['bedrijf'] . "</td>
@@ -132,8 +170,7 @@ try {
                             <td>" . $row['email'] . "</td>
                             <td>" . $row['bericht'] . "</td>
                             <td>
-                                <a href='klanten.html'><button class='add-button'>Toevoegen</button></a>
-                                <a href='verwijderen.php?id=" . $row['id'] . "'><button class='delete-button'>Verwijderen</button></a>
+                                
                             </td>
                           </tr>";
                 }
