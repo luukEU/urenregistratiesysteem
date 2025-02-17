@@ -138,7 +138,7 @@ $result = $conn->query($sql);
     <div class="container">
         <h2>Medewerkers Overzicht</h2>
         <div class="table-container">
-            <a href="aanvragen.html" class="add-button">+ Toevoegen</a>
+            <a href="medewerkers.html" class="add-button">+ Toevoegen</a>
         </div>
         
         <?php if (isset($result) && $result->num_rows > 0): ?>

@@ -167,7 +167,7 @@ $result = $conn->query($sql);
     
     <!-- Toevoegen knop boven de tabel -->
     <div class="add-btn">
-        <a href="aanvragen.html"><button class="add-button">Toevoegen</button></a>
+        <a href="werkzaamheden.html"><button class="add-button">Toevoegen</button></a>
     </div>
 
     <table>

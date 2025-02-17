@@ -130,7 +130,7 @@ try {
     <h1>Klanten Overzicht</h1>
     <center>
 
-    <a href="aanvragen.html"><button class="btn-add-small">Toevoegen</button></a>
+    <a href="klanten.html"><button class="btn-add-small">Toevoegen</button></a>
     </span>
     </center>
     <table>
