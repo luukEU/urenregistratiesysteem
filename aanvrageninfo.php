@@ -8,7 +8,6 @@ if ($conn->connect_error) {
     die("Verbinding mislukt: " . $conn->connect_error);
 }
 
-
 // Haal aanvragen op
 $sql = "SELECT * FROM aanvragen";
 $result = $conn->query($sql);
@@ -28,7 +27,6 @@ $result = $conn->query($sql);
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
       margin: 0;
       padding: 0;
     }
@@ -36,7 +34,6 @@ $result = $conn->query($sql);
       width: 100%;
       background: #222;
       padding: 15px;
-      text-align: left;
       position: fixed;
       top: 0;
       left: 0;
@@ -60,9 +57,9 @@ $result = $conn->query($sql);
       width: 80%;
       max-width: 800px;
       margin-top: 100px;
+      text-align: center;
     }
     h2 {
-      text-align: center;
       margin-bottom: 20px;
     }
     table {
@@ -81,112 +78,48 @@ $result = $conn->query($sql);
     tr:hover {
       background-color: #444;
     }
-    /* Zorgt ervoor dat de knoppen in de Acties-cel naast elkaar blijven */
-    .actions-cell {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      white-space: nowrap;
-    }
-    /* Kleine knoppen: zowel voor Toevoegen als Verwijderen */
-    .btn-add-small, .btn-delete {
-      padding: 6px 10px;
-      border: none;
-      cursor: pointer;
-      border-radius: 6px;
-      font-size: 12px;
-      transition: 0.3s ease-in-out;
-    }
-    .btn-add-small {
-      background: #28a745;
-      color: white;
-    }
-    .btn-add-small:hover {
-      background: #218838;
-    }
-    .btn-delete {
-      background: #d9534f;
-      color: white;
-    }
-    .btn-delete:hover {
-      background: #c9302c;
-    }
-    /* Zorgt ervoor dat de Toevoegen-knop gecentreerd wordt boven de tabel */
-    .add-btn-container {
+    /* Knop gecentreerd */
+    .btn-add {
       display: flex;
       justify-content: center;
-      margin-bottom: 20px;
+      margin: 20px 0;
     }
-    .add-btn {
-  float: right;
-  padding: 10px 20px;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-
-
+    .btn-add a button {
+      background: #28a745;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .btn-add a button:hover {
+      background: #218838;
+    }
   </style>
 </head>
 <body>
   <div class="navbar">
     <a href="index.html">⬅ Terug naar Home</a>
-    
-    <style>
-    button {
-        background-color: #007bff; /* Blauwe achtergrond */
-        color: white; /* Witte tekst */
-        padding: 10px 20px; /* Ruimte rondom tekst */
-        font-size: 16px; /* Grotere tekst */
-        border: none; /* Geen rand */
-        border-radius: 5px; /* Afgeronde hoeken */
-        cursor: pointer; /* Hand-icoon bij hover */
-    }
-
-    button:hover {
-        background-color: #0056b3; /* Donkerdere kleur bij hover */
-    }
-
-    @media print {
-        button { 
-            display: none; /* Verberg knop bij printen */
-        }
-    }
-</style> 
-
-<button onclick="window.print()">PDF omzetten</button>
-
   </div>
- 
 
-  <!-- Toevoegen knop boven de tabel -->
-  <div class="add-btn-container">
-   
-  </div>
-  
   <div class="container">
-  <h2>
-  Aanvragen Overzicht 
-  <span class="add-btn">
-   <center>
-  <a href="aanvragen.html"><button class="btn-add-small">Toevoegen</button></a>
-  </center>
-  </span>
-</h2>
+    <h2>Aanvragen Overzicht</h2>
 
-    
+    <!-- Toevoegen knop in het midden -->
+    <div class="btn-add">
+      <a href="aanvragen.html"><button>Toevoegen</button></a>
+    </div>
+
     <table>
       <thead>
         <tr>
-         
           <th>Klantnaam</th>
           <th>Titel</th>
           <th>Omschrijving</th>
           <th>Aanvraagdatum</th>
           <th>Kennis</th>
-          
         </tr>
       </thead>
       <tbody>
@@ -194,18 +127,15 @@ $result = $conn->query($sql);
           if ($result->num_rows > 0) {
               while ($row = $result->fetch_assoc()) {
                   echo "<tr>
-                      
                           <td>" . htmlspecialchars($row['klantnaam']) . "</td>
                           <td>" . htmlspecialchars($row['titel']) . "</td>
                           <td>" . htmlspecialchars($row['omschrijving']) . "</td>
                           <td>" . htmlspecialchars($row['aanvraagdatum']) . "</td>
                           <td>" . htmlspecialchars($row['kennis']) . "</td> 
-                             
-                          </td>
                         </tr>";
               }
           } else {
-              echo "<tr><td colspan='7'>Geen aanvragen gevonden</td></tr>";
+              echo "<tr><td colspan='5'>Geen aanvragen gevonden</td></tr>";
           }
         ?>
       </tbody>
