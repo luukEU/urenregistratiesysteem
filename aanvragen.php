@@ -25,6 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Voer de query uit en controleer op fouten
     if ($conn->query($sql) === TRUE) {
         echo "Aanvraag succesvol ingediend!";
+        echo "<script>alert('Gegevens succesvol opgeslagen!'); window.location.href = 'aanvrageninfo.php';</script>";
     } else {
         echo "Fout bij het indienen van de aanvraag: " . $conn->error;
     }

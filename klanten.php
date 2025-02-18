@@ -32,7 +32,7 @@ try {
         ]);
 
         // Bevestiging en terugsturen naar formulier
-        echo "<script>alert('Bedankt voor je inzending!'); window.location.href = 'index.html';</script>";
+        echo "<script>alert('Bedankt voor je inzending!'); window.location.href = 'klanteninfo.php';</script>";
     }
 } catch (PDOException $e) {
     die("Fout bij verbinden met database: " . $e->getMessage());

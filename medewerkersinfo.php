@@ -142,6 +142,8 @@ $result = $conn->query($sql);
         </div>
         
         <?php if (isset($result) && $result->num_rows > 0): ?>
+            <div style="overflow-x:auto;">
+
             <table>
                 <thead>
                     <tr>
@@ -166,6 +168,7 @@ $result = $conn->query($sql);
                     <?php endwhile; ?>
                 </tbody>
             </table>
+                    </div>
         <?php else: ?>
             <p>Geen medewerkers gevonden.</p>
         <?php endif; ?>

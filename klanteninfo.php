@@ -133,6 +133,7 @@ try {
     <a href="klanten.html"><button class="btn-add-small">Toevoegen</button></a>
     </span>
     </center>
+    <div style="overflow-x:auto;">
     <table>
         <thead>
             <tr>
@@ -176,6 +177,7 @@ try {
             ?>
         </tbody>
     </table>
+    </div>
 </div>
 
 </body>
