@@ -1,6 +1,6 @@
 <?php
 // Database configuratie
-$servername = "%"; // Of het IP-adres van je database
+$servername = "localhost"; // Of het IP-adres van je database
 $username = "luuk"; // Je database gebruikersnaam
 $password = "luuk"; // Je database wachtwoord
 $dbname = "klanten_db"; // De naam van je database

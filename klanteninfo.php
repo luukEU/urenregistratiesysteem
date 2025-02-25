@@ -116,6 +116,14 @@ try {
                 display: none; /* Verberg knop bij printen */
             }
         }
+        .logo {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 50px;  /* Pas de grootte aan */
+    height: auto;  /* Zorg dat de verhoudingen behouden blijven */
+}
+
     </style>
 </head>
 <body>
@@ -123,6 +131,7 @@ try {
     <a href="index.html">⬅ Terug naar Home</a>
     <button onclick="window.print()">PDF omzetten</button>
 </div>
+<img src="images/logo.png" alt="Mijn Logo" class="logo">
 
 <div class="container">
     <div class="add-btn-container">
@@ -151,7 +160,6 @@ try {
         </thead>
         <tbody>
             <?php
-            // Haal gegevens op uit de database en toon in de tabel
             try {
                 $sql = "SELECT * FROM klanten";
                 $stmt = $pdo->query($sql);
