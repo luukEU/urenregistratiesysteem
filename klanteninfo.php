@@ -205,10 +205,13 @@ try {
 
 <div class="container">
     <h1>Klanten Overzicht</h1>
-
     <div class="add-btn-container">
         <a href="klanten.html"><button class="add-btn">Toevoegen</button></a>
     </div>
+
+
+
+    <div style="overflow-x:auto;">
 
     <table>
         <thead>
@@ -247,6 +250,7 @@ try {
             ?>
         </tbody>
     </table>
+    </div>
 </div>
 
 </body>

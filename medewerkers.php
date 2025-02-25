@@ -25,11 +25,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Voer de query uit en controleer of de invoer succesvol was
     if ($conn->query($sql) === TRUE) {
-        echo "<script>alert('Gegevens succesvol opgeslagen!'); window.location.href = 'index.html';</script>";
+        echo "<script>alert('Gegevens succesvol opgeslagen!'); window.location.href = 'medewerkersinfo.php';</script>";
     } else {
         echo "Fout: " . $sql . "<br>" . $conn->error;
     }
 }
+
 
 // Sluit de databaseverbinding
 $conn->close();

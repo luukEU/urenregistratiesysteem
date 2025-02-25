@@ -166,6 +166,7 @@ $result = $conn->query($sql);
         <a href="medewerkers.html" class="add-button">+ Toevoegen</a>
     </div>
 
+
     <?php if (isset($result) && $result->num_rows > 0): ?>
         <table>
             <thead>
@@ -180,6 +181,19 @@ $result = $conn->query($sql);
             </thead>
             <tbody>
                 <?php while($row = $result->fetch_assoc()): ?>
+
+    <div class="container">
+        <h2>Medewerkers Overzicht</h2>
+        <div class="table-container">
+            <a href="medewerkers.html" class="add-button">+ Toevoegen</a>
+        </div>
+        
+        <?php if (isset($result) && $result->num_rows > 0): ?>
+            <div style="overflow-x:auto;">
+
+            <table>
+                <thead>
+
                     <tr>
                         <td><?= htmlspecialchars($row["naam"]) ?></td>
                         <td><?= htmlspecialchars($row["tussenvoegsel"]) ?></td>
@@ -188,12 +202,10 @@ $result = $conn->query($sql);
                         <td><?= htmlspecialchars($row["werkmail"]) ?></td>
                         <td><?= htmlspecialchars($row["kantoorruimte"]) ?></td>
                     </tr>
-                <?php endwhile; ?>
+                
             </tbody>
         </table>
-    <?php else: ?>
-        <p>Geen medewerkers gevonden.</p>
-    <?php endif; ?>
+    
 
     <?php $conn->close(); ?>
 </div>

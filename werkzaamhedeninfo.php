@@ -174,7 +174,7 @@ $result = $conn->query($sql);
     <div class="add-btn">
         <a href="werkzaamheden.html"><button class="add-button">Toevoegen</button></a>
     </div>
-
+<div style="overflow-x:auto;">
     <table>
         <thead>
             <tr>
@@ -203,6 +203,7 @@ $result = $conn->query($sql);
             ?>
         </tbody>
     </table>
+    </div>
 </div>
 
 </body>
