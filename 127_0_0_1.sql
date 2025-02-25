@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Gegenereerd op: 19 feb 2025 om 08:40
+-- Gegenereerd op: 25 feb 2025 om 12:23
 -- Serverversie: 9.1.0
 -- PHP-versie: 8.3.14
 
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `aanvragen` (
 --
 
 INSERT INTO `aanvragen` (`id`, `klantnaam`, `titel`, `omschrijving`, `aanvraagdatum`, `kennis`, `aanmaakdatum`) VALUES
-(7, 'luuk theelen', 'console kabel', 'kabel voor de console ', '2025-02-04', 'geen', '2025-02-18 08:54:54'),
+(7, 'luuk theelen', 'console kabel', 'kabel voor de console ', '2025-02-19', 'geen', '2025-02-18 08:54:54'),
 (6, 'luuk theelen', 'HDMI kabel', 'kabel aangevraagd', '2025-02-06', 'geen', '2025-02-18 08:53:37');
 
 -- --------------------------------------------------------
@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS `klanten` (
   `datum` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `klanten`
@@ -85,7 +85,8 @@ INSERT INTO `klanten` (`id`, `naam`, `tussenvoegsel`, `bedrijf`, `functie`, `tel
 (9, 'michiel', '', 'gilde', 'stoorzender', '5832735278519', 'duitsland', 'michiel225@gmail.com', 'beste icters zijn lui', '2025-02-12 13:00:45'),
 (8, 'luuk', '', 'citaverde', 'testing', '+31 588930867893', '6000fv', 'gagsdgafdsgdf@gmail.com', 'test', '2025-02-12 10:12:36'),
 (7, 'luuk', 'ddadsa', 'dsada', 'dada', 'dadas', 'asdas', 'dada@gmail', 'ffsdfs', '2025-02-11 10:43:20'),
-(6, 'luuk', 'sFDSFSD', 'funtis', 'testing', '+31 588930867893', 'fsfadsafsa', 'fjngjkeng@gmal', 'fdededffaa', '2025-02-10 11:42:23');
+(6, 'luuk', 'sFDSFSD', 'funtis', 'testing', '+31 588930867893', 'fsfadsafsa', 'fjngjkeng@gmal', 'fdededffaa', '2025-02-10 11:42:23'),
+(11, 'Raymond Van Hillegom', 'van', 'RayIT', 'Owner', '0645860168', 'sdfjodefjoiwj', 'rmarx@rayit.com', 'Ik wil', '2025-02-24 11:56:09');
 
 -- --------------------------------------------------------
 
