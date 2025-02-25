@@ -20,11 +20,13 @@
       width: 100%;
       background: #222;
       padding: 15px;
-      text-align: left;
       position: fixed;
       top: 0;
       left: 0;
       box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;  /* Verander dit naar space-between */
     }
 
     .navbar a {
@@ -37,6 +39,23 @@
 
     .navbar a:hover {
       background: #444;
+    }
+
+    .home-logo {
+      height: 40px;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+
+    .extra-logo {
+      height: 40px;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+
+    .center-logos {
+      display: flex;
+      align-items: center;
     }
 
     .container {
@@ -136,6 +155,11 @@
 <body>
   <div class="navbar">
     <a href="klanteninfo.php">⬅ Terug naar Home</a>
+    <div class="center-logos">
+      <a href="klanteninfo.php">
+        <img src="images/devopslogo.png" alt="Home" class="home-logo">
+      </a>
+    </div>
   </div>
 
   <div class="container">

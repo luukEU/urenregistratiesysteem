@@ -37,6 +37,10 @@ $result = $conn->query($sql);
       position: fixed;
       top: 0;
       left: 0;
+      display: flex;
+      justify-content: space-between; /* Zorgt ervoor dat de knop en het logo aan de uiterste kanten komen */
+      align-items: center;
+      z-index: 1000;
     }
     .navbar a {
       color: white;
@@ -47,6 +51,11 @@ $result = $conn->query($sql);
     }
     .navbar a:hover {
       background: #444;
+    }
+    .navbar img {
+      height: 40px; /* Pas de grootte van het logo aan */
+      width: auto;
+      margin-left: auto; /* Zorgt ervoor dat het logo rechts komt */
     }
     .container {
       background: rgba(34, 34, 34, 0.9);
@@ -102,6 +111,7 @@ $result = $conn->query($sql);
 <body>
   <div class="navbar">
     <a href="index.html">⬅ Terug naar Home</a>
+    <img src="images/devopslogo.png" alt="Logo"> <!-- Logo toegevoegd aan de navigatiebalk -->
   </div>
 
   <div class="container">

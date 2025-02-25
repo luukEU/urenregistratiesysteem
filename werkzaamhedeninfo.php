@@ -1,4 +1,3 @@
-
 <?php
 require 'config.php';
 
@@ -9,8 +8,6 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Verbinding mislukt: " . $conn->connect_error);
 }
-
-
 
 // Haal werkzaamheden op
 $sql = "SELECT * FROM werkzaamheden";
@@ -24,6 +21,17 @@ $result = $conn->query($sql);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Werkzaamheden Overzicht</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('images/Simple chill wallpaper 1920 x 1080 - Wallpaper.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+            color: #fff;
+        }
+
         .navbar {
             width: 100%;
             background: #222;
@@ -32,15 +40,9 @@ $result = $conn->query($sql);
             top: 0;
             left: 0;
             display: flex;
-            justify-content: flex-start; /* Links uitlijnen */
+            justify-content: space-between; /* Zorg ervoor dat de knoppen aan de uiterste kanten van de navbar komen */
             align-items: center;
             z-index: 1000;
-        }
-
-        .navbar .left {
-            display: flex;
-            align-items: center;
-            gap: 15px; /* Ruimte tussen de knoppen */
         }
 
         .navbar a {
@@ -49,6 +51,16 @@ $result = $conn->query($sql);
             padding: 10px 20px;
             font-size: 16px;
             border-radius: 5px;
+        }
+
+        .navbar img {
+            width: 120px; /* Stel de breedte van het logo in op 60px */
+            height: auto;
+        }
+
+        .navbar .right {
+            display: flex;
+            align-items: center;
         }
 
         button {
@@ -69,17 +81,6 @@ $result = $conn->query($sql);
             button { 
                 display: none;
             }
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background-image: url('images/Simple chill wallpaper 1920 x 1080 - Wallpaper.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            margin: 0;
-            padding: 0;
-            color: #fff;
         }
 
         .container {
@@ -158,6 +159,10 @@ $result = $conn->query($sql);
 <div class="navbar">
     <div class="left">
         <a href="index.html">⬅ Terug naar Home</a>
+    </div>
+    <div class="right">
+        <!-- Logo toegevoegd aan de navigatiebalk -->
+        <img src="images/devopslogo.png" alt="Logo">
         <button onclick="window.print()">PDF omzetten</button>
     </div>
 </div>
