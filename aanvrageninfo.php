@@ -106,12 +106,22 @@ $result = $conn->query($sql);
     .btn-add a button:hover {
       background: #218838;
     }
+    button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
   </style>
 </head>
 <body>
   <div class="navbar">
     <a href="index.html">⬅ Terug naar Home</a>
     <img src="images/devopslogo.png" alt="Logo"> <!-- Logo toegevoegd aan de navigatiebalk -->
+    <button onclick="window.print()">PDF omzetten</button>
   </div>
 
   <div class="container">
