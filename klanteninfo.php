@@ -3,7 +3,7 @@ require 'config.php';
 
 try {
     $pdo = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
 } catch (PDOException $e) {
     die("Fout bij verbinden met database: " . $e->getMessage());
 }
@@ -16,25 +16,7 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Klanten Overzicht</title>
     <style>
-        .navbar {
-            width: 100%;
-            background: #222;
-            padding: 15px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            z-index: 1000;
-        }
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            border-radius: 5px;
-        }
+        /* Algemene stijlen */
         body {
             font-family: Arial, sans-serif;
             background-image: url('images/Simple chill wallpaper 1920 x 1080 - Wallpaper.jpg');
@@ -45,75 +27,170 @@ try {
             padding: 0;
             color: #fff;
         }
+
+        .navbar {
+            width: 100%;
+            background: #222;
+            padding: 15px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .navbar img {
+            height: 40px;  /* Pas de grootte van het logo aan */
+            width: auto;
+            margin-left: auto; /* Zorgt ervoor dat het logo rechts komt */
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        .navbar button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .navbar button:hover {
+            background-color: #0056b3;
+        }
+
         .container {
             width: 80%;
             margin: 0 auto;
             padding: 20px;
             background-color: rgba(0, 0, 0, 0.6);
             border-radius: 10px;
-            margin-top: 60px; /* Zorg ervoor dat de container niet onder de fixed navbar zit */
+            margin-top: 100px; /* ruimte boven de container vanwege de fixed navbar */
         }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
         }
+
         th, td {
             padding: 10px;
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
+
         th {
             background-color: #333;
             color: white;
         }
+
         button {
+            background-color: #007bff;
             color: white;
+            padding: 10px 20px;
+            font-size: 16px;
             border: none;
-            padding: 5px 10px;
-            cursor: pointer;
             border-radius: 5px;
+            cursor: pointer;
         }
 
-        .add-button {
-            background-color: #5cb85c; /* Groen */
+        button:hover {
+            background-color: #0056b3;
         }
 
+        /* Knop 'Toevoegen' */
         .add-btn-container {
             display: flex;
             justify-content: center;
             margin-bottom: 20px;
         }
+
         .add-btn {
-            float: right;
             padding: 10px 20px;
+            background-color: #5cb85c; /* Groene knop */
             color: white;
-            border: none;
             border-radius: 5px;
+            font-size: 16px;
             cursor: pointer;
         }
 
-        .btn-add-small {
-            background-color: #5cb85c; /* Groene knop */
+        .add-btn:hover {
+            background-color: #4cae4c;
         }
 
-        button {
-            background-color: #007bff; /* Blauwe achtergrond */
-            color: white; /* Witte tekst */
-            padding: 10px 20px; /* Ruimte rondom tekst */
-            font-size: 16px; /* Grotere tekst */
-            border: none; /* Geen rand */
-            border-radius: 5px; /* Afgeronde hoeken */
-            cursor: pointer; /* Hand-icoon bij hover */
+        /* Responsieve stijlen */
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+                padding: 15px;
+            }
+
+            .navbar {
+                padding: 10px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            table {
+                font-size: 14px;
+            }
+
+            th, td {
+                padding: 8px;
+            }
+
+            button {
+                font-size: 14px;
+                padding: 8px 16px;
+            }
+
+            .add-btn {
+                font-size: 14px;
+            }
         }
 
-        button:hover {
-            background-color: #0056b3; /* Donkerdere kleur bij hover */
-        }
+        @media (max-width: 480px) {
+            .navbar a {
+                font-size: 14px;
+                padding: 8px 15px;
+            }
 
-        @media print {
-            button { 
-                display: none; /* Verberg knop bij printen */
+            table {
+                font-size: 12px;
+            }
+
+            th, td {
+                padding: 6px;
+            }
+
+            .add-btn {
+                font-size: 12px;
+                padding: 8px 16px;
+            }
+
+            button {
+                font-size: 12px;
+                padding: 8px 16px;
             }
         }
         .logo {
@@ -127,26 +204,27 @@ try {
     </style>
 </head>
 <body>
+
 <div class="navbar">
     <a href="index.html">⬅ Terug naar Home</a>
+    <img src="images/devopslogo.png" alt="Logo"> <!-- Logo toegevoegd aan de navigatiebalk -->
     <button onclick="window.print()">PDF omzetten</button>
 </div>
 <img src="images/logo.png" alt="Mijn Logo" class="logo">
 
 <div class="container">
-    <div class="add-btn-container">
-    </div>
     <h1>Klanten Overzicht</h1>
-    <center>
+    <div class="add-btn-container">
+        <a href="klanten.html"><button class="add-btn">Toevoegen</button></a>
+    </div>
 
-    <a href="klanten.html"><button class="btn-add-small">Toevoegen</button></a>
-    </span>
-    </center>
+
+
     <div style="overflow-x:auto;">
+
     <table>
         <thead>
             <tr>
-               
                 <th>Naam</th>
                 <th>Tussenvoegsel</th>
                 <th>Bedrijf</th>
@@ -155,7 +233,6 @@ try {
                 <th>Adres</th>
                 <th>Email</th>
                 <th>Bericht</th>
-                
             </tr>
         </thead>
         <tbody>
@@ -165,22 +242,18 @@ try {
                 $stmt = $pdo->query($sql);
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                     echo "<tr>
-                           
-                            <td>" . $row['naam'] . "</td>
-                            <td>" . $row['tussenvoegsel'] . "</td>
-                            <td>" . $row['bedrijf'] . "</td>
-                            <td>" . $row['functie'] . "</td>
-                            <td>" . $row['telefoon'] . "</td>
-                            <td>" . $row['adres'] . "</td>
-                            <td>" . $row['email'] . "</td>
-                            <td>" . $row['bericht'] . "</td>
-                            <td>
-                                
-                            </td>
+                            <td>" . htmlspecialchars($row['naam']) . "</td>
+                            <td>" . htmlspecialchars($row['tussenvoegsel']) . "</td>
+                            <td>" . htmlspecialchars($row['bedrijf']) . "</td>
+                            <td>" . htmlspecialchars($row['functie']) . "</td>
+                            <td>" . htmlspecialchars($row['telefoon']) . "</td>
+                            <td>" . htmlspecialchars($row['adres']) . "</td>
+                            <td>" . htmlspecialchars($row['email']) . "</td>
+                            <td>" . htmlspecialchars($row['bericht']) . "</td>
                           </tr>";
                 }
             } catch (PDOException $e) {
-                echo "<tr><td colspan='10'>Er is een fout opgetreden: " . $e->getMessage() . "</td></tr>";
+                echo "<tr><td colspan='8'>Er is een fout opgetreden: " . $e->getMessage() . "</td></tr>";
             }
             ?>
         </tbody>
@@ -190,3 +263,7 @@ try {
 
 </body>
 </html>
+
+<?php
+$pdo = null; // Sluit de databaseverbinding
+?>

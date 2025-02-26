@@ -25,6 +25,9 @@
             top: 0;
             left: 0;
             z-index: 1000; /* Ensures navbar is always on top */
+            display: flex;
+            justify-content: space-between; /* Zorgt ervoor dat alles netjes uitgelijnd is */
+            align-items: center; /* Zorgt ervoor dat het logo en de tekst goed uitgelijnd zijn */
         }
         .navbar a {
             color: white;
@@ -35,6 +38,10 @@
         }
         .navbar a:hover {
             background: #444;
+        }
+        .navbar img {
+            height: 40px; /* De grootte van het logo kleiner maken */
+            margin-right: 10px;
         }
         .container {
             background: rgba(34, 34, 34, 0.9);
@@ -127,6 +134,9 @@
 <body>
     <div class="navbar">
         <a href="index.html">⬅ Terug naar Home</a>
+        <a href="klanteninfo.php">
+            <img src="images/devopslogo.png" alt="Home" class="home-logo">
+        </a>
     </div>
 
     <div class="container">
