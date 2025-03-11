@@ -9,8 +9,8 @@ if ($conn->connect_error) {
     die("Verbinding mislukt: " . $conn->connect_error);
 }
 
-// Haal werkzaamheden op
-$sql = "SELECT * FROM werkzaamheden";
+// Haal werkzaamheden inclusief datum op
+$sql = "SELECT naam, tussenvoegsel, aantal_uren, projectnaam, omschrijving, datum FROM werkzaamheden";
 $result = $conn->query($sql);
 ?>
 
@@ -40,7 +40,7 @@ $result = $conn->query($sql);
             top: 0;
             left: 0;
             display: flex;
-            justify-content: space-between; /* Zorg ervoor dat de knoppen aan de uiterste kanten van de navbar komen */
+            justify-content: space-between;
             align-items: center;
             z-index: 1000;
         }
@@ -54,7 +54,7 @@ $result = $conn->query($sql);
         }
 
         .navbar img {
-            width: 120px; /* Stel de breedte van het logo in op 60px */
+            width: 120px;
             height: auto;
         }
 
@@ -141,10 +141,9 @@ $result = $conn->query($sql);
             background-color: #c9302c;
         }
 
-        /* Knop boven de tabel */
         .add-btn {
             display: flex;
-            justify-content: center; /* Centraal uitlijnen van de knop */
+            justify-content: center;
             margin-bottom: 20px;
         }
 
@@ -161,7 +160,6 @@ $result = $conn->query($sql);
         <a href="index.html">⬅ Terug naar Home</a>
     </div>
     <div class="right">
-        <!-- Logo toegevoegd aan de navigatiebalk -->
         <img src="images/devopslogo.png" alt="Logo">
         <button onclick="window.print()">PDF omzetten</button>
     </div>
@@ -170,39 +168,45 @@ $result = $conn->query($sql);
 <div class="container">
     <h1>Werkzaamheden Overzicht</h1>
     
-    <!-- Toevoegen knop boven de tabel -->
     <div class="add-btn">
         <a href="werkzaamheden.html"><button class="add-button">Toevoegen</button></a>
     </div>
-<div style="overflow-x:auto;">
-    <table>
-        <thead>
-            <tr>
-                <th>Naam Medewerker</th>
-                <th>Tussenvoegsel</th>
-                <th>Aantal Uren</th>
-                <th>Projectnaam</th>
-                <th>Omschrijving Werkzaamheden</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            if ($result->num_rows > 0) {
-                while($row = $result->fetch_assoc()) {
-                    echo "<tr>
-                            <td>" . $row['naam'] . "</td>
-                            <td>" . $row['tussenvoegsel'] . "</td>
-                            <td>" . $row['aantal_uren'] . "</td>
-                            <td>" . $row['projectnaam'] . "</td>
-                            <td>" . $row['omschrijving'] . "</td>
-                          </tr>";
+    
+    <div style="overflow-x:auto;">
+        <table>
+            <thead>
+                <tr>
+                    <th>Naam Medewerker</th>
+                    <th>Tussenvoegsel</th>
+                    <th>Aantal Uren</th>
+                    <th>Projectnaam</th>
+                    <th>Omschrijving Werkzaamheden</th>
+                    <th>Datum</th>  <!-- Nieuw datumveld -->
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                if ($result->num_rows > 0) {
+                    while($row = $result->fetch_assoc()) {
+                        echo "<tr>
+
+                        
+      <td>" . htmlspecialchars($row['naam']) . "</td>
+        <td>" . htmlspecialchars($row['tussenvoegsel']) . "</td>
+        <td>" . htmlspecialchars($row['aantal_uren']) . "</td>
+        <td>" . htmlspecialchars($row['projectnaam']) . "</td>
+        <td>" . htmlspecialchars($row['omschrijving']) . "</td>
+        <td>" . htmlspecialchars($row['datum']) . "</td>
+
+      </tr>";
+
+                    }
+                } else {
+                    echo "<tr><td colspan='6'>Geen werkzaamheden gevonden</td></tr>";
                 }
-            } else {
-                echo "<tr><td colspan='7'>Geen werkzaamheden gevonden</td></tr>";
-            }
-            ?>
-        </tbody>
-    </table>
+                ?>
+            </tbody>
+        </table>
     </div>
 </div>
 
