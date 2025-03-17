@@ -193,6 +193,14 @@ try {
                 padding: 8px 16px;
             }
         }
+        .logo {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 50px;  /* Pas de grootte aan */
+    height: auto;  /* Zorg dat de verhoudingen behouden blijven */
+}
+
     </style>
 </head>
 <body>
@@ -202,6 +210,7 @@ try {
     <img src="images/devopslogo.png" alt="Logo"> <!-- Logo toegevoegd aan de navigatiebalk -->
     <button onclick="window.print()">PDF omzetten</button>
 </div>
+<img src="images/logo.png" alt="Mijn Logo" class="logo">
 
 <div class="container">
     <h1>Klanten Overzicht</h1>
@@ -228,7 +237,6 @@ try {
         </thead>
         <tbody>
             <?php
-            // Haal gegevens op uit de database en toon in de tabel
             try {
                 $sql = "SELECT * FROM klanten";
                 $stmt = $pdo->query($sql);
