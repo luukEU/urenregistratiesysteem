@@ -44,3 +44,7 @@ if ($stmt->execute()) {
     echo "Er is een fout opgetreden bij het opslaan van de gegevens.";
 }
 ?>
+<script>
+  // Na succesvolle verwerking
+  window.location.href = "werkzaamhedeninfo.php";
+</script>
