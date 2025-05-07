@@ -196,7 +196,7 @@ $result = $conn->query($sql);
         <td>" . htmlspecialchars($row['aantal_uren']) . "</td>
         <td>" . htmlspecialchars($row['projectnaam']) . "</td>
         <td>" . htmlspecialchars($row['omschrijving']) . "</td>
-        <td>" . htmlspecialchars($row['datum'] ?? '') . "</td>
+        <td>" . htmlspecialchars($row['datum'] ?: date("Y-m-d")) . "</td>
 
       </tr>";
 
