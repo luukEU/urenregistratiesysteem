@@ -1,14 +1,5 @@
 <?php
-// Verbinding met de database
-$servername = "localhost";
-$username = "root";
-$password = "Ev1ja2ma3!";
-$dbname = "klanten_db";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Verbinding mislukt: " . $conn->connect_error);
-}
+require 'config.php';
 
 $error = "";
 $success = "";
