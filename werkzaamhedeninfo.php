@@ -153,6 +153,33 @@ $result = $conn->query($sql);
 
     </style>
 </head>
+<script>
+
+function zoekInTabel() {
+    var input, filter, table, tr, td, i, j, txtValue, rowVisible;
+    input = document.getElementById("zoekveld");
+    filter = input.value.toLowerCase();
+    table = document.querySelector("table");
+    tr = table.getElementsByTagName("tr");
+
+    for (i = 1; i < tr.length; i++) { // Sla de header over
+        td = tr[i].getElementsByTagName("td");
+        rowVisible = false;
+
+        for (j = 0; j < td.length; j++) {
+            if (td[j]) {
+                txtValue = td[j].textContent || td[j].innerText;
+                if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                    rowVisible = true;
+                    break;
+                }
+            }
+        }
+        tr[i].style.display = rowVisible ? "" : "none";
+    }
+}
+</script>
+
 <body>
 
 <div class="navbar">
@@ -167,16 +194,19 @@ $result = $conn->query($sql);
 
 <div class="container">
     <h1>Werkzaamheden Overzicht</h1>
-    
+
     <div class="add-btn">
         <a href="werkzaamheden_toevoegen.php"><button class="add-button">Toevoegen</button></a>
     </div>
-    
+    <input type="text" id="zoekveld" placeholder="Zoek naar naam, project, omschrijving..." onkeyup="zoekInTabel()" style="width: 90%; margin: 10px 5%; padding: 8px; font-size: 16px; border-radius: 5px;">
+
     <div style="overflow-x:auto;">
         <table>
             <thead>
                 <tr>
-                    <th>Gebruiker ID</th> <!-- Toegevoegd voor Gebruiker ID -->                  
+                   
+                    <th>Naam Medewerker</th>
+                    <th>Tussenvoegsel</th>
                     <th>Aantal Uren</th>
                     <th>Projectnaam</th>
                     <th>Omschrijving Werkzaamheden</th>
@@ -193,6 +223,9 @@ $result = $conn->query($sql);
                             <td>" . htmlspecialchars($row['projectnaam']) . "</td>
                             <td>" . htmlspecialchars($row['omschrijving']) . "</td>
                             <td>" . htmlspecialchars($row['datum']) . "</td>
+                            <td class='actions-cell'>
+            <a href='werkzaamhedenbewerken.php?id=" . $row['id'] . "'><button class='btn add-button'>Bewerk</button></a>
+  </td>
                         </tr>";
                     }
                 } else {

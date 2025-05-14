@@ -217,6 +217,7 @@ try {
     <div class="add-btn-container">
         <a href="klanten.html"><button class="add-btn">Toevoegen</button></a>
     </div>
+<input type="text" id="zoekInput" onkeyup="zoekTabel()" placeholder="Zoek op ID, naam, bedrijf, etc..." style="width: 100%; padding: 10px; font-size: 16px; margin-bottom: 20px;">
 
 
 
@@ -234,6 +235,7 @@ try {
                 <th>Adres</th>
                 <th>Email</th>
                 <th>Bericht</th>
+                <th>Acties</th>
             </tr>
         </thead>
         <tbody>
@@ -243,7 +245,7 @@ try {
                 $stmt = $pdo->query($sql);
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                     echo "<tr>
-                          <td>" . htmlspecialchars($row['id']) . "</td> <!-- ID weergegeven -->
+                          <td>" . htmlspecialchars($row['id']) . "</td> 
                             <td>" . htmlspecialchars($row['naam']) . "</td>
                             <td>" . htmlspecialchars($row['tussenvoegsel']) . "</td>
                             <td>" . htmlspecialchars($row['bedrijf']) . "</td>
@@ -251,7 +253,9 @@ try {
                             <td>" . htmlspecialchars($row['telefoon']) . "</td>
                             <td>" . htmlspecialchars($row['adres']) . "</td>
                             <td>" . htmlspecialchars($row['email']) . "</td>
-                            <td>" . htmlspecialchars($row['bericht']) . "</td>
+                           <td>" . htmlspecialchars($row['bericht']) . "</td>
+<td><a href='klantenbewerken.php?id=" . urlencode($row['id']) . "'><button>Bewerken</button></a></td>
+
                           </tr>";
                 }
             } catch (PDOException $e) {
