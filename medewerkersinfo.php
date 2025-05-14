@@ -9,7 +9,7 @@ if ($conn->connect_error) {
 }
 
 // Haal gegevens uit de database
-$sql = "SELECT id, naam, tussenvoegsel, geboortedatum, functie, werkmail, kantoorruimte FROM medewerkers";
+$sql = "SELECT naam, tussenvoegsel, geboortedatum, functie, werkmail, kantoorruimte FROM medewerkers";
 $result = $conn->query($sql);
 ?>
 
@@ -155,7 +155,7 @@ $result = $conn->query($sql);
 <body>
 
 <div class="navbar">
-    <a href="index.html">⬅ Terug naar Home</a>  <!-- Terug naar Home knop met dezelfde stijl als navbar -->
+    <a href="hoofdpagina.html">⬅ Terug naar Home</a>  <!-- Terug naar Home knop met dezelfde stijl als navbar -->
     <img src="images/devopslogo.png" alt="Logo"> <!-- Logo toegevoegd aan de navigatiebalk -->
     <button class="pdf-button" onclick="window.print()">PDF omzetten</button>
 </div>

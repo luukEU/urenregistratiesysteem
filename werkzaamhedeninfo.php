@@ -9,8 +9,8 @@ if ($conn->connect_error) {
     die("Verbinding mislukt: " . $conn->connect_error);
 }
 
-// Haal werkzaamheden inclusief datum op
-$sql = "SELECT naam, tussenvoegsel, aantal_uren, projectnaam, omschrijving, datum FROM werkzaamheden";
+// Haal werkzaamheden inclusief gebruiker_id en datum op
+$sql = "SELECT gebruiker_id, aantal_uren, projectnaam, omschrijving, datum FROM werkzaamheden";
 $result = $conn->query($sql);
 ?>
 
@@ -157,7 +157,7 @@ $result = $conn->query($sql);
 
 <div class="navbar">
     <div class="left">
-        <a href="index.html">⬅ Terug naar Home</a>
+        <a href="hoofdpagina.html">⬅ Terug naar Home</a>
     </div>
     <div class="right">
         <img src="images/devopslogo.png" alt="Logo">
@@ -169,19 +169,18 @@ $result = $conn->query($sql);
     <h1>Werkzaamheden Overzicht</h1>
     
     <div class="add-btn">
-        <a href="werkzaamheden.html"><button class="add-button">Toevoegen</button></a>
+        <a href="werkzaamheden_toevoegen.php"><button class="add-button">Toevoegen</button></a>
     </div>
     
     <div style="overflow-x:auto;">
         <table>
             <thead>
                 <tr>
-                    <th>Naam Medewerker</th>
-                    <th>Tussenvoegsel</th>
+                    <th>Gebruiker ID</th> <!-- Toegevoegd voor Gebruiker ID -->                  
                     <th>Aantal Uren</th>
                     <th>Projectnaam</th>
                     <th>Omschrijving Werkzaamheden</th>
-                    <th>Datum</th>  <!-- Nieuw datumveld -->
+                    <th>Datum</th>
                 </tr>
             </thead>
             <tbody>
@@ -189,20 +188,15 @@ $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
                     while($row = $result->fetch_assoc()) {
                         echo "<tr>
-
-                        
-      <td>" . htmlspecialchars($row['naam']) . "</td>
-        <td>" . htmlspecialchars($row['tussenvoegsel']) . "</td>
-        <td>" . htmlspecialchars($row['aantal_uren']) . "</td>
-        <td>" . htmlspecialchars($row['projectnaam']) . "</td>
-        <td>" . htmlspecialchars($row['omschrijving']) . "</td>
-        <td>" . htmlspecialchars($row['datum'] ?? '') . "</td>
-
-      </tr>";
-
+                            <td>" . htmlspecialchars($row['gebruiker_id']) . "</td> <!-- Gebruiker ID -->
+                            <td>" . htmlspecialchars($row['aantal_uren']) . "</td>
+                            <td>" . htmlspecialchars($row['projectnaam']) . "</td>
+                            <td>" . htmlspecialchars($row['omschrijving']) . "</td>
+                            <td>" . htmlspecialchars($row['datum']) . "</td>
+                        </tr>";
                     }
                 } else {
-                    echo "<tr><td colspan='6'>Geen werkzaamheden gevonden</td></tr>";
+                    echo "<tr><td colspan='7'>Geen werkzaamheden gevonden</td></tr>";
                 }
                 ?>
             </tbody>

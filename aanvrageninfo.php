@@ -119,7 +119,7 @@ $result = $conn->query($sql);
 </head>
 <body>
   <div class="navbar">
-    <a href="index.html">⬅ Terug naar Home</a>
+    <a href="hoofdpagina.html">⬅ Terug naar Home</a>
     <img src="images/devopslogo.png" alt="Logo"> <!-- Logo toegevoegd aan de navigatiebalk -->
     <button onclick="window.print()">PDF omzetten</button>
   </div>

@@ -1,3 +1,16 @@
+<?php
+session_start();
+
+// Controleer of gebruiker is ingelogd
+if (!isset($_SESSION['gebruiker_id']) || !isset($_SESSION['username'])) {
+    header("Location: inlog.php");
+    exit;
+}
+
+$gebruiker_id = $_SESSION['gebruiker_id'];
+$username = $_SESSION['username'];
+?>
+
 <!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -24,7 +37,7 @@
             position: fixed;
             top: 0;
             left: 0;
-            z-index: 1000; /* Ensures navbar is always on top */
+            z-index: 1000;
         }
         .navbar a {
             color: white;
@@ -96,8 +109,6 @@
         button:hover {
             background: #218838;
         }
-
-        /* Responsive design for small screens */
         @media (max-width: 600px) {
             .navbar {
                 text-align: center;
@@ -130,17 +141,13 @@
 </head>
 <body>
     <div class="navbar">
-        <a href="index.html">⬅ Terug naar Home</a>
+        <a href="hoofdpagina.html">⬅ Terug naar Home</a>
     </div>
 
     <div class="container">
         <h2>Werkzaamheden Registratie</h2>
         <form action="werkzaamheden.php" method="POST">
-            <label for="naam">Naam Medewerker:</label>
-            <input type="text" id="naam" name="naam" placeholder="Voor- en achternaam" required>
-
-            <label for="tussenvoegsel">Tussenvoegsel Medewerker:</label>
-            <input type="text" id="tussenvoegsel" name="tussenvoegsel" placeholder="Tussenvoegsel (indien van toepassing)" optional>
+ 
 
             <label for="aantal_uren">Aantal Uren:</label>
             <input type="number" id="aantal_uren" name="aantal_uren" placeholder="Aantal gewerkte uren" required min="0">
