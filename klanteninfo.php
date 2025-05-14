@@ -225,6 +225,7 @@ try {
     <table>
         <thead>
             <tr>
+                <th>ID</th>
                 <th>Naam</th>
                 <th>Tussenvoegsel</th>
                 <th>Bedrijf</th>
@@ -242,6 +243,7 @@ try {
                 $stmt = $pdo->query($sql);
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                     echo "<tr>
+                          <td>" . htmlspecialchars($row['id']) . "</td> <!-- ID weergegeven -->
                             <td>" . htmlspecialchars($row['naam']) . "</td>
                             <td>" . htmlspecialchars($row['tussenvoegsel']) . "</td>
                             <td>" . htmlspecialchars($row['bedrijf']) . "</td>

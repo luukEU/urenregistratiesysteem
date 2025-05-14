@@ -8,8 +8,8 @@ if ($conn->connect_error) {
     die("Verbinding mislukt: " . $conn->connect_error);
 }
 
-// Haal aanvragen op
-$sql = "SELECT * FROM aanvragen";
+// Haal aanvragen op, inclusief de ID
+$sql = "SELECT id, klantnaam, titel, omschrijving, aanvraagdatum, kennis FROM aanvragen";
 $result = $conn->query($sql);
 ?>
 
@@ -131,10 +131,11 @@ $result = $conn->query($sql);
     <div class="btn-add">
       <a href="aanvragen.html"><button>Toevoegen</button></a>
     </div>
-<div style="overflow-x:auto;">
+    <div style="overflow-x:auto;">
     <table>
       <thead>
         <tr>
+          <th>ID</th> <!-- Toegevoegde ID kolom -->
           <th>Klantnaam</th>
           <th>Titel</th>
           <th>Omschrijving</th>
@@ -147,6 +148,7 @@ $result = $conn->query($sql);
           if ($result->num_rows > 0) {
               while ($row = $result->fetch_assoc()) {
                   echo "<tr>
+                          <td>" . htmlspecialchars($row['id']) . "</td> <!-- ID weergegeven -->
                           <td>" . htmlspecialchars($row['klantnaam']) . "</td>
                           <td>" . htmlspecialchars($row['titel']) . "</td>
                           <td>" . htmlspecialchars($row['omschrijving']) . "</td>
@@ -155,7 +157,7 @@ $result = $conn->query($sql);
                         </tr>";
               }
           } else {
-              echo "<tr><td colspan='5'>Geen aanvragen gevonden</td></tr>";
+              echo "<tr><td colspan='6'>Geen aanvragen gevonden</td></tr>";
           }
         ?>
       </tbody>
