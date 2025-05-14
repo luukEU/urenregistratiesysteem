@@ -165,30 +165,42 @@ $result = $conn->query($sql);
     <div class="table-container">
         <a href="medewerkers.html" class="add-button">+ Toevoegen</a>
     </div>
+    <input type="text" id="zoekInput" onkeyup="zoekTabel()" placeholder="Zoek een medewerker..." style="width: 100%; padding: 10px; margin-bottom: 20px; font-size: 16px; border-radius: 5px;">
 
     <?php if (isset($result) && $result->num_rows > 0): ?>
         <table>
             <thead>
                 <tr>
+                    <th>ID</th>
                     <th>Naam</th>
                     <th>Tussenvoegsel</th>
                     <th>Geboortedatum</th>
                     <th>Functie</th>
                     <th>Werkmail</th>
                     <th>Kantoorruimte</th>
+                    <th>Acties</th>
                 </tr>
             </thead>
             <tbody>
-                <?php while($row = $result->fetch_assoc()): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($row["naam"]) ?></td>
-                        <td><?= htmlspecialchars($row["tussenvoegsel"]) ?></td>
-                        <td><?= htmlspecialchars($row["geboortedatum"]) ?></td>
-                        <td><?= htmlspecialchars($row["functie"]) ?></td>
-                        <td><?= htmlspecialchars($row["werkmail"]) ?></td>
-                        <td><?= htmlspecialchars($row["kantoorruimte"]) ?></td>
-                    </tr>
-                <?php endwhile; ?>
+            <?php while($row = $result->fetch_assoc()): ?>
+    <tr>
+        <td><?= htmlspecialchars($row["id"]) ?></td>
+        <td><?= htmlspecialchars($row["naam"]) ?></td>
+        <td><?= htmlspecialchars($row["tussenvoegsel"]) ?></td>
+        <td><?= htmlspecialchars($row["geboortedatum"]) ?></td>
+        <td><?= htmlspecialchars($row["functie"]) ?></td>
+        <td><?= htmlspecialchars($row["werkmail"]) ?></td>
+        <td><?= htmlspecialchars($row["kantoorruimte"]) ?></td>
+    
+<td>
+    <a href="medewerkersbewerken.php?id=<?= $row['id'] ?>">
+        <button class="add-button">Bewerken</button>
+    </a>
+</td>
+
+    </tr>
+<?php endwhile; ?>
+
             </tbody>
         </table>
     <?php else: ?>
@@ -197,6 +209,28 @@ $result = $conn->query($sql);
 </div>
 
 <?php $conn->close(); ?>
+<script>
+function zoekTabel() {
+    let input = document.getElementById("zoekInput");
+    let filter = input.value.toLowerCase();
+    let table = document.querySelector("table");
+    let tr = table.getElementsByTagName("tr");
+
+    for (let i = 1; i < tr.length; i++) {
+        let visible = false;
+        let tds = tr[i].getElementsByTagName("td");
+        for (let j = 0; j < tds.length; j++) {
+            let td = tds[j];
+            if (td && td.textContent.toLowerCase().indexOf(filter) > -1) {
+                visible = true;
+                break;
+            }
+        }
+        tr[i].style.display = visible ? "" : "none";
+    }
+}
+</script>
+
 
 </body>
 </html>

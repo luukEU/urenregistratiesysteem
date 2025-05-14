@@ -17,11 +17,7 @@ $aantal_uren = isset($_POST['aantal_uren']) ? $_POST['aantal_uren'] : 0;
 $projectnaam = isset($_POST['projectnaam']) ? $_POST['projectnaam'] : '';
 $omschrijving = isset($_POST['omschrijving']) ? $_POST['omschrijving'] : '';
 
-// Controleer of verplichte velden niet leeg zijn
-if (empty($naam) || empty($aantal_uren) || empty($projectnaam) || empty($omschrijving)) {
-    echo "Alle velden moeten ingevuld zijn!";
-    exit;
-}
+
 
 // SQL-query om de gegevens in de database op te slaan
 $query = "INSERT INTO werkzaamheden (naam, tussenvoegsel, aantal_uren, projectnaam, omschrijving) 

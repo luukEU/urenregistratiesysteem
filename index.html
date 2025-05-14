@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hoofdpagina Urenregistratie</title>
@@ -89,12 +90,14 @@
             <button class="nav-button" onclick="location.href='werkzaamhedeninfo.php'">Werkzaamheden</button>
         </div>
     </div>
+    <div id="mijnInclude"></div>
     <script>
+        
         // Voorbeeldgebruikers
         const gebruikers = {
             "medewerker": { wachtwoord: "test123", rol: "medewerker" },
             "verkoop": { wachtwoord: "verkoop", rol: "verkoopmedewerker" },
-            "hoofd": { wachtwoord: "admin", rol: "afdelingshoofd" }
+            "hoofd1": { wachtwoord: "admin", rol: "afdelingshoofd" }
         };
     
         // Maak login popup
@@ -116,34 +119,49 @@
         document.body.appendChild(loginDiv);
     
         function login() {
-            const gebruikersnaam = document.getElementById("username").value.trim();
-            const wachtwoord = document.getElementById("password").value.trim();
-            const foutLabel = document.getElementById("login-fout");
-    
-            if (gebruikers[gebruikersnaam] && gebruikers[gebruikersnaam].wachtwoord === wachtwoord) {
-                const rol = gebruikers[gebruikersnaam].rol;
-                document.getElementById("login-popup").style.display = "none";
-    
-                // Toegangsrechten toepassen
-                const knoppen = document.querySelectorAll(".nav-button");
-    
-                if (rol === "medewerker") {
-                    // Alleen "werkzaamhedeninfo" knop tonen
-                    knoppen.forEach(knop => {
-                        if (!knop.innerText.toLowerCase().includes("werkzaamheden")) {
-                            knop.style.display = "none";
-                        }
-                    });
-                } else {
-                    // verkoopmedewerker of afdelingshoofd zien alles
-                    knoppen.forEach(knop => knop.style.display = "inline-block");
-                }
-    
+    const gebruikersnaam = document.getElementById("username").value.trim();
+    const wachtwoord = document.getElementById("password").value.trim();
+    const foutLabel = document.getElementById("login-fout");
+
+    console.log('gebruikersnaam: ', gebruikersnaam);
+
+    fetch("login.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ gebruikersnaam, wachtwoord })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.succes) {
+            const rol = data.rol;
+            document.getElementById("login-popup").style.display = "none";
+
+            const knoppen = document.querySelectorAll(".nav-button");
+
+            if (rol === "medewerker") {
+                knoppen.forEach(knop => {
+                    if (!knop.innerText.toLowerCase().includes("werkzaamheden")) {
+                        knop.style.display = "none";
+                    }
+                });
             } else {
-                foutLabel.textContent = "Ongeldige inloggegevens.";
+                knoppen.forEach(knop => knop.style.display = "inline-block");
             }
+        } else {
+            foutLabel.textContent = data.melding;
         }
+    })
+    .catch(() => {
+        foutLabel.textContent = "Fout bij verbinding met server.";
+    });
+}
+
     </script>
     
 </body>
 </html>
+
+
+
+
+

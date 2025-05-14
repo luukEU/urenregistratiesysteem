@@ -131,6 +131,8 @@ $result = $conn->query($sql);
     <div class="btn-add">
       <a href="aanvragen.html"><button>Toevoegen</button></a>
     </div>
+    
+<input type="text" id="zoekveld" placeholder="Zoek naar klantnaam, titel, omschrijving..." onkeyup="zoekInTabel()" style="width: 90%; margin: 10px 5%; padding: 8px; font-size: 16px; border-radius: 5px;">
     <div style="overflow-x:auto;">
     <table>
       <thead>
@@ -141,6 +143,7 @@ $result = $conn->query($sql);
           <th>Omschrijving</th>
           <th>Aanvraagdatum</th>
           <th>Kennis</th>
+          <th>Acties</th>
         </tr>
       </thead>
       <tbody>
@@ -154,6 +157,9 @@ $result = $conn->query($sql);
                           <td>" . htmlspecialchars($row['omschrijving']) . "</td>
                           <td>" . htmlspecialchars($row['aanvraagdatum']) . "</td>
                           <td>" . htmlspecialchars($row['kennis']) . "</td> 
+                          <td class='actions-cell'>
+            <a href='aanvragenbewerken.php?id=" . $row['id'] . "'><button class='btn add-button'>Bewerk</button></a>
+  </td>
                         </tr>";
               }
           } else {
@@ -164,6 +170,30 @@ $result = $conn->query($sql);
     </table>
     </div>
   </div>
+  <script>
+function zoekInTabel() {
+  let input = document.getElementById("zoekveld");
+  let filter = input.value.toLowerCase();
+  let table = document.querySelector("table");
+  let rows = table.getElementsByTagName("tr");
+
+  for (let i = 1; i < rows.length; i++) {
+    let cols = rows[i].getElementsByTagName("td");
+    let gevonden = false;
+
+    for (let j = 0; j < cols.length; j++) {
+      let tekst = cols[j].textContent || cols[j].innerText;
+      if (tekst.toLowerCase().indexOf(filter) > -1) {
+        gevonden = true;
+        break;
+      }
+    }
+
+    rows[i].style.display = gevonden ? "" : "none";
+  }
+}
+</script>
+
 </body>
 </html>
 
