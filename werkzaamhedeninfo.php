@@ -9,8 +9,8 @@ if ($conn->connect_error) {
     die("Verbinding mislukt: " . $conn->connect_error);
 }
 
-// Haal werkzaamheden inclusief datum op
-$sql = "SELECT id, naam, tussenvoegsel, aantal_uren, projectnaam, omschrijving, datum FROM werkzaamheden";
+// Haal werkzaamheden inclusief gebruiker_id en datum op
+$sql = "SELECT gebruiker_id, aantal_uren, projectnaam, omschrijving, datum FROM werkzaamheden";
 $result = $conn->query($sql);
 ?>
 
@@ -184,7 +184,7 @@ function zoekInTabel() {
 
 <div class="navbar">
     <div class="left">
-        <a href="index.html">⬅ Terug naar Home</a>
+        <a href="hoofdpagina.html">⬅ Terug naar Home</a>
     </div>
     <div class="right">
         <img src="images/devopslogo.png" alt="Logo">
@@ -196,7 +196,7 @@ function zoekInTabel() {
     <h1>Werkzaamheden Overzicht</h1>
 
     <div class="add-btn">
-        <a href="werkzaamheden.html"><button class="add-button">Toevoegen</button></a>
+        <a href="werkzaamheden_toevoegen.php"><button class="add-button">Toevoegen</button></a>
     </div>
     <input type="text" id="zoekveld" placeholder="Zoek naar naam, project, omschrijving..." onkeyup="zoekInTabel()" style="width: 90%; margin: 10px 5%; padding: 8px; font-size: 16px; border-radius: 5px;">
 
@@ -211,7 +211,6 @@ function zoekInTabel() {
                     <th>Projectnaam</th>
                     <th>Omschrijving Werkzaamheden</th>
                     <th>Datum</th>
-                    <th>Acties</th>
                 </tr>
             </thead>
             <tbody>
@@ -219,22 +218,18 @@ function zoekInTabel() {
                 if ($result->num_rows > 0) {
                     while($row = $result->fetch_assoc()) {
                         echo "<tr>
-
-              
-      <td>" . htmlspecialchars($row['naam']) . "</td>
-        <td>" . htmlspecialchars($row['tussenvoegsel']) . "</td>
-        <td>" . htmlspecialchars($row['aantal_uren']) . "</td>
-        <td>" . htmlspecialchars($row['projectnaam']) . "</td>
-        <td>" . htmlspecialchars($row['omschrijving']) . "</td>
-        <td>" . htmlspecialchars($row['datum'] ?: date("Y-m-d")) . "</td>
-            <td class='actions-cell'>
+                            <td>" . htmlspecialchars($row['gebruiker_id']) . "</td> <!-- Gebruiker ID -->
+                            <td>" . htmlspecialchars($row['aantal_uren']) . "</td>
+                            <td>" . htmlspecialchars($row['projectnaam']) . "</td>
+                            <td>" . htmlspecialchars($row['omschrijving']) . "</td>
+                            <td>" . htmlspecialchars($row['datum']) . "</td>
+                            <td class='actions-cell'>
             <a href='werkzaamhedenbewerken.php?id=" . $row['id'] . "'><button class='btn add-button'>Bewerk</button></a>
   </td>
-      </tr>";
-
+                        </tr>";
                     }
                 } else {
-                    echo "<tr><td colspan='6'>Geen werkzaamheden gevonden</td></tr>";
+                    echo "<tr><td colspan='7'>Geen werkzaamheden gevonden</td></tr>";
                 }
                 ?>
             </tbody>
