@@ -203,6 +203,8 @@ try {
 
     </style>
 </head>
+<script src="zoekfunctie.js"></script> <!-- Voeg het JavaScript-bestand hier toe -->
+
 <body>
 
 <div class="navbar">
@@ -217,6 +219,7 @@ try {
     <div class="add-btn-container">
         <a href="klanten.html"><button class="add-btn">Toevoegen</button></a>
     </div>
+    <input type="text" id="zoekveld" placeholder="Zoek naar naam, project, omschrijving..." onkeyup="zoekInTabel()" style="width: 90%; margin: 10px 5%; padding: 8px; font-size: 16px; border-radius: 5px;">
 
 
 
