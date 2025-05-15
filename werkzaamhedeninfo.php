@@ -10,7 +10,7 @@ if ($conn->connect_error) {
 }
 
 // Haal werkzaamheden inclusief gebruiker_id en datum op
-$sql = "SELECT gebruiker_id, aantal_uren, projectnaam, omschrijving, datum FROM werkzaamheden";
+$sql = "SELECT id, gebruiker_id, aantal_uren, projectnaam, omschrijving, datum FROM werkzaamheden";
 $result = $conn->query($sql);
 ?>
 
@@ -153,6 +153,8 @@ $result = $conn->query($sql);
 
     </style>
 </head>
+<script src="zoekfunctie.js"></script> <!-- Voeg het JavaScript-bestand hier toe -->
+
 <body>
 
 <div class="navbar">
@@ -171,6 +173,7 @@ $result = $conn->query($sql);
     <div class="add-btn">
         <a href="werkzaamheden_toevoegen.php"><button class="add-button">Toevoegen</button></a>
     </div>
+<input type="text" id="zoekveld" placeholder="Zoek naar naam, project, omschrijving..." onkeyup="zoekInTabel()" style="width: 90%; margin: 10px 5%; padding: 8px; font-size: 16px; border-radius: 5px;">
     
     <div style="overflow-x:auto;">
         <table>
@@ -181,6 +184,8 @@ $result = $conn->query($sql);
                     <th>Projectnaam</th>
                     <th>Omschrijving Werkzaamheden</th>
                     <th>Datum</th>
+                    <th>acties</th>
+
                 </tr>
             </thead>
             <tbody>
@@ -193,6 +198,10 @@ $result = $conn->query($sql);
                             <td>" . htmlspecialchars($row['projectnaam']) . "</td>
                             <td>" . htmlspecialchars($row['omschrijving']) . "</td>
                             <td>" . htmlspecialchars($row['datum']) . "</td>
+                            <td class='actions-cell'>
+
+        <a href='werkzaamhedenbewerken.php?id=" . $row['id'] . "'><button class='btn add-button'>Bewerk</button></a>
+  </td>
                         </tr>";
                     }
                 } else {
@@ -205,6 +214,7 @@ $result = $conn->query($sql);
 </div>
 
 </body>
+
 </html>
 
 <?php
