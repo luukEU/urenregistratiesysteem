@@ -142,6 +142,7 @@ $result = $conn->query($sql);
           <th>Omschrijving</th>
           <th>Aanvraagdatum</th>
           <th>Kennis</th>
+          <th>Acties</th>
         </tr>
       </thead>
       <tbody>
@@ -154,8 +155,14 @@ $result = $conn->query($sql);
                           <td>" . htmlspecialchars($row['omschrijving']) . "</td>
                           <td>" . htmlspecialchars($row['aanvraagdatum']) . "</td>
                           <td>" . htmlspecialchars($row['kennis']) . "</td> 
-                        </tr>";
+                       <td class='actions-cell'><a href='aanvragenbewerken.php?id=" . $row['id'] . "'><button class='btn add-button'>Bewerk</button></a>
+  </td>
+                       
+                       
+                          </tr>";
+                        
               }
+              
           } else {
               echo "<tr><td colspan='5'>Geen aanvragen gevonden</td></tr>";
           }
