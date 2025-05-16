@@ -29,6 +29,8 @@ $stmt->bindParam(':gebruiker_id', $gebruiker_id);
 $stmt->bindParam(':aantal_uren', $aantal_uren);
 $stmt->bindParam(':projectnaam', $projectnaam);
 $stmt->bindParam(':omschrijving', $omschrijving);
+  
+
 
 if ($stmt->execute()) {
     header("Location: werkzaamhedeninfo.php");

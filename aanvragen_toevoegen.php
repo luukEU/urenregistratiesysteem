@@ -1,3 +1,17 @@
+
+<?php
+session_start();
+
+// Controleer of gebruiker is ingelogd
+if (!isset($_SESSION['gebruiker_id']) || !isset($_SESSION['username'])) {
+    header("Location: inlog.php");
+    exit;
+}
+
+$gebruiker_id = $_SESSION['gebruiker_id'];
+$username = $_SESSION['username'];
+?>
+
 <!DOCTYPE html>
 <html lang="nl">
 <head>

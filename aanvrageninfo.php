@@ -117,6 +117,7 @@ $result = $conn->query($sql);
         }
   </style>
 </head>
+<script src="zoekfunctie.js"></script> <!-- Voeg het JavaScript-bestand hier toe -->
 <body>
   <div class="navbar">
     <a href="hoofdpagina.html">⬅ Terug naar Home</a>
@@ -129,7 +130,7 @@ $result = $conn->query($sql);
 
     <!-- Toevoegen knop in het midden -->
     <div class="btn-add">
-      <a href="aanvragen.html"><button>Toevoegen</button></a>
+      <a href="aanvragen_toevoegen.php"><button>Toevoegen</button></a>
     </div>
     <input type="text" id="zoekveld" placeholder="Zoek naar naam, project, omschrijving..." onkeyup="zoekInTabel()" style="width: 90%; margin: 10px 5%; padding: 8px; font-size: 16px; border-radius: 5px;">
 <div style="overflow-x:auto;">
