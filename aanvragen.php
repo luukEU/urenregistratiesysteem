@@ -8,10 +8,7 @@ if ($conn->connect_error) {
     die("Verbinding mislukt: " . $conn->connect_error);
 }
 
-// Eerst controleren of er een ID is meegegeven
-if (!isset($_GET['id'])) {
-    die("Geen ID opgegeven!");
-}
+
 $id = intval($_GET['id']);
 
 // Als er een formulier is ingediend (POST)

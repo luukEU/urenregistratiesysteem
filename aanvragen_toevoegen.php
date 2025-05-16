@@ -1,5 +1,5 @@
-
 <?php
+require 'config.php';
 session_start();
 
 // Controleer of gebruiker is ingelogd
@@ -10,6 +10,36 @@ if (!isset($_SESSION['gebruiker_id']) || !isset($_SESSION['username'])) {
 
 $gebruiker_id = $_SESSION['gebruiker_id'];
 $username = $_SESSION['username'];
+
+// Verwerking formulier bij POST
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $klantnaam = $_POST['klantnaam'];
+    $titel = $_POST['titel'];
+    $omschrijving = $_POST['omschrijving'];
+    $aanvraagdatum = $_POST['aanvraagdatum'];
+    $kennis = $_POST['kennis'];
+
+    include 'config.php';
+
+    $conn = new mysqli($servername, $username, $password, $dbname);
+    if ($conn->connect_error) {
+        die("Verbinding mislukt: " . $conn->connect_error);
+    }
+
+    $sql = "INSERT INTO aanvragen (klantnaam, titel, omschrijving, aanvraagdatum, kennis) VALUES (?, ?, ?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("sssss", $klantnaam, $titel, $omschrijving, $aanvraagdatum, $kennis);
+
+    if ($stmt->execute()) {
+        header("Location: aanvrageninfo.php");
+        exit;
+    } else {
+        echo "Fout bij opslaan: " . $stmt->error;
+    }
+
+    $stmt->close();
+    $conn->close();
+}
 ?>
 
 <!DOCTYPE html>
@@ -19,7 +49,6 @@ $username = $_SESSION['username'];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Klantenformulier</title>
     <style>
-        /* Algemene styling */
         body {
             background: url('images/Simple chill wallpaper 1920 x 1080 - Wallpaper.jpg') no-repeat center center fixed;
             background-size: cover;
@@ -32,8 +61,7 @@ $username = $_SESSION['username'];
             margin: 0;
             padding: 20px;
         }
-        
-        /* Navigatiebalk */
+
         .navbar {
             width: 100%;
             background: #222;
@@ -44,8 +72,8 @@ $username = $_SESSION['username'];
             left: 0;
             z-index: 100;
             display: flex;
-            justify-content: space-between; /* Zorgt ervoor dat de elementen aan beide uiteinden staan */
-            align-items: center; /* Zorgt ervoor dat de tekst en afbeelding goed uitgelijnd zijn */
+            justify-content: space-between;
+            align-items: center;
         }
         .navbar a {
             color: white;
@@ -57,25 +85,22 @@ $username = $_SESSION['username'];
         .navbar a:hover {
             background: #444;
         }
-
-        /* Logo rechts */
         .navbar img {
-            height: 40px;  /* Kleinere grootte voor de afbeelding */
-            width: auto;   /* Zorgt ervoor dat de verhouding behouden blijft */
-            margin-left: auto; /* Verplaatst de afbeelding naar rechts */
+            height: 40px;
+            width: auto;
+            margin-left: auto;
         }
 
-        /* Container styling */
         .container {
-            background: rgba(34, 34, 34, 0.9); 
+            background: rgba(34, 34, 34, 0.9);
             color: white;
             padding: 25px;
             border-radius: 12px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             width: 90%;
-            max-width: 400px; /* Max breedte op grote schermen */
+            max-width: 400px;
             text-align: center;
-            margin-top: 80px; /* Voorkomt overlap met de navbar */
+            margin-top: 80px;
         }
 
         h2 {
@@ -83,7 +108,6 @@ $username = $_SESSION['username'];
             margin-bottom: 20px;
         }
 
-        /* Formulier velden */
         label {
             font-weight: bold;
             display: block;
@@ -111,7 +135,6 @@ $username = $_SESSION['username'];
             height: 100px;
         }
 
-        /* Submit knop */
         button {
             background: #28a745;
             color: white;
@@ -129,11 +152,10 @@ $username = $_SESSION['username'];
             background: #218838;
         }
 
-        /* RESPONSIVE DESIGN */
         @media (max-width: 768px) {
             .container {
-                width: 100%;  /* Formulier vult het scherm */
-                max-width: 90%; /* Zorgt ervoor dat het niet te breed wordt */
+                width: 100%;
+                max-width: 90%;
                 padding: 20px;
             }
             body {
@@ -143,23 +165,21 @@ $username = $_SESSION['username'];
 
         @media (max-width: 480px) {
             .navbar a {
-                font-size: 14px; /* Kleinere tekst in de navbar */
+                font-size: 14px;
                 padding: 8px 15px;
             }
             .container {
-                width: 95%; /* Nog iets breder op kleine schermen */
+                width: 95%;
                 padding: 15px;
             }
             button {
-                font-size: 14px; /* Kleinere knoptekst */
+                font-size: 14px;
                 padding: 10px;
             }
         }
     </style>
 </head>
-<script src="zoekfunctie.js"></script> <!-- Voeg het JavaScript-bestand hier toe -->
-
-<body>
+<script src="zoekfunctie.js"></script>
 <body>
     <div class="navbar">
         <a href="hoofdpagina.html">⬅ Terug naar Home</a>
@@ -170,7 +190,7 @@ $username = $_SESSION['username'];
 
     <div class="container">
         <h2>Lopende Aanvragen</h2>
-        <form action="aanvragen.php" method="POST">
+        <form method="POST">
             <label for="klantnaam">Klantnaam:</label>
             <input type="text" id="klantnaam" name="klantnaam" placeholder="Naam van de klant" required>
 

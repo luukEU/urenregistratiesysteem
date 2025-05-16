@@ -1,8 +1,8 @@
 <?php
 // Database configuratie
 $servername = "localhost"; // Of het IP-adres van je database
-$username = "luuk"; // Je database gebruikersnaam
-$password = "luuk"; // Je database wachtwoord
+$username = "root"; // Je database gebruikersnaam
+$password = ""; // Je database wachtwoord
 $dbname = "klanten_db"; // De naam van je database
 
 // Maak de databaseverbinding
