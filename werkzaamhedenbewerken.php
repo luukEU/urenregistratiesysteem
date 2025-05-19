@@ -37,6 +37,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!DOCTYPE html>
 <html lang="nl">
 <head>
+    <style>
+    </style>
     <link rel="stylesheet" href="stylesbewerken.css">
     <title>Werkzaamheid Bewerken</title>
 </head>

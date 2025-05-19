@@ -38,7 +38,7 @@ $result = $conn->query($sql);
       top: 0;
       left: 0;
       display: flex;
-      justify-content: space-between; /* Zorgt ervoor dat de knop en het logo aan de uiterste kanten komen */
+      justify-content: space-between;
       align-items: center;
       z-index: 1000;
     }
@@ -53,9 +53,22 @@ $result = $conn->query($sql);
       background: #444;
     }
     .navbar img {
-      height: 40px; /* Pas de grootte van het logo aan */
+      height: 40px;
       width: auto;
-      margin-left: auto; /* Zorgt ervoor dat het logo rechts komt */
+      margin-left: auto;
+    }
+    .pdf-button {
+     background-color: #007bff;
+      color: white;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .pdf-button:hover {
+      background-color: #0056b3;
     }
     .container {
       background: rgba(34, 34, 34, 0.9);
@@ -87,7 +100,6 @@ $result = $conn->query($sql);
     tr:hover {
       background-color: #444;
     }
-    /* Knop gecentreerd */
     .btn-add {
       display: flex;
       justify-content: center;
@@ -106,62 +118,73 @@ $result = $conn->query($sql);
     .btn-add a button:hover {
       background: #218838;
     }
-    button {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 20px;
-            font-size: 16px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+    .button2 {
+    background: #28a745;
+      color: white;
+      padding: 5px 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .button2:hover {
+    background: #218838;
+    }
   </style>
 </head>
-<script src="zoekfunctie.js"></script> <!-- Voeg het JavaScript-bestand hier toe -->
+<script src="zoekfunctie.js"></script>
 <body>
   <div class="navbar">
     <a href="hoofdpagina.html">⬅ Terug naar Home</a>
-    <img src="images/devopslogo.png" alt="Logo"> <!-- Logo toegevoegd aan de navigatiebalk -->
-    <button onclick="window.print()">PDF omzetten</button>
+    <img src="images/devopslogo.png" alt="Logo">
+    <button class="pdf-button" onclick="window.print()">PDF omzetten</button>
   </div>
 
   <div class="container">
     <h2>Aanvragen Overzicht</h2>
 
-    <!-- Toevoegen knop in het midden -->
     <div class="btn-add">
       <a href="aanvragen_toevoegen.php"><button>Toevoegen</button></a>
     </div>
+
     <input type="text" id="zoekveld" placeholder="Zoek naar naam, project, omschrijving..." onkeyup="zoekInTabel()" style="width: 90%; margin: 10px 5%; padding: 8px; font-size: 16px; border-radius: 5px;">
-<div style="overflow-x:auto;">
-    <table>
-      <thead>
-        <tr>
-          <th>Klantnaam</th>
-          <th>Titel</th>
-          <th>Omschrijving</th>
-          <th>Aanvraagdatum</th>
-          <th>Kennis</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php
-          if ($result->num_rows > 0) {
-              while ($row = $result->fetch_assoc()) {
-                  echo "<tr>
-                          <td>" . htmlspecialchars($row['klantnaam']) . "</td>
-                          <td>" . htmlspecialchars($row['titel']) . "</td>
-                          <td>" . htmlspecialchars($row['omschrijving']) . "</td>
-                          <td>" . htmlspecialchars($row['aanvraagdatum']) . "</td>
-                          <td>" . htmlspecialchars($row['kennis']) . "</td> 
-                        </tr>";
-              }
-          } else {
-              echo "<tr><td colspan='5'>Geen aanvragen gevonden</td></tr>";
-          }
-        ?>
-      </tbody>
-    </table>
+
+    <div style="overflow-x:auto;">
+      <table>
+        <thead>
+          <tr>
+            <th>Klantnaam</th>
+            <th>Titel</th>
+            <th>Omschrijving</th>
+            <th>Aanvraagdatum</th>
+            <th>Kennis</th>
+            <th>Acties</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    echo "<tr>
+                            <td>" . htmlspecialchars($row['klantnaam']) . "</td>
+                            <td>" . htmlspecialchars($row['titel']) . "</td>
+                            <td>" . htmlspecialchars($row['omschrijving']) . "</td>
+                            <td>" . htmlspecialchars($row['aanvraagdatum']) . "</td>
+                            <td>" . htmlspecialchars($row['kennis']) . "</td> 
+                            <td class='actions-cell'>
+                              <a href='aanvragenbewerken.php?id=" . $row['id'] . "'>
+                                <button class='button2'>Bewerk</button>
+                              </a>
+                            </td>
+                          </tr>";
+                }
+            } else {
+                echo "<tr><td colspan='6'>Geen aanvragen gevonden</td></tr>";
+            }
+          ?>
+        </tbody>
+      </table>
     </div>
   </div>
 </body>
