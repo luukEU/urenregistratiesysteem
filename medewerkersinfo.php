@@ -135,8 +135,8 @@ $result = $conn->query($sql);
         }
 
         .btn {
-            background-color: #ffc107;
-            color: black;
+               background: #28a745;
+            color: white;
             padding: 5px 10px;
             font-size: 12px;
             border: none;
@@ -146,7 +146,7 @@ $result = $conn->query($sql);
         }
 
         .btn:hover {
-            background-color: #e0a800;
+            background: #218838;
         }
     </style>
 </head>
