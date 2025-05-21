@@ -141,7 +141,7 @@ $username = $_SESSION['username'];
 </head>
 <body>
     <div class="navbar">
-        <a href="hoofdpagina.html">⬅ Terug naar Home</a>
+        <a href="hoofdpagina.php">⬅ Terug naar Home</a>
     </div>
 
     <div class="container">

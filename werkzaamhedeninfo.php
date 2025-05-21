@@ -159,7 +159,7 @@ $result = $conn->query($sql);
 
 <div class="navbar">
     <div class="left">
-        <a href="hoofdpagina.html">⬅ Terug naar Home</a>
+        <a href="hoofdpagina.php">⬅ Terug naar Home</a>
     </div>
     <div class="right">
         <img src="images/devopslogo.png" alt="Logo">
