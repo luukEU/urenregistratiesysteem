@@ -1,3 +1,13 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['rol'])) {
+    header("Location: inlog.php");
+    exit;
+}
+
+$rol = $_SESSION['rol']; // 'medewerker' of 'afdelingshoofd'
+?>
 <!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -11,34 +21,33 @@
             background-size: cover;
             color: white;
             background-image: url('images/Simple chill wallpaper 1920 x 1080 - Wallpaper.jpg'); 
-            margin: 0;  /* Zorgt ervoor dat er geen standaard marge is */
+            margin: 0;
         }
 
-        /* Navigatiebalk bovenaan */
         .navbar {
             width: 100%;
             background: #222;
             padding: 15px;
             display: flex;
-            justify-content: center;  /* Centreer het logo */
+            justify-content: center;
             align-items: center;
             position: fixed;
             top: 0;
             left: 0;
-            z-index: 1000;  /* Zorgt ervoor dat de navbar altijd bovenaan blijft */
+            z-index: 1000;
         }
+
         .navbar img {
-            height: 50px;  /* Pas de grootte van het logo aan */
+            height: 50px;
             width: auto;
         }
-        
-        /* Container voor de hoofdpagina */
+
         .container {
             background: rgba(0, 0, 0, 0.7);
             padding: 20px;
             border-radius: 10px;
             display: inline-block;
-            margin-top: 100px; /* Ruimte onder de navigatiebalk */
+            margin-top: 100px;
         }
 
         .nav-container {
@@ -46,7 +55,7 @@
             justify-content: center;
             gap: 15px;
             margin-top: 20px;
-            flex-wrap: wrap; /* Zorgt ervoor dat de knoppen op kleinere schermen netjes onder elkaar komen */
+            flex-wrap: wrap;
         }
 
         .nav-button {
@@ -64,29 +73,33 @@
             background: lightgray;
         }
 
-        /* Media query voor kleinere schermen (bijvoorbeeld telefoons) */
         @media (max-width: 600px) {
             .nav-button {
-                width: 100%;  /* Zorgt ervoor dat de knoppen de volledige breedte gebruiken op kleine schermen */
+                width: 100%;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Navigatiebalk bovenaan (alleen logo zonder tekst) -->
     <div class="navbar">
-        <img src="images/devopslogo.png" alt="Logo">  <!-- Logo gecentreerd -->
+        <img src="images/devopslogo.png" alt="Logo">
     </div>
 
-    <!-- Hoofdpagina content -->
     <div class="container">
-        <h2>Urenregistratie Systeem</h2>
+        <h2>Welkom, <?php echo htmlspecialchars($_SESSION['username']); ?>!</h2>
         <p>Kies een persoonlijke urenregistratie:</p>
+
         <div class="nav-container">
-            <button class="nav-button" onclick="location.href='klanteninfo.php'">Klanten</button>
-            <button class="nav-button" onclick="location.href='medewerkersinfo.php'">Medewerkers</button>
-            <button class="nav-button" onclick="location.href='aanvrageninfo.php'">Aanvragen</button>
-            <button class="nav-button" onclick="location.href='werkzaamhedeninfo.php'">Werkzaamheden</button>
+            <?php if ($rol === 'afdelingshoofd'): ?>
+                <button class="nav-button" onclick="location.href='klanteninfo.php'">Klanten</button>
+                <button class="nav-button" onclick="location.href='medewerkersinfo.php'">Medewerkers</button>
+                <button class="nav-button" onclick="location.href='aanvrageninfo.php'">Aanvragen</button>
+                <button class="nav-button" onclick="location.href='werkzaamhedeninfo.php'">Werkzaamheden</button>
+            <?php elseif ($rol === 'medewerker'): ?>
+                <button class="nav-button" onclick="location.href='werkzaamhedeninfo.php'">Werkzaamheden</button>
+            <?php else: ?>
+                <p style="color:red;">Onbekende rol.</p>
+            <?php endif; ?>
         </div>
     </div>
 </body>
