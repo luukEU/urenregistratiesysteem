@@ -8,8 +8,8 @@ if ($conn->connect_error) {
     die("Verbinding mislukt: " . $conn->connect_error);
 }
 
-// Haal gegevens uit de database
-$sql = "SELECT naam, tussenvoegsel, geboortedatum, functie, werkmail, kantoorruimte FROM medewerkers";
+// Haal gegevens uit de database, inclusief ID
+$sql = "SELECT id, naam, tussenvoegsel, geboortedatum, functie, werkmail, kantoorruimte FROM medewerkers";
 $result = $conn->query($sql);
 ?>
 
@@ -27,7 +27,6 @@ $result = $conn->query($sql);
             color: white;
         }
 
-        /* Navigatiebalk aanpassing */
         .navbar {
             width: 100%;
             background: #222;
@@ -36,7 +35,7 @@ $result = $conn->query($sql);
             top: 0;
             left: 0;
             display: flex;
-            justify-content: space-between; /* Zorgt ervoor dat de knop en het logo aan de uiterste kanten komen */
+            justify-content: space-between;
             align-items: center;
             z-index: 1000;
         }
@@ -47,18 +46,18 @@ $result = $conn->query($sql);
             padding: 10px 20px;
             font-size: 16px;
             border-radius: 5px;
-            background: #222; /* Kleur van de knop gelijk aan de navbar */
+            background: #222;
             cursor: pointer;
         }
 
         .navbar a:hover {
-            background: #444;  /* Hover kleur van de knop */
+            background: #444;
         }
 
         .navbar img {
-            height: 40px; /* Pas de grootte van het logo aan */
+            height: 40px;
             width: auto;
-            margin-left: auto; /* Zorgt ervoor dat het logo rechts komt */
+            margin-left: auto;
         }
 
         .pdf-button {
@@ -85,7 +84,7 @@ $result = $conn->query($sql);
 
         .table-container {
             display: flex;
-            justify-content: center; /* Knop in het midden plaatsen */
+            justify-content: center;
             margin-bottom: 20px;
         }
 
@@ -131,27 +130,28 @@ $result = $conn->query($sql);
             background-color: #555;
         }
 
-        .action-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
+        .actions-cell {
+            text-align: center;
         }
 
-        .delete-button {
-            background-color: #dc3545;
+        .btn {
+               background: #28a745;
             color: white;
             padding: 5px 10px;
             font-size: 12px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            text-decoration: none;
         }
 
-        .delete-button:hover {
-            background-color: #c82333;
+        .btn:hover {
+            background: #218838;
         }
     </style>
 </head>
+<script src="zoekfunctie.js"></script>
+
 <body>
 
 <div class="navbar">
@@ -165,8 +165,9 @@ $result = $conn->query($sql);
     <div class="table-container">
         <a href="medewerkers.html" class="add-button">+ Toevoegen</a>
     </div>
+    <input type="text" id="zoekveld" placeholder="Zoek naar naam, project, omschrijving..." onkeyup="zoekInTabel()" style="width: 90%; margin: 10px 5%; padding: 8px; font-size: 16px; border-radius: 5px;">
 
-    <?php if (isset($result) && $result->num_rows > 0): ?>
+    <?php if ($result && $result->num_rows > 0): ?>
         <table>
             <thead>
                 <tr>
@@ -176,19 +177,23 @@ $result = $conn->query($sql);
                     <th>Functie</th>
                     <th>Werkmail</th>
                     <th>Kantoorruimte</th>
+                    <th>Acties</th>
                 </tr>
             </thead>
             <tbody>
-                <?php while($row = $result->fetch_assoc()): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($row["naam"]) ?></td>
-                        <td><?= htmlspecialchars($row["tussenvoegsel"]) ?></td>
-                        <td><?= htmlspecialchars($row["geboortedatum"]) ?></td>
-                        <td><?= htmlspecialchars($row["functie"]) ?></td>
-                        <td><?= htmlspecialchars($row["werkmail"]) ?></td>
-                        <td><?= htmlspecialchars($row["kantoorruimte"]) ?></td>
-                    </tr>
-                <?php endwhile; ?>
+            <?php while($row = $result->fetch_assoc()): ?>
+                <tr>
+                    <td><?= htmlspecialchars($row["naam"]) ?></td>
+                    <td><?= htmlspecialchars($row["tussenvoegsel"]) ?></td>
+                    <td><?= htmlspecialchars($row["geboortedatum"]) ?></td>
+                    <td><?= htmlspecialchars($row["functie"]) ?></td>
+                    <td><?= htmlspecialchars($row["werkmail"]) ?></td>
+                    <td><?= htmlspecialchars($row["kantoorruimte"]) ?></td>
+                    <td class="actions-cell">
+                        <a href="medewerkersbewerken.php?id=<?= urlencode($row['id']) ?>" class="btn">Bewerk</a>
+                    </td>
+                </tr>
+            <?php endwhile; ?>
             </tbody>
         </table>
     <?php else: ?>

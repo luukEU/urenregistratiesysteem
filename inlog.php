@@ -4,6 +4,8 @@ require 'config.php';
 
 $error = "";
 
+// Verbinding maken met de database
+include 'config.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $login = $_POST['login'];
     $password = $_POST['password'];
@@ -40,7 +42,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $conn->close();
 }
 ?>
+<!DOCTYPE html>
+<html lang="nl">
+  
+<head>
+        <title>Inloggen</title>
+    <meta charset="UTF-8">
 
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="login-container">
 <h2>Inloggen</h2>
 
 <?php if ($error): ?>
@@ -54,3 +66,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </form>
 
 <p>Nog geen account? <a href="registratie.php">Registreren</a></p>
+</div>
+</body>
+</html>
