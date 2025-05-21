@@ -73,6 +73,8 @@ $stmt->close();
 if (!$result) {
     die("Medewerker met ID $id niet gevonden.");
 }
+
+header("Location: aanvrageninfo.php");
 ?>
 
 <!DOCTYPE html>

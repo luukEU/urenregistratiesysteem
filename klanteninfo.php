@@ -212,44 +212,41 @@ try {
     <input type="text" id="zoekveld" placeholder="Zoek naar naam, project, omschrijving..." onkeyup="zoekInTabel()" style="width: 90%; margin: 10px 5%; padding: 8px; font-size: 16px; border-radius: 5px;">
 
     <div style="overflow-x:auto;">
-        <table>
-            <thead>
-                <tr>
-                    <th>Naam</th>
-                    <th>Tussenvoegsel</th>
-                    <th>Bedrijf</th>
-                    <th>Functie</th>
-                    <th>Telefoon</th>
-                    <th>Adres</th>
-                    <th>Email</th>
-                    <th>Bericht</th>
-                    <th>Acties</th> <!-- Nieuwe kolom -->
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                try {
-                    $sql = "SELECT * FROM klanten";
-                    $stmt = $pdo->query($sql);
-                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                        echo "<tr>
-                                <td>" . htmlspecialchars($row['naam']) . "</td>
-                                <td>" . htmlspecialchars($row['tussenvoegsel']) . "</td>
-                                <td>" . htmlspecialchars($row['bedrijf']) . "</td>
-                                <td>" . htmlspecialchars($row['functie']) . "</td>
-                                <td>" . htmlspecialchars($row['telefoon']) . "</td>
-                                <td>" . htmlspecialchars($row['adres']) . "</td>
-                                <td>" . htmlspecialchars($row['email']) . "</td>
-                                <td>" . htmlspecialchars($row['bericht']) . "</td>
-                                <td>
-                                    <a href='klantbewerken.php?id=" . $row['id'] . "'>
-                                        <button class='button2'>Bewerk</button>
-                                    </a>
-                                </td>
-                              </tr>";
-                    }
-                } catch (PDOException $e) {
-                    echo "<tr><td colspan='9'>Er is een fout opgetreden: " . $e->getMessage() . "</td></tr>";
+
+    <table>
+        <thead>
+            <tr>
+                <th>Naam</th>
+                <th>Tussenvoegsel</th>
+                <th>Bedrijf</th>
+                <th>Functie</th>
+                <th>Telefoon</th>
+                <th>Adres</th>
+                <th>Email</th>
+                <th>Bericht</th>
+                <th>Acties</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            try {
+                $sql = "SELECT * FROM klanten";
+                $stmt = $pdo->query($sql);
+                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                    echo "<tr>
+                            <td>" . htmlspecialchars($row['naam']) . "</td>
+                            <td>" . htmlspecialchars($row['tussenvoegsel']) . "</td>
+                            <td>" . htmlspecialchars($row['bedrijf']) . "</td>
+                            <td>" . htmlspecialchars($row['functie']) . "</td>
+                            <td>" . htmlspecialchars($row['telefoon']) . "</td>
+                            <td>" . htmlspecialchars($row['adres']) . "</td>
+                            <td>" . htmlspecialchars($row['email']) . "</td>
+                            <td>" . htmlspecialchars($row['bericht']) . "</td>
+                                <td class='actions-cell'>
+                              <a href='klantenbewerken.php?id=" . $row['id'] . "'>
+                                <button class='button2'>Bewerk</button>
+                              </a>
+                          </tr>";
                 }
                 ?>
             </tbody>

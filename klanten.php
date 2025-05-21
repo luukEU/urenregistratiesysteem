@@ -1,120 +1,40 @@
 <?php
 require 'config.php';
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+try {
+    $pdo = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-// Verbinding controleren
-if ($conn->connect_error) {
-    die("Verbinding mislukt: " . $conn->connect_error);
-}
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Formulierwaarden ophalen en sanitizen
+        $naam = trim($_POST["naam"]);
+        $tussenvoegsel = trim($_POST["tussenvoegsel"]);
+        $bedrijf = trim($_POST["bedrijf"]);
+        $functie = trim($_POST["functie"]);
+        $telefoon = trim($_POST["telefoon"]);
+        $adres = trim($_POST["adres"]);
+        $email = trim($_POST["email"]);
+        $bericht = trim($_POST["bericht"]);
 
-// Check of ID aanwezig is
-if (!isset($_GET['id'])) {
-    die("Geen medewerker-ID opgegeven!");
-}
-$id = intval($_GET['id']);
+        // SQL-query voorbereiden en uitvoeren
+        $sql = "INSERT INTO klanten (naam, tussenvoegsel, bedrijf, functie, telefoon, adres, email, bericht) 
+                VALUES (:naam, :tussenvoegsel, :bedrijf, :functie, :telefoon, :adres, :email, :bericht)";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ":naam" => $naam,
+            ":tussenvoegsel" => $tussenvoegsel,
+            ":bedrijf" => $bedrijf,
+            ":functie" => $functie,
+            ":telefoon" => $telefoon,
+            ":adres" => $adres,
+            ":email" => $email,
+            ":bericht" => $bericht
+        ]);
 
-// Als formulier verzonden is
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $naam = $_POST['naam'];
-    $tussenvoegsel = $_POST['tussenvoegsel'];
-    $geboortedatum = $_POST['geboortedatum'];
-    $functie = $_POST['functie'];
-    $werkmail = $_POST['werkmail'];
-    $kantoorruimte = $_POST['kantoorruimte'];
-
-    $sql = "UPDATE medewerkers SET naam=?, tussenvoegsel=?, geboortedatum=?, functie=?, werkmail=?, kantoorruimte=? WHERE id=?";
-    $stmt = $conn->prepare($sql);
-    if (!$stmt) {
-        die("Fout bij voorbereiden van de update query: " . $conn->error);
+        // Bevestiging en terugsturen naar formulier
+        echo "<script>alert('Bedankt voor je inzending!'); window.location.href = 'klanteninfo.php';</script>";
     }
-    $stmt->bind_param("ssssssi", $naam, $tussenvoegsel, $geboortedatum, $functie, $werkmail, $kantoorruimte, $id);
-
-    if ($stmt->execute()) {
-        header("Location: medewerkersinfo.php");
-        exit;
-    } else {
-        echo "Fout bij bijwerken: " . $stmt->error;
-    }
-    $stmt->close();
-}
-
-// Huidige gegevens ophalen
-$sql = "SELECT * FROM medewerkers WHERE id=?";
-$stmt = $conn->prepare($sql);
-if (!$stmt) {
-    die("Fout bij voorbereiden van de select query: " . $conn->error);
-}
-$stmt->bind_param("i", $id);
-$stmt->execute();
-
-// Controle of get_result() beschikbaar is
-if (method_exists($stmt, 'get_result')) {
-    $result = $stmt->get_result()->fetch_assoc();
-} else {
-    // Fallback als get_result niet beschikbaar is
-    $stmt->bind_result($naam, $tussenvoegsel, $bedrijf, $functie, $telefoon, $adres, $Email, $Bericht, $Acties, );
-    if ($stmt->fetch()) {
-        $result = [
-            'naam' => $naam,
-            'tussenvoegsel' => $tussenvoegsel,
-            'bedrijf' => $bedrijf,
-            'functie' => $functie,
-            'werkmail' => $telefoon,
-            'adres' => $adres,
-            'Email' => $Email,
-            'Bericht' => $Bericht,
-            'Acties' => $Acties,
-
-        ];
-    } else {
-        $result = null;
-    }
-}
-
-$stmt->close();
-
-if (!$result) {
-    die("Medewerker met ID $id niet gevonden.");
+} catch (PDOException $e) {
+    die("Fout bij verbinden met database: " . $e->getMessage());
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="nl">
-<head>
-    <link rel="stylesheet" href="stylesbewerken.css">
-    <meta charset="UTF-8">
-    <title>Medewerker Bewerken</title>
-</head>
-<body>
-
-<div class="container">
-    <h2>Medewerker Bewerken</h2>
-    <form method="post" action="?id=<?= htmlspecialchars($id) ?>">
-        <label>Naam:</label>
-        <input type="text" name="naam" value="<?= htmlspecialchars($result['naam']) ?>" required>
-
-        <label>Tussenvoegsel:</label>
-        <input type="text" name="tussenvoegsel" value="<?= htmlspecialchars($result['tussenvoegsel']) ?>">
-
-        <label>Geboortedatum:</label>
-        <input type="date" name="geboortedatum" value="<?= htmlspecialchars($result['geboortedatum']) ?>" required>
-
-        <label>Functie:</label>
-        <input type="text" name="functie" value="<?= htmlspecialchars($result['functie']) ?>" required>
-
-        <label>Werkmail:</label>
-        <input type="email" name="werkmail" value="<?= htmlspecialchars($result['werkmail']) ?>" required>
-
-        <label>Kantoorruimte:</label>
-        <input type="text" name="kantoorruimte" value="<?= htmlspecialchars($result['kantoorruimte']) ?>" required>
-
-        <button type="submit">Opslaan</button>
-    </form>
-    <p><a href="medewerkersinfo.php">⬅ Terug naar overzicht</a></p>
-</div>
-
-<?php $conn->close(); ?>
-
-</body>
-</html>
