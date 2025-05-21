@@ -1,13 +1,18 @@
 <?php
-$pdo = new PDO('mysql:host=localhost;dbname=uren_db', 'root', '');
+
+$servername = "localhost"; // Of het IP-adres van je database
+$username = "root"; // Je database gebruikersnaam
+$password = ""; // Je database wachtwoord
+$dbname = "klanten_db"; // De naam van je database
+$charset = 'utf8';
 
 // Query data met klant- en opdrachtinformatie
 $sql = "
   SELECT 
-    opdrachten.datum,
-    opdrachten.uren,
-    opdrachten.uren * opdrachten.tarief AS opbrengst,
-    opdrachten.naam AS opdracht,
+    werkzaamheden.datum,
+    werkzaamheden.uren,
+    werkzaamheden.uren * opdrachten.tarief AS opbrengst,
+    werkzaamheden.naam AS opdracht,
     klanten.naam AS klant
   FROM opdrachten
   JOIN klanten ON opdrachten.klant_id = klanten.id

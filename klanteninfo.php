@@ -236,6 +236,7 @@ try {
                 <th>Adres</th>
                 <th>Email</th>
                 <th>Bericht</th>
+                <th>Acties</th>
             </tr>
         </thead>
         <tbody>
@@ -253,6 +254,10 @@ try {
                             <td>" . htmlspecialchars($row['adres']) . "</td>
                             <td>" . htmlspecialchars($row['email']) . "</td>
                             <td>" . htmlspecialchars($row['bericht']) . "</td>
+                                <td class='actions-cell'>
+                              <a href='klantenbewerken.php?id=" . $row['id'] . "'>
+                                <button class='button2'>Bewerk</button>
+                              </a>
                           </tr>";
                 }
             } catch (PDOException $e) {

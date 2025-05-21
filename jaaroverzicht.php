@@ -1,10 +1,12 @@
 <?php
 // jaaroverzicht.php
-$host = '127.0.0.1';
-$db   = 'klanten_db';
-$user = 'root';
-$pass = '';
-$charset = 'utf8mb4';
+
+$servername = "localhost"; // Of het IP-adres van je database
+$username = "root"; // Je database gebruikersnaam
+$password = ""; // Je database wachtwoord
+$dbname = "klanten_db"; // De naam van je database
+$charset = 'utf8';
+
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
 $options = [
