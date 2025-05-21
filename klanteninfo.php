@@ -256,7 +256,7 @@ try {
                             <td>" . htmlspecialchars($row['bericht']) . "</td>
                                 <td class='actions-cell'>
                               <a href='klantenbewerken.php?id=" . $row['id'] . "'>
-                                <button class='button2'>Bewerk</button>
+                                <button class='add-btn'>Bewerk</button>
                               </a>
                           </tr>";
                 }
