@@ -136,9 +136,9 @@ $result = $conn->query($sql);
 <script src="zoekfunctie.js"></script>
 <body>
   <div class="navbar">
-    <a href="hoofdpagina.html">⬅ Terug naar Home</a>
-    <img src="images/devopslogo.png" alt="Logo">
-    <button class="pdf-button" onclick="window.print()">PDF omzetten</button>
+    <a href="hoofdpagina.php">⬅ Terug naar Home</a>
+    <img src="images/devopslogo.png" alt="Logo"> <!-- Logo toegevoegd aan de navigatiebalk -->
+    <button onclick="window.print()">PDF omzetten</button>
   </div>
 
   <div class="container">

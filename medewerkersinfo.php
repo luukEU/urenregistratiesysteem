@@ -155,8 +155,8 @@ $result = $conn->query($sql);
 <body>
 
 <div class="navbar">
-    <a href="hoofdpagina.html">⬅ Terug naar Home</a>
-    <img src="images/devopslogo.png" alt="Logo">
+    <a href="hoofdpagina.php">⬅ Terug naar Home</a>  <!-- Terug naar Home knop met dezelfde stijl als navbar -->
+    <img src="images/devopslogo.png" alt="Logo"> <!-- Logo toegevoegd aan de navigatiebalk -->
     <button class="pdf-button" onclick="window.print()">PDF omzetten</button>
 </div>
 

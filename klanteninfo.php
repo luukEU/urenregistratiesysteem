@@ -197,8 +197,8 @@ try {
 <body>
 
 <div class="navbar">
-    <a href="hoofdpagina.html">⬅ Terug naar Home</a>
-    <img src="images/devopslogo.png" alt="Logo">
+    <a href="hoofdpagina.php">⬅ Terug naar Home</a>
+    <img src="images/devopslogo.png" alt="Logo"> <!-- Logo toegevoegd aan de navigatiebalk -->
     <button onclick="window.print()">PDF omzetten</button>
 </div>
 <img src="images/logo.png" alt="Mijn Logo" class="logo">
@@ -244,7 +244,7 @@ try {
                             <td>" . htmlspecialchars($row['bericht']) . "</td>
                                 <td class='actions-cell'>
                               <a href='klantenbewerken.php?id=" . $row['id'] . "'>
-                                <button class='button2'>Bewerk</button>
+                                <button class='add-btn'>Bewerk</button>
                               </a>
                           </tr>";
                 }
