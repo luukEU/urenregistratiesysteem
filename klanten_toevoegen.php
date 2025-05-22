@@ -107,6 +107,39 @@ $klanten = $conn->query("SELECT id, naam FROM klanten");
             background: #218838;
         }
 
+        .radio-group {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0;
+        }
+
+        .radio-group input[type="radio"] {
+            display: none;
+        }
+
+        .radio-group label {
+            flex: 1;
+            text-align: center;
+            background: #444;
+            color: white;
+            padding: 12px;
+            border-radius: 6px;
+            margin: 0 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .radio-group input[type="radio"]:checked + label {
+            background: #28a745;
+            border-color: #1e7e34;
+            font-weight: bold;
+        }
+
+        .radio-group label:hover {
+            background: #555;
+        }
+
         @media (max-width: 600px) {
             .navbar {
                 text-align: center;
@@ -150,46 +183,28 @@ $klanten = $conn->query("SELECT id, naam FROM klanten");
         <form action="medewerkersinfo.php" method="POST">
             <input type="hidden" name="form_type" value="medewerkers">
 
-            
-<div class="radio-wrapper">
-    <div class="radio-row">
-        <label for="bestaande">Bestaande klant kiezen:</label>
-        <input type="radio" id="bestaande" name="klantkeuze" value="bestaande" checked onchange="toggleKlantInput()">
-    </div>
-    <div class="radio-row">
-        <label for="nieuwe">Nieuwe klant invoeren:</label>
-        <input type="radio" id="nieuwe" name="klantkeuze" value="nieuwe" onchange="toggleKlantInput()">
-    </div>
-</div>
+            <div class="radio-group">
+                <input type="radio" id="bestaande" name="klantkeuze" value="bestaande" checked onchange="toggleKlantInput()">
+                <label for="bestaande">Bestaande klant</label>
 
+                <input type="radio" id="nieuwe" name="klantkeuze" value="nieuwe" onchange="toggleKlantInput()">
+                <label for="nieuwe">Nieuwe klant</label>
+            </div>
 
-<div id="bestaandeKlantDiv">
-    <label for="klant_id">Selecteer klant:</label>
-    <select id="klant_id" name="klant_id">
-        <option value="">-- Selecteer een klant --</option>
-        <?php while($klant = $klanten->fetch_assoc()): ?>
-            <option value="<?= $klant['id'] ?>"><?= htmlspecialchars($klant['naam']) ?></option>
-        <?php endwhile; ?>
-    </select>
-</div>
+            <div id="bestaandeKlantDiv">
+                <label for="klant_id">Selecteer klant:</label>
+                <select id="klant_id" name="klant_id">
+                    <option value="">-- Selecteer een klant --</option>
+                    <?php while($klant = $klanten->fetch_assoc()): ?>
+                        <option value="<?= $klant['id'] ?>"><?= htmlspecialchars($klant['naam']) ?></option>
+                    <?php endwhile; ?>
+                </select>
+            </div>
 
-<div id="nieuweKlantDiv" style="display: none;">
-    <label for="nieuwe_klant_naam">Nieuwe klantnaam:</label>
-    <input type="text" id="nieuwe_klant_naam" name="nieuwe_klant_naam" placeholder="Voer nieuwe klantnaam in">
-</div>
-
-<script>
-function toggleKlantInput() {
-    const isBestaande = document.getElementById('bestaande').checked;
-    document.getElementById('bestaandeKlantDiv').style.display = isBestaande ? 'block' : 'none';
-    document.getElementById('nieuweKlantDiv').style.display = isBestaande ? 'none' : 'block';
-
-    // Vereist-attributen dynamisch aanpassen
-    document.getElementById('klant_id').required = isBestaande;
-    document.getElementById('nieuwe_klant_naam').required = !isBestaande;
-}
-</script>
-
+            <div id="nieuweKlantDiv" style="display: none;">
+                <label for="nieuwe_klant_naam">Nieuwe klantnaam:</label>
+                <input type="text" id="nieuwe_klant_naam" name="nieuwe_klant_naam" placeholder="Voer nieuwe klantnaam in">
+            </div>
 
             <label for="tussenvoegsel">Tussenvoegsel:</label>
             <input type="text" id="tussenvoegsel" name="tussenvoegsel" placeholder="Bijv. van, de, der">
@@ -208,8 +223,17 @@ function toggleKlantInput() {
 
             <button type="submit">Verzenden</button>
         </form>
-
     </div>
+
+    <script>
+        function toggleKlantInput() {
+            const isBestaande = document.getElementById('bestaande').checked;
+            document.getElementById('bestaandeKlantDiv').style.display = isBestaande ? 'block' : 'none';
+            document.getElementById('nieuweKlantDiv').style.display = isBestaande ? 'none' : 'block';
+            document.getElementById('klant_id').required = isBestaande;
+            document.getElementById('nieuwe_klant_naam').required = !isBestaande;
+        }
+    </script>
 </body>
 </html>
 <?php $conn->close(); ?>
