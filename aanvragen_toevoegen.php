@@ -182,7 +182,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <script src="zoekfunctie.js"></script>
 <body>
     <div class="navbar">
-        <a href="hoofdpagina.html">⬅ Terug naar Home</a>
+        <a href="hoofdpagina.php">⬅ Terug naar Home</a>
         <a href="klanteninfo.php">
             <img src="images/devopslogo.png" alt="Home" class="home-logo">
         </a>

@@ -1,5 +1,13 @@
+<?php
+// Verbinding maken met de database
+$conn = new mysqli("localhost", "root", "", "mijn_database");
+if ($conn->connect_error) {
+    die("Verbindingsfout: " . $conn->connect_error);
+}
 
-
+// Klanten ophalen voor dropdown
+$klanten = $conn->query("SELECT id, naam FROM klanten");
+?>
 <!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -26,10 +34,10 @@
             position: fixed;
             top: 0;
             left: 0;
-            z-index: 1000; /* Ensures navbar is always on top */
+            z-index: 1000;
             display: flex;
-            justify-content: space-between; /* Zorgt ervoor dat alles netjes uitgelijnd is */
-            align-items: center; /* Zorgt ervoor dat het logo en de tekst goed uitgelijnd zijn */
+            justify-content: space-between;
+            align-items: center;
         }
         .navbar a {
             color: white;
@@ -42,7 +50,7 @@
             background: #444;
         }
         .navbar img {
-            height: 40px; /* De grootte van het logo kleiner maken */
+            height: 40px;
             margin-right: 10px;
         }
         .container {
@@ -70,7 +78,7 @@
             margin-top: 10px;
             color: white;
         }
-        input {
+        input, select {
             width: 100%;
             padding: 10px;
             margin-top: 5px;
@@ -81,7 +89,7 @@
             background: #333;
             color: white;
         }
-        input:focus {
+        input:focus, select:focus {
             outline: none;
             background: #444;
         }
@@ -102,7 +110,6 @@
             background: #218838;
         }
 
-        /* Responsive design for small screens */
         @media (max-width: 600px) {
             .navbar {
                 text-align: center;
@@ -123,7 +130,7 @@
             label {
                 font-size: 14px;
             }
-            input {
+            input, select {
                 font-size: 14px;
             }
             button {
@@ -140,14 +147,41 @@
             <img src="images/devopslogo.png" alt="Home" class="home-logo">
         </a>
     </div>
+<script>
+document.getElementById('klant_id').addEventListener('change', function () {
+    const klantId = this.value;
+
+    if (klantId) {
+        fetch(`get_klantgegevens.php?klant_id=${klantId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data) {
+                    document.getElementById('tussenvoegsel').value = data.tussenvoegsel || '';
+                    document.getElementById('geboortedatum').value = data.geboortedatum || '';
+                    document.getElementById('functie').value = data.functie || '';
+                    document.getElementById('werkmail').value = data.werkmail || '';
+                    document.getElementById('kantoorruimte').value = data.kantoorruimte || '';
+                }
+            })
+            .catch(error => {
+                console.error('Fout bij ophalen van gegevens:', error);
+            });
+    }
+});
+</script>
 
     <div class="container">
         <h2>Medewerkers formulier</h2>
         <form action="medewerkersinfo.php" method="POST">
             <input type="hidden" name="form_type" value="medewerkers">
-            
-            <label for="naam">Naam:</label>
-            <input type="text" id="naam" name="naam" placeholder="Voor- en achternaam" required>
+
+            <label for="klant_id">Kies klant:</label>
+            <select id="klant_id" name="klant_id" required>
+                <option value="">-- Selecteer een klant --</option>
+                <?php while($klant = $klanten->fetch_assoc()): ?>
+                    <option value="<?= $klant['id'] ?>"><?= htmlspecialchars($klant['naam']) ?></option>
+                <?php endwhile; ?>
+            </select>
 
             <label for="tussenvoegsel">Tussenvoegsel:</label>
             <input type="text" id="tussenvoegsel" name="tussenvoegsel" placeholder="Bijv. van, de, der">
@@ -166,6 +200,15 @@
 
             <button type="submit">Verzenden</button>
         </form>
+
+        <hr style="margin: 20px 0; border-color: #666;">
+
+        <form action="klant_toevoegen.php" method="POST">
+            <label for="nieuwe_klant">Nieuwe klant toevoegen:</label>
+            <input type="text" id="nieuwe_klant" name="naam" placeholder="Nieuwe klantnaam" required>
+            <button type="submit">Klant toevoegen</button>
+        </form>
     </div>
 </body>
 </html>
+<?php $conn->close(); ?>

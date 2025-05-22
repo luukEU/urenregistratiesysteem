@@ -163,7 +163,7 @@ $result = $conn->query($sql);
 <div class="container">
     <h2>Medewerkers Overzicht</h2>
     <div class="table-container">
-        <a href="medewerkers.html" class="add-button">+ Toevoegen</a>
+        <a href="medewerkers_toevoegen.php" class="add-button">+ Toevoegen</a>
     </div>
     <input type="text" id="zoekveld" placeholder="Zoek naar naam, project, omschrijving..." onkeyup="zoekInTabel()" style="width: 90%; margin: 10px 5%; padding: 8px; font-size: 16px; border-radius: 5px;">
 
