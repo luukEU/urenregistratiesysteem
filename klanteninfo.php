@@ -248,6 +248,9 @@ try {
                               </a>
                           </tr>";
                 }
+            } catch (PDOException $e) {
+                echo "<tr><td colspan='8'>Er is een fout opgetreden: " . $e->getMessage() . "</td></tr>";
+            }
                 ?>
             </tbody>
         </table>
