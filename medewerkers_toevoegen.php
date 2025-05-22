@@ -1,9 +1,6 @@
 <?php
 // Verbinding maken met de database
-$conn = new mysqli("localhost", "root", "", "mijn_database");
-if ($conn->connect_error) {
-    die("Verbindingsfout: " . $conn->connect_error);
-}
+require 'config.php';
 
 // Klanten ophalen voor dropdown
 $klanten = $conn->query("SELECT id, naam FROM klanten");
@@ -203,11 +200,7 @@ document.getElementById('klant_id').addEventListener('change', function () {
 
         <hr style="margin: 20px 0; border-color: #666;">
 
-        <form action="klant_toevoegen.php" method="POST">
-            <label for="nieuwe_klant">Nieuwe klant toevoegen:</label>
-            <input type="text" id="nieuwe_klant" name="naam" placeholder="Nieuwe klantnaam" required>
-            <button type="submit">Klant toevoegen</button>
-        </form>
+        
     </div>
 </body>
 </html>

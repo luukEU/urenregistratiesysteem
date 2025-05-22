@@ -93,3 +93,22 @@ p a:hover {
     color: red;
     margin-bottom: 10px;
 }
+.radio-wrapper {
+    margin-bottom: 10px;
+}
+
+.radio-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.radio-row label {
+    margin: 0;
+    flex-grow: 1;
+}
+
+.radio-row input[type="radio"] {
+    margin-left: 10px;
+}
