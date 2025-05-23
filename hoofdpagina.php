@@ -6,7 +6,7 @@ if (!isset($_SESSION['rol'])) {
     exit;
 }
 
-$rol = $_SESSION['rol']; // 'medewerker' of 'afdelingshoofd'
+$rol = $_SESSION['rol']; // 'medewerker', 'afdelingshoofd' of 'klant'
 ?>
 <!DOCTYPE html>
 <html lang="nl">
@@ -60,7 +60,7 @@ $rol = $_SESSION['rol']; // 'medewerker' of 'afdelingshoofd'
 
         .nav-button {
             padding: 15px;
-            width: 150px;
+            width: 180px;
             background: white;
             color: black;
             border: none;
@@ -95,8 +95,15 @@ $rol = $_SESSION['rol']; // 'medewerker' of 'afdelingshoofd'
                 <button class="nav-button" onclick="location.href='medewerkersinfo.php'">Medewerkers</button>
                 <button class="nav-button" onclick="location.href='aanvrageninfo.php'">Aanvragen</button>
                 <button class="nav-button" onclick="location.href='werkzaamhedeninfo.php'">Werkzaamheden</button>
+
             <?php elseif ($rol === 'medewerker'): ?>
                 <button class="nav-button" onclick="location.href='werkzaamhedeninfo.php'">Werkzaamheden</button>
+                <button class="nav-button" onclick="location.href='medewerkersinfo.php'">Medewerkers</button>
+
+            <?php elseif ($rol === 'klant'): ?>
+                <button class="nav-button" onclick="location.href='klanteninfo.php'">Klanten</button>
+                <button class="nav-button" onclick="location.href='aanvrageninfo.php'">Aanvragen</button>
+
             <?php else: ?>
                 <p style="color:red;">Onbekende rol.</p>
             <?php endif; ?>
