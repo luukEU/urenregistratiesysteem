@@ -9,7 +9,7 @@ if ($conn->connect_error) {
 }
 
 // Haal gegevens uit de database, inclusief ID
-$sql = "SELECT id, naam, tussenvoegsel, geboortedatum, functie, werkmail, kantoorruimte FROM medewerkers";
+$sql = "SELECT id, naam, geboortedatum, functie, werkmail, kantoorruimte FROM medewerkers";
 $result = $conn->query($sql);
 ?>
 
@@ -163,7 +163,7 @@ $result = $conn->query($sql);
 <div class="container">
     <h2>Medewerkers Overzicht</h2>
     <div class="table-container">
-        <a href="medewerkers.html" class="add-button">+ Toevoegen</a>
+        <a href="medewerkers_toevoegen.php" class="add-button">+ Toevoegen</a>
     </div>
     <input type="text" id="zoekveld" placeholder="Zoek naar naam, project, omschrijving..." onkeyup="zoekInTabel()" style="width: 90%; margin: 10px 5%; padding: 8px; font-size: 16px; border-radius: 5px;">
 
@@ -172,7 +172,6 @@ $result = $conn->query($sql);
             <thead>
                 <tr>
                     <th>Naam</th>
-                    <th>Tussenvoegsel</th>
                     <th>Geboortedatum</th>
                     <th>Functie</th>
                     <th>Werkmail</th>
@@ -184,7 +183,6 @@ $result = $conn->query($sql);
             <?php while($row = $result->fetch_assoc()): ?>
                 <tr>
                     <td><?= htmlspecialchars($row["naam"]) ?></td>
-                    <td><?= htmlspecialchars($row["tussenvoegsel"]) ?></td>
                     <td><?= htmlspecialchars($row["geboortedatum"]) ?></td>
                     <td><?= htmlspecialchars($row["functie"]) ?></td>
                     <td><?= htmlspecialchars($row["werkmail"]) ?></td>

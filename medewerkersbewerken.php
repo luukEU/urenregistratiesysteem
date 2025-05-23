@@ -17,18 +17,17 @@ $id = intval($_GET['id']);
 // Als formulier verzonden is
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $naam = $_POST['naam'];
-    $tussenvoegsel = $_POST['tussenvoegsel'];
     $geboortedatum = $_POST['geboortedatum'];
     $functie = $_POST['functie'];
     $werkmail = $_POST['werkmail'];
     $kantoorruimte = $_POST['kantoorruimte'];
 
-    $sql = "UPDATE medewerkers SET naam=?, tussenvoegsel=?, geboortedatum=?, functie=?, werkmail=?, kantoorruimte=? WHERE id=?";
+    $sql = "UPDATE medewerkers SET naam=?, geboortedatum=?, functie=?, werkmail=?, kantoorruimte=? WHERE id=?";
     $stmt = $conn->prepare($sql);
     if (!$stmt) {
         die("Fout bij voorbereiden van de update query: " . $conn->error);
     }
-    $stmt->bind_param("ssssssi", $naam, $tussenvoegsel, $geboortedatum, $functie, $werkmail, $kantoorruimte, $id);
+    $stmt->bind_param("sssssi", $naam,  $geboortedatum, $functie, $werkmail, $kantoorruimte, $id);
 
     if ($stmt->execute()) {
         header("Location: medewerkersinfo.php");
@@ -57,7 +56,6 @@ if (method_exists($stmt, 'get_result')) {
     if ($stmt->fetch()) {
         $result = [
             'naam' => $naam,
-            'tussenvoegsel' => $tussenvoegsel,
             'geboortedatum' => $geboortedatum,
             'functie' => $functie,
             'werkmail' => $werkmail,
@@ -91,9 +89,6 @@ if (!$result) {
     <form method="post" action="?id=<?= htmlspecialchars($id) ?>">
         <label>Naam:</label>
         <input type="text" name="naam" value="<?= htmlspecialchars($result['naam']) ?>" required>
-
-        <label>Tussenvoegsel:</label>
-        <input type="text" name="tussenvoegsel" value="<?= htmlspecialchars($result['tussenvoegsel']) ?>">
 
         <label>Geboortedatum:</label>
         <input type="date" name="geboortedatum" value="<?= htmlspecialchars($result['geboortedatum']) ?>" required>

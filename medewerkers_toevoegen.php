@@ -1,11 +1,23 @@
+<?php
+session_start();
 
+// Controleer of de gebruiker is ingelogd
+if (!isset($_SESSION['username']) || !isset($_SESSION['email'])) {
+    header("Location: inlog.php");
+    exit;
+}
+
+// Haal gegevens op uit de sessie
+$gebruikersnaam = htmlspecialchars($_SESSION['username']);
+$gebruikersmail = htmlspecialchars($_SESSION['email']);
+?>
 
 <!DOCTYPE html>
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Klantenformulier</title>
+    <title>Medewerkersformulier</title>
     <style>
         body {
             background: url('images/Simple chill wallpaper 1920 x 1080 - Wallpaper.jpg') no-repeat center center fixed;
@@ -26,10 +38,10 @@
             position: fixed;
             top: 0;
             left: 0;
-            z-index: 1000; /* Ensures navbar is always on top */
+            z-index: 1000;
             display: flex;
-            justify-content: space-between; /* Zorgt ervoor dat alles netjes uitgelijnd is */
-            align-items: center; /* Zorgt ervoor dat het logo en de tekst goed uitgelijnd zijn */
+            justify-content: space-between;
+            align-items: center;
         }
         .navbar a {
             color: white;
@@ -42,7 +54,7 @@
             background: #444;
         }
         .navbar img {
-            height: 40px; /* De grootte van het logo kleiner maken */
+            height: 40px;
             margin-right: 10px;
         }
         .container {
@@ -102,7 +114,6 @@
             background: #218838;
         }
 
-        /* Responsive design for small screens */
         @media (max-width: 600px) {
             .navbar {
                 text-align: center;
@@ -136,21 +147,17 @@
 <body>
     <div class="navbar">
         <a href="hoofdpagina.php">⬅ Terug naar Home</a>
-        <a href="klanteninfo.php">
             <img src="images/devopslogo.png" alt="Home" class="home-logo">
         </a>
     </div>
 
     <div class="container">
         <h2>Medewerkers formulier</h2>
-        <form action="medewerkersinfo.php" method="POST">
+        <form action="medewerkers.php" method="POST">
             <input type="hidden" name="form_type" value="medewerkers">
-            
-            <label for="naam">Naam:</label>
-            <input type="text" id="naam" name="naam" placeholder="Voor- en achternaam" required>
 
-            <label for="tussenvoegsel">Tussenvoegsel:</label>
-            <input type="text" id="tussenvoegsel" name="tussenvoegsel" placeholder="Bijv. van, de, der">
+            <label for="naam">Naam:</label>
+            <input type="text" id="naam" name="naam" value="<?= $gebruikersnaam ?>" readonly required>
 
             <label for="geboortedatum">Geboortedatum:</label>
             <input type="date" id="geboortedatum" name="geboortedatum" required>
@@ -159,7 +166,7 @@
             <input type="text" id="functie" name="functie" placeholder="Functie binnen het bedrijf" required>
 
             <label for="werkmail">Werkmail:</label>
-            <input type="email" id="werkmail" name="werkmail" placeholder="Werkmail" required>
+            <input type="email" id="werkmail" name="werkmail" value="<?= $gebruikersmail ?>" readonly required>
 
             <label for="kantoorruimte">Kantoorruimte:</label>
             <input type="text" id="kantoorruimte" name="kantoorruimte" placeholder="Bijv. Kamer 202" required>

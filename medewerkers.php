@@ -13,15 +13,14 @@ if ($conn->connect_error) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Verkrijg de waarden uit het formulier
     $naam = $_POST['naam'];
-    $tussenvoegsel = $_POST['tussenvoegsel'];
     $geboortedatum = $_POST['geboortedatum'];
     $functie = $_POST['functie'];
     $werkmail = $_POST['werkmail'];
     $kantoorruimte = $_POST['kantoorruimte'];
 
     // SQL query om gegevens in de medewerkers tabel in te voegen
-    $sql = "INSERT INTO medewerkers (naam, tussenvoegsel, geboortedatum, functie, werkmail, kantoorruimte)
-            VALUES ('$naam', '$tussenvoegsel', '$geboortedatum', '$functie', '$werkmail', '$kantoorruimte')";
+    $sql = "INSERT INTO medewerkers (naam, geboortedatum, functie, werkmail, kantoorruimte)
+            VALUES ('$naam',  '$geboortedatum', '$functie', '$werkmail', '$kantoorruimte')";
 
     // Voer de query uit en controleer of de invoer succesvol was
     if ($conn->query($sql) === TRUE) {

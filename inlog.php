@@ -28,6 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['gebruiker_id'] = $gebruiker['id'];
             $_SESSION['username'] = $gebruiker['username'];
             $_SESSION['rol'] = strtolower($gebruiker['role_name']); // 'medewerker' of 'afdelingshoofd'
+            $_SESSION['email'] = $gebruiker['email'];
 
             header("Location: hoofdpagina.php");
             exit;
