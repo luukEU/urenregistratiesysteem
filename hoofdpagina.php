@@ -95,10 +95,12 @@ $rol = $_SESSION['rol']; // 'medewerker', 'afdelingshoofd' of 'klant'
                 <button class="nav-button" onclick="location.href='medewerkersinfo.php'">Medewerkers</button>
                 <button class="nav-button" onclick="location.href='aanvrageninfo.php'">Aanvragen</button>
                 <button class="nav-button" onclick="location.href='werkzaamhedeninfo.php'">Werkzaamheden</button>
+                <button class="nav-button" onclick="location.href='holidays_overview.php'">Feestdagen</button>
 
             <?php elseif ($rol === 'medewerker'): ?>
                 <button class="nav-button" onclick="location.href='werkzaamhedeninfo.php'">Werkzaamheden</button>
                 <button class="nav-button" onclick="location.href='medewerkersinfo.php'">Medewerkers</button>
+                <button class="nav-button" onclick="location.href='holidays_overview.php'">Feestdagen</button>
 
             <?php elseif ($rol === 'klant'): ?>
                 <button class="nav-button" onclick="location.href='klanteninfo.php'">Klanten</button>

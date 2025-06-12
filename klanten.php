@@ -8,7 +8,6 @@ try {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Formulierwaarden ophalen en sanitizen
         $naam = trim($_POST["naam"]);
-        $tussenvoegsel = trim($_POST["tussenvoegsel"]);
         $bedrijf = trim($_POST["bedrijf"]);
         $functie = trim($_POST["functie"]);
         $telefoon = trim($_POST["telefoon"]);
@@ -17,12 +16,11 @@ try {
         $bericht = trim($_POST["bericht"]);
 
         // SQL-query voorbereiden en uitvoeren
-        $sql = "INSERT INTO klanten (naam, tussenvoegsel, bedrijf, functie, telefoon, adres, email, bericht) 
-                VALUES (:naam, :tussenvoegsel, :bedrijf, :functie, :telefoon, :adres, :email, :bericht)";
+        $sql = "INSERT INTO klanten (naam, bedrijf, functie, telefoon, adres, email, bericht) 
+                VALUES (:naam,  :bedrijf, :functie, :telefoon, :adres, :email, :bericht)";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
             ":naam" => $naam,
-            ":tussenvoegsel" => $tussenvoegsel,
             ":bedrijf" => $bedrijf,
             ":functie" => $functie,
             ":telefoon" => $telefoon,

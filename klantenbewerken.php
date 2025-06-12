@@ -17,7 +17,6 @@ $id = intval($_GET['id']);
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Gegevens uit formulier ophalen
     $naam = $_POST['naam'];
-    $tussenvoegsel = $_POST['tussenvoegsel'];
     $bedrijf = $_POST['bedrijf'];
     $functie = $_POST['functie'];
     $telefoon = $_POST['telefoon'];
@@ -26,9 +25,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $bericht = $_POST['bericht'];
 
     // SQL-query voorbereiden voor UPDATE
-    $sql = "UPDATE klanten SET naam=?, tussenvoegsel=?, bedrijf=?, functie=?, telefoon=?, adres=?, email=?, bericht=? WHERE id=?";
+    $sql = "UPDATE klanten SET naam=?, bedrijf=?, functie=?, telefoon=?, adres=?, email=?, bericht=? WHERE id=?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssssssi", $naam, $tussenvoegsel, $bedrijf, $functie, $telefoon, $adres, $email, $bericht, $id);
+    $stmt->bind_param("sssssssi", $naam, $bedrijf, $functie, $telefoon, $adres, $email, $bericht, $id);
 
     if ($stmt->execute()) {
         header("Location: klanteninfo.php"); // Pas aan naar jouw overzichtspagina
@@ -60,7 +59,6 @@ $stmt->close();
     <h2>Klantgegevens Bewerken</h2>
     <form method="post" action="?id=<?= $id ?>">
         Naam: <input type="text" name="naam" value="<?= htmlspecialchars($result['naam'] ?? '') ?>"><br>
-        Tussenvoegsel: <input type="text" name="tussenvoegsel" value="<?= htmlspecialchars($result['tussenvoegsel'] ?? '') ?>"><br>
         Bedrijf: <input type="text" name="bedrijf" value="<?= htmlspecialchars($result['bedrijf'] ?? '') ?>"><br>
         Functie: <input type="text" name="functie" value="<?= htmlspecialchars($result['functie'] ?? '') ?>"><br>
         Telefoon: <input type="text" name="telefoon" value="<?= htmlspecialchars($result['telefoon'] ?? '') ?>"><br>

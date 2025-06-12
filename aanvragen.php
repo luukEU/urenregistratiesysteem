@@ -1,36 +1,37 @@
 <?php
+session_start();
 require 'config.php';
 
-// Maak verbinding met de database
+if (!isset($_SESSION['gebruiker_id'])) {
+    die("Niet ingelogd.");
+}
+
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Controleer de verbinding
 if ($conn->connect_error) {
     die("Verbinding mislukt: " . $conn->connect_error);
 }
 
-// Controleer of het formulier is ingediend
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Haal de formulierdata op
     $klantnaam = $_POST['klantnaam'];
     $titel = $_POST['titel'];
     $omschrijving = $_POST['omschrijving'];
     $aanvraagdatum = $_POST['aanvraagdatum'];
     $kennis = $_POST['kennis'];
+    $gebruiker_id = $_SESSION['gebruiker_id'];
 
-    // Bereid de SQL-query voor om gegevens in de database in te voegen
-    $sql = "INSERT INTO aanvragen (klantnaam, titel, omschrijving, aanvraagdatum, kennis) 
-            VALUES ('$klantnaam', '$titel', '$omschrijving', '$aanvraagdatum', '$kennis')";
+    $sql = "INSERT INTO aanvragen (klantnaam, titel, omschrijving, aanvraagdatum, kennis, gebruiker_id) 
+            VALUES (?, ?, ?, ?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("sssssi", $klantnaam, $titel, $omschrijving, $aanvraagdatum, $kennis, $gebruiker_id);
 
-    // Voer de query uit en controleer op fouten
-    if ($conn->query($sql) === TRUE) {
-        echo "Aanvraag succesvol ingediend!";
-        echo "<script>alert('Gegevens succesvol opgeslagen!'); window.location.href = 'aanvrageninfo.php';</script>";
+    if ($stmt->execute()) {
+        echo "<script>alert('Aanvraag succesvol ingediend!'); window.location.href = 'aanvrageninfo.php';</script>";
     } else {
-        echo "Fout bij het indienen van de aanvraag: " . $conn->error;
+        echo "Fout bij indienen: " . $stmt->error;
     }
 
-    // Sluit de verbinding
+    $stmt->close();
     $conn->close();
 } else {
     echo "Geen formuliergegevens ontvangen.";

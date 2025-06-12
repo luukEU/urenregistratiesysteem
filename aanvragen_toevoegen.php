@@ -13,13 +13,11 @@ $username = $_SESSION['username'];
 
 // Verwerking formulier bij POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $klantnaam = $_POST['klantnaam'];
+    $klantnaam = $username; // automatisch ingevuld vanuit sessie
     $titel = $_POST['titel'];
     $omschrijving = $_POST['omschrijving'];
     $aanvraagdatum = $_POST['aanvraagdatum'];
     $kennis = $_POST['kennis'];
-
-    include 'config.php';
 
     $conn = new mysqli($servername, $username, $password, $dbname);
     if ($conn->connect_error) {
@@ -47,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Klantenformulier</title>
+    <title>Aanvraagformulier</title>
     <style>
         body {
             background: url('images/Simple chill wallpaper 1920 x 1080 - Wallpaper.jpg') no-repeat center center fixed;
@@ -75,6 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             justify-content: space-between;
             align-items: center;
         }
+
         .navbar a {
             color: white;
             text-decoration: none;
@@ -82,13 +81,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             font-size: 16px;
             border-radius: 5px;
         }
+
         .navbar a:hover {
             background: #444;
         }
+
         .navbar img {
             height: 40px;
             width: auto;
-            margin-left: auto;
         }
 
         .container {
@@ -100,7 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             width: 90%;
             max-width: 400px;
             text-align: center;
-            margin-top: 80px;
+            margin-top: 100px;
         }
 
         h2 {
@@ -112,9 +112,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             font-weight: bold;
             display: block;
             margin-top: 10px;
-            color: white;
             text-align: left;
         }
+
         input, textarea {
             width: 100%;
             padding: 10px;
@@ -122,17 +122,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             border: none;
             border-radius: 6px;
             font-size: 14px;
-            transition: 0.3s ease-in-out;
             background: #333;
             color: white;
         }
+
         input:focus, textarea:focus {
             outline: none;
             background: #444;
         }
+
         textarea {
             resize: none;
             height: 100px;
+        }
+
+        input[readonly] {
+            background: #444;
+            color: #ccc;
         }
 
         button {
@@ -146,53 +152,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             font-size: 16px;
             font-weight: bold;
             margin-top: 15px;
-            transition: 0.3s ease-in-out;
         }
+
         button:hover {
             background: #218838;
         }
 
         @media (max-width: 768px) {
             .container {
-                width: 100%;
-                max-width: 90%;
+                width: 95%;
                 padding: 20px;
             }
-            body {
-                padding: 10px;
-            }
-        }
 
-        @media (max-width: 480px) {
             .navbar a {
                 font-size: 14px;
-                padding: 8px 15px;
-            }
-            .container {
-                width: 95%;
-                padding: 15px;
-            }
-            button {
-                font-size: 14px;
-                padding: 10px;
+                padding: 8px 12px;
             }
         }
     </style>
 </head>
-<script src="zoekfunctie.js"></script>
 <body>
     <div class="navbar">
         <a href="hoofdpagina.php">⬅ Terug naar Home</a>
         <a href="klanteninfo.php">
-            <img src="images/devopslogo.png" alt="Home" class="home-logo">
+            <img src="images/devopslogo.png" alt="Home">
         </a>
     </div>
 
     <div class="container">
-        <h2>Lopende Aanvragen</h2>
+        <h2>Nieuwe Aanvraag</h2>
         <form method="POST">
             <label for="klantnaam">Klantnaam:</label>
-            <input type="text" id="klantnaam" name="klantnaam" placeholder="Naam van de klant" required>
+            <input type="text" id="klantnaam" name="klantnaam" value="<?php echo htmlspecialchars($username); ?>" readonly>
 
             <label for="titel">Titel van aanvraag:</label>
             <input type="text" id="titel" name="titel" placeholder="Titel van de aanvraag" required>

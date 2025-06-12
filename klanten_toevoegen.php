@@ -1,9 +1,17 @@
+<?php
+session_start();
+if (!isset($_SESSION['username']) || !isset($_SESSION['email'])) {
+    header("Location: inlog.php");
+    exit;
+}
+$username = htmlspecialchars($_SESSION['username']);
+$email = htmlspecialchars($_SESSION['email']);
+?>
 <!DOCTYPE html>
 <html lang="nl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>Klantenformulier</title>
   <style>
     body {
@@ -27,7 +35,7 @@
       box-sizing: border-box;
       display: flex;
       align-items: center;
-      justify-content: space-between;  /* Verander dit naar space-between */
+      justify-content: space-between;
     }
 
     .navbar a {
@@ -69,6 +77,7 @@
       max-width: 350px;
       text-align: center;
       box-sizing: border-box;
+      margin-top: 80px;
     }
 
     h2 {
@@ -105,7 +114,12 @@
 
     textarea {
       resize: none;
-      height: 80px; 
+      height: 80px;
+    }
+
+    input[readonly] {
+      background: #555;
+      cursor: not-allowed;
     }
 
     button {
@@ -114,9 +128,9 @@
       padding: 10px;
       border: none;
       cursor: pointer;
-      width: 100%; 
+      width: 100%;
       border-radius: 6px;
-      font-size: 14px; 
+      font-size: 14px;
       font-weight: bold;
       margin-top: 12px;
     }
@@ -125,12 +139,12 @@
       background: #218838;
     }
 
-    /* Extra media queries voor responsiviteit */
     @media (max-width: 600px) {
       .container {
         width: 90%;
         padding: 15px;
       }
+
       .navbar {
         padding: 10px;
       }
@@ -140,12 +154,15 @@
       h2 {
         font-size: 16px;
       }
+
       label {
         font-size: 12px;
       }
+
       input, textarea {
         font-size: 11px;
       }
+
       button {
         font-size: 12px;
         padding: 8px;
@@ -167,11 +184,8 @@
     <h2>Klantenformulier</h2>
     <form action="klanten.php" method="POST">
       <label for="naam">Naam:</label>
-      <input type="text" id="naam" name="naam" placeholder="Voor- en achternaam" required>
-      
-      <label for="tussenvoegsel">Tussenvoegsel:</label>
-      <input type="text" id="tussenvoegsel" name="tussenvoegsel" placeholder="Bijv. van, de, der">
-      
+      <input type="text" id="naam" name="naam" value="<?php echo $username; ?>" readonly>
+
       <label for="bedrijf">Bedrijfsnaam:</label>
       <input type="text" id="bedrijf" name="bedrijf" placeholder="Bedrijfsnaam" required>
 
@@ -185,11 +199,11 @@
       <input type="text" id="adres" name="adres" placeholder="Straat, huisnummer, postcode, stad" required>
 
       <label for="email">E-mail:</label>
-      <input type="email" id="email" name="email" placeholder="E-mailadres" required>
+      <input type="email" id="email" name="email" value="<?php echo $email; ?>" readonly>
 
       <label for="bericht">Bericht:</label>
       <textarea id="bericht" name="bericht" placeholder="Schrijf hier je bericht..." required></textarea>
-      
+
       <button type="submit">Verzenden</button>
     </form>
   </div>

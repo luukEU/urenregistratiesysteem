@@ -217,7 +217,7 @@ try {
 <div class="container">
     <h1>Klanten Overzicht</h1>
     <div class="add-btn-container">
-        <a href="klanten.html"><button class="add-btn">Toevoegen</button></a>
+        <a href="klanten_toevoegen.php"><button class="add-btn">Toevoegen</button></a>
     </div>
     <input type="text" id="zoekveld" placeholder="Zoek naar naam, project, omschrijving..." onkeyup="zoekInTabel()" style="width: 90%; margin: 10px 5%; padding: 8px; font-size: 16px; border-radius: 5px;">
 
@@ -229,7 +229,6 @@ try {
         <thead>
             <tr>
                 <th>Naam</th>
-                <th>Tussenvoegsel</th>
                 <th>Bedrijf</th>
                 <th>Functie</th>
                 <th>Telefoon</th>
@@ -247,7 +246,6 @@ try {
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                     echo "<tr>
                             <td>" . htmlspecialchars($row['naam']) . "</td>
-                            <td>" . htmlspecialchars($row['tussenvoegsel']) . "</td>
                             <td>" . htmlspecialchars($row['bedrijf']) . "</td>
                             <td>" . htmlspecialchars($row['functie']) . "</td>
                             <td>" . htmlspecialchars($row['telefoon']) . "</td>
