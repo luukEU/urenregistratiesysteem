@@ -1,28 +1,23 @@
 <?php
-session_start();
 require 'config.php';
 
-if (!isset($_SESSION['gebruiker_id'])) {
-    die("Je moet ingelogd zijn om deze pagina te bekijken.");
-}
-
 $conn = new mysqli($servername, $username, $password, $dbname);
+
+// Controleer de verbinding
 if ($conn->connect_error) {
     die("Verbinding mislukt: " . $conn->connect_error);
 }
 
-$gebruiker_id = $_SESSION['gebruiker_id'];
-$sql = "SELECT * FROM aanvragen WHERE gebruiker_id = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $gebruiker_id);
-$stmt->execute();
-$result = $stmt->get_result();
+// Haal aanvragen op
+$sql = "SELECT * FROM aanvragen";
+$result = $conn->query($sql);
 ?>
 
 <!DOCTYPE html>
 <html lang="nl">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Aanvragen Overzicht</title>
   <style>
     body {
@@ -61,6 +56,19 @@ $result = $stmt->get_result();
       height: 40px;
       width: auto;
       margin-left: auto;
+    }
+    .pdf-button {
+     background-color: #007bff;
+      color: white;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .pdf-button:hover {
+      background-color: #0056b3;
     }
     .container {
       background: rgba(34, 34, 34, 0.9);
@@ -111,7 +119,7 @@ $result = $stmt->get_result();
       background: #218838;
     }
     .button2 {
-      background: #28a745;
+    background: #28a745;
       color: white;
       padding: 5px 10px;
       font-size: 16px;
@@ -121,37 +129,29 @@ $result = $stmt->get_result();
       transition: background 0.3s;
     }
     .button2:hover {
-      background: #218838;
-    }
-    input[type="text"] {
-      width: 90%;
-      margin: 10px 5%;
-      padding: 8px;
-      font-size: 16px;
-      border-radius: 5px;
-      border: none;
+    background: #218838;
     }
   </style>
-  <script src="zoekfunctie.js"></script>
 </head>
+<script src="zoekfunctie.js"></script>
 <body>
   <div class="navbar">
     <a href="hoofdpagina.php">⬅ Terug naar Home</a>
-    <img src="images/devopslogo.png" alt="Logo">
+    <img src="images/devopslogo.png" alt="Logo"> <!-- Logo toegevoegd aan de navigatiebalk -->
     <button onclick="window.print()">PDF omzetten</button>
   </div>
 
   <div class="container">
-    <h2>Mijn Aanvragen</h2>
+    <h2>Aanvragen Overzicht</h2>
 
     <div class="btn-add">
       <a href="aanvragen_toevoegen.php"><button>Toevoegen</button></a>
     </div>
 
-    <input type="text" id="zoekveld" placeholder="Zoek naar naam, project, omschrijving..." onkeyup="zoekInTabel()">
+    <input type="text" id="zoekveld" placeholder="Zoek naar naam, project, omschrijving..." onkeyup="zoekInTabel()" style="width: 90%; margin: 10px 5%; padding: 8px; font-size: 16px; border-radius: 5px;">
 
     <div style="overflow-x:auto;">
-      <table id="aanvragenTabel">
+      <table>
         <thead>
           <tr>
             <th>Klantnaam</th>
@@ -163,24 +163,26 @@ $result = $stmt->get_result();
           </tr>
         </thead>
         <tbody>
-          <?php if ($result->num_rows > 0): ?>
-            <?php while ($row = $result->fetch_assoc()): ?>
-              <tr>
-                <td><?= htmlspecialchars($row['klantnaam']) ?></td>
-                <td><?= htmlspecialchars($row['titel']) ?></td>
-                <td><?= htmlspecialchars($row['omschrijving']) ?></td>
-                <td><?= htmlspecialchars($row['aanvraagdatum']) ?></td>
-                <td><?= htmlspecialchars($row['kennis']) ?></td>
-                <td>
-                  <a href='aanvraag_bewerken.php?id=<?= $row['id'] ?>'>
-                    <button class='button2'>Bewerk</button>
-                  </a>
-                </td>
-              </tr>
-            <?php endwhile; ?>
-          <?php else: ?>
-            <tr><td colspan='6'>Geen aanvragen gevonden</td></tr>
-          <?php endif; ?>
+          <?php
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    echo "<tr>
+                            <td>" . htmlspecialchars($row['klantnaam']) . "</td>
+                            <td>" . htmlspecialchars($row['titel']) . "</td>
+                            <td>" . htmlspecialchars($row['omschrijving']) . "</td>
+                            <td>" . htmlspecialchars($row['aanvraagdatum']) . "</td>
+                            <td>" . htmlspecialchars($row['kennis']) . "</td> 
+                            <td class='actions-cell'>
+                              <a href='aanvragenbewerken.php?id=" . $row['id'] . "'>
+                                <button class='button2'>Bewerk</button>
+                              </a>
+                            </td>
+                          </tr>";
+                }
+            } else {
+                echo "<tr><td colspan='6'>Geen aanvragen gevonden</td></tr>";
+            }
+          ?>
         </tbody>
       </table>
     </div>
@@ -189,6 +191,5 @@ $result = $stmt->get_result();
 </html>
 
 <?php
-$stmt->close();
 $conn->close();
 ?>

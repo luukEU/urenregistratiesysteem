@@ -1,44 +1,12 @@
 <?php
-require 'config.php';
 session_start();
-
-// Controleer of gebruiker is ingelogd
 if (!isset($_SESSION['gebruiker_id']) || !isset($_SESSION['username'])) {
     header("Location: inlog.php");
     exit;
 }
-
-$gebruiker_id = $_SESSION['gebruiker_id'];
 $username = $_SESSION['username'];
-
-// Verwerking formulier bij POST
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $klantnaam = $username; // automatisch ingevuld vanuit sessie
-    $titel = $_POST['titel'];
-    $omschrijving = $_POST['omschrijving'];
-    $aanvraagdatum = $_POST['aanvraagdatum'];
-    $kennis = $_POST['kennis'];
-
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    if ($conn->connect_error) {
-        die("Verbinding mislukt: " . $conn->connect_error);
-    }
-
-    $sql = "INSERT INTO aanvragen (klantnaam, titel, omschrijving, aanvraagdatum, kennis) VALUES (?, ?, ?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssss", $klantnaam, $titel, $omschrijving, $aanvraagdatum, $kennis);
-
-    if ($stmt->execute()) {
-        header("Location: aanvrageninfo.php");
-        exit;
-    } else {
-        echo "Fout bij opslaan: " . $stmt->error;
-    }
-
-    $stmt->close();
-    $conn->close();
-}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="nl">
@@ -181,6 +149,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <div class="container">
         <h2>Nieuwe Aanvraag</h2>
+            <form method="POST" action="aanvragen.php">
+
         <form method="POST">
             <label for="klantnaam">Klantnaam:</label>
             <input type="text" id="klantnaam" name="klantnaam" value="<?php echo htmlspecialchars($username); ?>" readonly>
