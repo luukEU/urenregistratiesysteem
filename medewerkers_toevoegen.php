@@ -82,7 +82,7 @@ $gebruikersmail = htmlspecialchars($_SESSION['email']);
             margin-top: 10px;
             color: white;
         }
-        input {
+        input, select {
             width: 100%;
             padding: 10px;
             margin-top: 5px;
@@ -93,7 +93,7 @@ $gebruikersmail = htmlspecialchars($_SESSION['email']);
             background: #333;
             color: white;
         }
-        input:focus {
+        input:focus, select:focus {
             outline: none;
             background: #444;
         }
@@ -134,7 +134,7 @@ $gebruikersmail = htmlspecialchars($_SESSION['email']);
             label {
                 font-size: 14px;
             }
-            input {
+            input, select {
                 font-size: 14px;
             }
             button {
@@ -150,6 +150,28 @@ $gebruikersmail = htmlspecialchars($_SESSION['email']);
             <img src="images/devopslogo.png" alt="Home" class="home-logo">
         </a>
     </div>
+<script>
+document.getElementById('klant_id').addEventListener('change', function () {
+    const klantId = this.value;
+
+    if (klantId) {
+        fetch(`get_klantgegevens.php?klant_id=${klantId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data) {
+                    document.getElementById('tussenvoegsel').value = data.tussenvoegsel || '';
+                    document.getElementById('geboortedatum').value = data.geboortedatum || '';
+                    document.getElementById('functie').value = data.functie || '';
+                    document.getElementById('werkmail').value = data.werkmail || '';
+                    document.getElementById('kantoorruimte').value = data.kantoorruimte || '';
+                }
+            })
+            .catch(error => {
+                console.error('Fout bij ophalen van gegevens:', error);
+            });
+    }
+});
+</script>
 
     <div class="container">
         <h2>Medewerkers formulier</h2>
@@ -173,6 +195,11 @@ $gebruikersmail = htmlspecialchars($_SESSION['email']);
 
             <button type="submit">Verzenden</button>
         </form>
+
+        <hr style="margin: 20px 0; border-color: #666;">
+
+        
     </div>
 </body>
 </html>
+<?php $conn->close(); ?>

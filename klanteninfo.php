@@ -16,7 +16,6 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Klanten Overzicht</title>
     <style>
-        /* Algemene stijlen */
         body {
             font-family: Arial, sans-serif;
             background-image: url('images/Simple chill wallpaper 1920 x 1080 - Wallpaper.jpg');
@@ -42,9 +41,9 @@ try {
         }
 
         .navbar img {
-            height: 40px;  /* Pas de grootte van het logo aan */
+            height: 40px;
             width: auto;
-            margin-left: auto; /* Zorgt ervoor dat het logo rechts komt */
+            margin-left: auto;
         }
 
         .navbar a {
@@ -75,7 +74,7 @@ try {
             padding: 20px;
             background-color: rgba(0, 0, 0, 0.6);
             border-radius: 10px;
-            margin-top: 100px; /* ruimte boven de container vanwege de fixed navbar */
+            margin-top: 100px;
         }
 
         h1 {
@@ -100,21 +99,6 @@ try {
             color: white;
         }
 
-        button {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 20px;
-            font-size: 16px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        /* Knop 'Toevoegen' */
         .add-btn-container {
             display: flex;
             justify-content: center;
@@ -123,7 +107,7 @@ try {
 
         .add-btn {
             padding: 10px 20px;
-            background-color: #5cb85c; /* Groene knop */
+            background-color: #5cb85c;
             color: white;
             border-radius: 5px;
             font-size: 16px;
@@ -134,7 +118,21 @@ try {
             background-color: #4cae4c;
         }
 
-        /* Responsieve stijlen */
+        .button2 {
+            background-color: #28a745;
+            color: white;
+            padding: 5px 10px;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .button2:hover {
+            background: #218838;
+        }
+
         @media (max-width: 768px) {
             .container {
                 width: 95%;
@@ -159,13 +157,9 @@ try {
                 padding: 8px;
             }
 
-            button {
+            button, .add-btn {
                 font-size: 14px;
                 padding: 8px 16px;
-            }
-
-            .add-btn {
-                font-size: 14px;
             }
         }
 
@@ -183,27 +177,22 @@ try {
                 padding: 6px;
             }
 
-            .add-btn {
+            .add-btn, .button2 {
                 font-size: 12px;
-                padding: 8px 16px;
-            }
-
-            button {
-                font-size: 12px;
-                padding: 8px 16px;
+                padding: 6px 10px;
             }
         }
-        .logo {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    width: 50px;  /* Pas de grootte aan */
-    height: auto;  /* Zorg dat de verhoudingen behouden blijven */
-}
 
+        .logo {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 50px;
+            height: auto;
+        }
     </style>
 </head>
-<script src="zoekfunctie.js"></script> <!-- Voeg het JavaScript-bestand hier toe -->
+<script src="zoekfunctie.js"></script>
 
 <body>
 
@@ -219,9 +208,8 @@ try {
     <div class="add-btn-container">
         <a href="klanten_toevoegen.php"><button class="add-btn">Toevoegen</button></a>
     </div>
+
     <input type="text" id="zoekveld" placeholder="Zoek naar naam, project, omschrijving..." onkeyup="zoekInTabel()" style="width: 90%; margin: 10px 5%; padding: 8px; font-size: 16px; border-radius: 5px;">
-
-
 
     <div style="overflow-x:auto;">
 
@@ -261,9 +249,9 @@ try {
             } catch (PDOException $e) {
                 echo "<tr><td colspan='8'>Er is een fout opgetreden: " . $e->getMessage() . "</td></tr>";
             }
-            ?>
-        </tbody>
-    </table>
+                ?>
+            </tbody>
+        </table>
     </div>
 </div>
 
@@ -271,5 +259,5 @@ try {
 </html>
 
 <?php
-$pdo = null; // Sluit de databaseverbinding
+$pdo = null;
 ?>
