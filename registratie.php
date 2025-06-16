@@ -41,114 +41,144 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Registratie</title>
     <style>
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #333;
+        :root {
+            --primary-color: #1a73e8;
+            --card-bg: #fff;
+            --text-color: #333;
+            --input-border: #ccc;
+            --input-focus-border: #1a73e8;
+            --button-bg: #1a73e8;
+            --button-hover-bg: #155ab6;
+            --error-color: #e03e3e;
+            --success-color: #3ea641;
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         body {
             margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            background-image: url('images/5c521ed49115f4e174673eaf7c6986ce.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+            color: var(--text-color);
         }
 
-        .login-container {
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 30px 40px;
-            border-radius: 12px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-            width: 320px;
+        .card {
+            background-color: var(--card-bg);
+            padding: 40px 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            width: 360px;
             text-align: center;
         }
 
-        .login-container h2 {
-            margin-top: 0;
+        .card h2 {
+            margin: 0 0 25px 0;
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 24px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        select {
+            width: 100%;
+            padding: 12px 14px;
             margin-bottom: 20px;
-            color: #333;
-        }
-
-        .login-container input[type="text"],
-        .login-container input[type="password"],
-        .login-container input[type="email"],
-        .login-container select {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0 15px 0;
-            border: 1px solid #ccc;
+            border: 1px solid var(--input-border);
             border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
         }
 
-        .login-container input[type="submit"] {
-            background-color: #4CAF50;
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="password"]:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--input-focus-border);
+            box-shadow: 0 0 5px var(--input-focus-border);
+        }
+
+        button, input[type="submit"] {
+            background-color: var(--button-bg);
             color: white;
-            padding: 10px;
-            width: 100%;
             border: none;
             border-radius: 6px;
+            padding: 14px;
+            font-size: 16px;
             cursor: pointer;
+            width: 100%;
             transition: background-color 0.3s ease;
+            font-weight: 600;
         }
 
-        .login-container input[type="submit"]:hover {
-            background-color: #45a049;
+        button:hover, input[type="submit"]:hover {
+            background-color: var(--button-hover-bg);
         }
 
-        .login-container .error {
-            color: red;
-            margin-bottom: 10px;
+        .error {
+            color: var(--error-color);
+            margin-bottom: 15px;
+            font-weight: 600;
         }
 
-        .login-container .success {
-            color: green;
-            margin-bottom: 10px;
+        .success {
+            color: var(--success-color);
+            margin-bottom: 15px;
+            font-weight: 600;
         }
 
-        .login-container p a {
-            color: #007BFF;
+        p {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        p a {
+            color: var(--primary-color);
             text-decoration: none;
+            font-weight: 600;
         }
 
-        .login-container p a:hover {
+        p a:hover {
             text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <div class="login-container">
+
+    <div class="card">
         <h2>Registreren</h2>
 
         <?php if ($error): ?>
-            <p class="error"><?php echo $error; ?></p>
+            <div class="error"><?= htmlspecialchars($error) ?></div>
         <?php elseif ($success): ?>
-            <p class="success"><?php echo $success; ?></p>
+            <div class="success"><?= htmlspecialchars($success) ?></div>
         <?php endif; ?>
 
         <form method="POST" action="">
-            <input type="text" name="username" placeholder="Gebruikersnaam" required><br>
-            <input type="email" name="email" placeholder="E-mail" required><br>
-            <input type="password" name="password" placeholder="Wachtwoord" required><br>
-            <select name="role_id">
+            <input type="text" name="username" placeholder="Gebruikersnaam" required />
+            <input type="email" name="email" placeholder="E-mail" required />
+            <input type="password" name="password" placeholder="Wachtwoord" required />
+            <select name="role_id" required>
                 <option value="1">Medewerker</option>
                 <option value="2">Afdelingshoofd</option>
                 <option value="3">Klant</option>
-
-            </select><br>
-            <input type="submit" value="Account aanmaken">
+            </select>
+            <input type="submit" value="Account aanmaken" />
         </form>
 
         <p>Heb je al een account? <a href="inlog.php">Inloggen</a></p>
     </div>
+
 </body>
 </html>
