@@ -16,137 +16,232 @@ $result = $conn->query($sql);
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Medewerkers Overzicht</title>
     <style>
+        :root {
+            --primary-color: #1a73e8;
+            --sidebar-bg: #f5f7fa;
+            --card-bg: #ffffff;
+            --text-color: #333;
+            --border-color: #ddd;
+            --hover-bg: #e0e7ff;
+            --button-bg: #1a73e8;
+            --button-hover-bg: #155ab6;
+            --button-success-bg: #1a73e8;
+            --button-success-hover-bg: #155ab6;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            background: url('images/Simple chill wallpaper 1920 x 1080 - Wallpaper.jpg') no-repeat center center fixed;
-            background-size: cover;
-            font-family: Arial, sans-serif;
-            color: white;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--sidebar-bg);
+            color: var(--text-color);
+            min-height: 100vh;
         }
 
         .navbar {
             width: 100%;
-            background: #222;
-            padding: 15px;
-            position: fixed;
-            top: 0;
-            left: 0;
+            background-color: var(--card-bg);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 15px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: sticky;
+            top: 0;
             z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
         }
 
         .navbar a {
-            color: white;
+            color: var(--primary-color);
             text-decoration: none;
-            padding: 10px 20px;
+            font-weight: 600;
             font-size: 16px;
-            border-radius: 5px;
-            background: #222;
-            cursor: pointer;
+            transition: color 0.2s ease;
         }
 
         .navbar a:hover {
-            background: #444;
+            color: var(--button-hover-bg);
+            text-decoration: underline;
         }
 
         .navbar img {
             height: 40px;
             width: auto;
-            margin-left: auto;
         }
 
-        .pdf-button {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 20px;
-            font-size: 16px;
-            border-radius: 5px;
+        .navbar button {
+            background-color: var(--button-bg);
             border: none;
+            color: white;
+            padding: 10px 18px;
+            font-size: 16px;
+            border-radius: 6px;
             cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-weight: 600;
         }
 
-        .pdf-button:hover {
-            background-color: #0056b3;
+        .navbar button:hover {
+            background-color: var(--button-hover-bg);
         }
 
         .container {
-            width: 80%;
-            margin: 100px auto 20px;
-            padding: 20px;
-            background-color: rgba(0, 0, 0, 0.6);
+            max-width: 1100px;
+            margin: 40px auto 60px auto;
+            background-color: var(--card-bg);
+            padding: 30px 40px;
             border-radius: 10px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
         }
 
-        .table-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
+        h1, h2 {
+            margin-top: 0;
+            margin-bottom: 30px;
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 28px;
+            text-align: center;
         }
 
-        .add-button {
-            background-color: #28a745;
+        .add-btn-container {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .add-btn {
+            background-color: var(--button-success-bg);
             color: white;
-            padding: 10px 15px;
-            font-size: 14px;
             border: none;
-            border-radius: 5px;
+            padding: 12px 26px;
+            font-size: 16px;
+            border-radius: 6px;
             cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
             text-decoration: none;
+            display: inline-block;
         }
 
-        .add-button:hover {
-            background-color: #218838;
+        .add-btn:hover {
+            background-color: var(--button-success-hover-bg);
+            text-decoration: none;
+            color: white;
+        }
+
+        #zoekveld {
+            width: 90%;
+            display: block;
+            margin: 0 auto 30px auto;
+            padding: 12px 15px;
+            font-size: 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            transition: border-color 0.3s ease;
+        }
+
+        #zoekveld:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 8px var(--primary-color);
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            background: rgba(34, 34, 34, 0.9);
-            color: white;
-            padding: 20px;
-            border-radius: 12px;
+            font-size: 16px;
         }
 
         th, td {
-            padding: 12px;
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border-color);
             text-align: left;
-            border-bottom: 1px solid #ddd;
+            vertical-align: middle;
         }
 
         th {
-            background-color: #333;
-        }
-
-        tr:nth-child(even) {
-            background-color: #444;
-        }
-
-        tr:hover {
-            background-color: #555;
-        }
-
-        .actions-cell {
-            text-align: center;
-        }
-
-        .btn {
-               background: #28a745;
+            background-color: var(--primary-color);
             color: white;
-            padding: 5px 10px;
-            font-size: 12px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
+            font-weight: 600;
         }
 
-        .btn:hover {
-            background: #218838;
+        tbody tr:hover {
+            background-color: var(--hover-bg);
+        }
+
+        /* Knoppen styling voor acties */
+        .button2 {
+            background-color: var(--button-success-bg);
+            color: white;
+            padding: 6px 14px;
+            font-size: 14px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-weight: 600;
+            display: inline-block;
+            text-align: center;
+            user-select: none;
+        }
+
+        .button2:hover {
+            background-color: var(--button-success-hover-bg);
+        }
+
+        /* Link zonder styling binnen acties */
+        .actions-cell a {
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px 20px;
+                margin: 20px auto 40px auto;
+            }
+
+            table, th, td {
+                font-size: 14px;
+            }
+
+            .add-btn, .button2 {
+                font-size: 14px;
+                padding: 10px 20px;
+            }
+
+            #zoekveld {
+                width: 95%;
+                font-size: 14px;
+                padding: 10px 12px;
+            }
+
+            .navbar {
+                padding: 10px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            table, th, td {
+                font-size: 12px;
+            }
+
+            .add-btn, .button2 {
+                font-size: 12px;
+                padding: 8px 16px;
+            }
+
+            #zoekveld {
+                font-size: 12px;
+                padding: 8px 10px;
+            }
         }
     </style>
 </head>
@@ -155,17 +250,23 @@ $result = $conn->query($sql);
 <body>
 
 <div class="navbar">
-    <a href="hoofdpagina.php">⬅ Terug naar Home</a>  <!-- Terug naar Home knop met dezelfde stijl als navbar -->
-    <img src="images/devopslogo.png" alt="Logo"> <!-- Logo toegevoegd aan de navigatiebalk -->
+    <a href="hoofdpagina.php">⬅ Terug naar Home</a>
+    <img src="images/devopslogo.png" alt="Logo" />
     <button class="pdf-button" onclick="window.print()">PDF omzetten</button>
 </div>
 
 <div class="container">
     <h2>Medewerkers Overzicht</h2>
-    <div class="table-container">
-        <a href="medewerkers_toevoegen.php" class="add-button">+ Toevoegen</a>
+    <div class="table-container" style="text-align:center; margin-bottom: 25px;">
+        <a href="medewerkers_toevoegen.php" class="add-btn">Toevoegen</a>
     </div>
-    <input type="text" id="zoekveld" placeholder="Zoek naar naam, project, omschrijving..." onkeyup="zoekInTabel()" style="width: 90%; margin: 10px 5%; padding: 8px; font-size: 16px; border-radius: 5px;">
+    <input
+        type="text"
+        id="zoekveld"
+        placeholder="Zoek naar naam, project, omschrijving..."
+        onkeyup="zoekInTabel()"
+        style="width: 90%; margin: 10px 5%; padding: 8px; font-size: 16px; border-radius: 5px;"
+    />
 
     <?php if ($result && $result->num_rows > 0): ?>
         <table>
@@ -180,18 +281,20 @@ $result = $conn->query($sql);
                 </tr>
             </thead>
             <tbody>
-            <?php while($row = $result->fetch_assoc()): ?>
-                <tr>
-                    <td><?= htmlspecialchars($row["naam"]) ?></td>
-                    <td><?= htmlspecialchars($row["geboortedatum"]) ?></td>
-                    <td><?= htmlspecialchars($row["functie"]) ?></td>
-                    <td><?= htmlspecialchars($row["werkmail"]) ?></td>
-                    <td><?= htmlspecialchars($row["kantoorruimte"]) ?></td>
-                    <td class="actions-cell">
-                        <a href="medewerkersbewerken.php?id=<?= urlencode($row['id']) ?>" class="btn">Bewerk</a>
-                    </td>
-                </tr>
-            <?php endwhile; ?>
+                <?php while ($row = $result->fetch_assoc()): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($row["naam"]) ?></td>
+                        <td><?= htmlspecialchars($row["geboortedatum"]) ?></td>
+                        <td><?= htmlspecialchars($row["functie"]) ?></td>
+                        <td><?= htmlspecialchars($row["werkmail"]) ?></td>
+                        <td><?= htmlspecialchars($row["kantoorruimte"]) ?></td>
+                        <td class="actions-cell">
+                            <a href="medewerkersbewerken.php?id=<?= urlencode($row['id']) ?>">
+                                <button class="button2" type="button">Bewerk</button>
+                            </a>
+                        </td>
+                    </tr>
+                <?php endwhile; ?>
             </tbody>
         </table>
     <?php else: ?>

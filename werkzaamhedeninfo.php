@@ -17,175 +17,254 @@ $result = $conn->query($sql);
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Werkzaamheden Overzicht</title>
-    <style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Werkzaamheden Overzicht</title>
+<style>
+        :root {
+            --primary-color: #1a73e8;
+            --sidebar-bg: #f5f7fa;
+            --card-bg: #ffffff;
+            --text-color: #333;
+            --border-color: #ddd;
+            --hover-bg: #e0e7ff;
+            --button-bg: #1a73e8;
+            --button-hover-bg: #155ab6;
+            --button-success-bg: #1a73e8;
+            --button-success-hover-bg: #155ab6;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background-image: url('images/Simple chill wallpaper 1920 x 1080 - Wallpaper.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
             margin: 0;
-            padding: 0;
-            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--sidebar-bg);
+            color: var(--text-color);
+            min-height: 100vh;
         }
 
         .navbar {
             width: 100%;
-            background: #222;
-            padding: 15px;
-            position: fixed;
-            top: 0;
-            left: 0;
+            background-color: var(--card-bg);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 15px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: sticky;
+            top: 0;
             z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
         }
 
         .navbar a {
-            color: white;
+            color: var(--primary-color);
             text-decoration: none;
-            padding: 10px 20px;
+            font-weight: 600;
             font-size: 16px;
-            border-radius: 5px;
+            transition: color 0.2s ease;
+        }
+
+        .navbar a:hover {
+            color: var(--button-hover-bg);
+            text-decoration: underline;
         }
 
         .navbar img {
-            width: 120px;
-            height: auto;
+            height: 40px;
+            width: auto;
         }
 
-        .navbar .right {
-            display: flex;
-            align-items: center;
-        }
-
-        button {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 20px;
-            font-size: 16px;
+        .navbar button {
+            background-color: var(--button-bg);
             border: none;
-            border-radius: 5px;
+            color: white;
+            padding: 10px 18px;
+            font-size: 16px;
+            border-radius: 6px;
             cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-weight: 600;
         }
 
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        @media print {
-            button { 
-                display: none;
-            }
+        .navbar button:hover {
+            background-color: var(--button-hover-bg);
         }
 
         .container {
-            width: 80%;
-            margin: 80px auto 0;
-            padding: 20px;
-            background-color: rgba(0, 0, 0, 0.6);
+            max-width: 1100px;
+            margin: 40px auto 60px auto;
+            background-color: var(--card-bg);
+            padding: 30px 40px;
             border-radius: 10px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
         }
 
-        table {
-            width: 90%;
-            margin: 20px 0 20px 5%;
-            border-collapse: collapse;
+        h1 {
+            margin-top: 0;
+            margin-bottom: 30px;
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 28px;
+            text-align: center;
         }
 
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        th {
-            background-color: #333;
-            color: white;
-        }
-
-        .actions-cell {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            white-space: nowrap;
-        }
-
-        .btn {
-            padding: 6px 10px;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-            font-size: 12px;
-        }
-
-        .add-button {
-            background-color: #5cb85c;
-            color: white;
-        }
-
-        .add-button:hover {
-            background-color: #4cae4c;
-        }
-
-        .delete-button {
-            background-color: #d9534f;
-            color: white;
-        }
-
-        .delete-button:hover {
-            background-color: #c9302c;
+        .add-btn-container {
+            text-align: center;
+            margin-bottom: 25px;
         }
 
         .add-btn {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-
-        .add-btn a {
+            background-color: var(--button-success-bg);
+            color: white;
+            border: none;
+            padding: 12px 26px;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
             text-decoration: none;
+            display: inline-block;
         }
 
-    </style>
+        .add-btn:hover {
+            background-color: var(--button-success-hover-bg);
+            text-decoration: none;
+            color: white;
+        }
+
+        #zoekveld {
+            width: 90%;
+            display: block;
+            margin: 0 auto 30px auto;
+            padding: 12px 15px;
+            font-size: 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            transition: border-color 0.3s ease;
+        }
+
+        #zoekveld:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 8px var(--primary-color);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 16px;
+        }
+
+        th, td {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border-color);
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+
+        tbody tr:hover {
+            background-color: var(--hover-bg);
+        }
+
+        .button2 {
+            background-color: var(--button-success-bg);
+            color: white;
+            padding: 6px 14px;
+            font-size: 14px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-weight: 600;
+        }
+
+        .button2:hover {
+            background-color: var(--button-success-hover-bg);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px 20px;
+                margin: 20px auto 40px auto;
+            }
+
+            table, th, td {
+                font-size: 14px;
+            }
+
+            .add-btn, .button2 {
+                font-size: 14px;
+                padding: 10px 20px;
+            }
+
+            #zoekveld {
+                width: 95%;
+                font-size: 14px;
+                padding: 10px 12px;
+            }
+
+            .navbar {
+                padding: 10px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            table, th, td {
+                font-size: 12px;
+            }
+
+            .add-btn, .button2 {
+                font-size: 12px;
+                padding: 8px 16px;
+            }
+
+            #zoekveld {
+                font-size: 12px;
+                padding: 8px 10px;
+            }
+        }
+</style>
 </head>
-<script src="zoekfunctie.js"></script> <!-- Voeg het JavaScript-bestand hier toe -->
+<script src="zoekfunctie.js"></script>
 
 <body>
 
 <div class="navbar">
-    <div class="left">
-        <a href="hoofdpagina.php">⬅ Terug naar Home</a>
-    </div>
-    <div class="right">
-        <img src="images/devopslogo.png" alt="Logo">
-        <button onclick="window.print()">PDF omzetten</button>
-    </div>
+    <a href="hoofdpagina.php">⬅ Terug naar Home</a>
+    <img src="images/devopslogo.png" alt="Logo" />
+    <button onclick="window.print()">PDF omzetten</button>
 </div>
 
 <div class="container">
     <h1>Werkzaamheden Overzicht</h1>
-    
-    <div class="add-btn">
-        <a href="werkzaamheden_toevoegen.php"><button class="add-button">Toevoegen</button></a>
+
+    <div class="add-btn-container">
+        <a href="werkzaamheden_toevoegen.php" class="add-btn">Toevoegen</a>
     </div>
-<input type="text" id="zoekveld" placeholder="Zoek naar naam, project, omschrijving..." onkeyup="zoekInTabel()" style="width: 90%; margin: 10px 5%; padding: 8px; font-size: 16px; border-radius: 5px;">
-    
+
+    <input type="text" id="zoekveld" placeholder="Zoek naar naam, project, omschrijving..." onkeyup="zoekInTabel()">
+
     <div style="overflow-x:auto;">
         <table>
             <thead>
                 <tr>
-                    <th>Gebruiker ID</th> <!-- Toegevoegd voor Gebruiker ID -->                  
+                    <th>Gebruiker ID</th>
                     <th>Aantal Uren</th>
                     <th>Projectnaam</th>
                     <th>Omschrijving Werkzaamheden</th>
                     <th>Datum</th>
-                    <th>acties</th>
-
+                    <th>Acties</th>
                 </tr>
             </thead>
             <tbody>
@@ -193,19 +272,20 @@ $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
                     while($row = $result->fetch_assoc()) {
                         echo "<tr>
-                            <td>" . htmlspecialchars($row['gebruiker_id']) . "</td> <!-- Gebruiker ID -->
+                            <td>" . htmlspecialchars($row['gebruiker_id']) . "</td>
                             <td>" . htmlspecialchars($row['aantal_uren']) . "</td>
                             <td>" . htmlspecialchars($row['projectnaam']) . "</td>
                             <td>" . htmlspecialchars($row['omschrijving']) . "</td>
                             <td>" . htmlspecialchars($row['datum']) . "</td>
                             <td class='actions-cell'>
-
-        <a href='werkzaamhedenbewerken.php?id=" . $row['id'] . "'><button class='btn add-button'>Bewerk</button></a>
-  </td>
+                                <a href='werkzaamhedenbewerken.php?id=" . $row['id'] . "'>
+                                    <button class='button2'>Bewerk</button>
+                                </a>
+                            </td>
                         </tr>";
                     }
                 } else {
-                    echo "<tr><td colspan='7'>Geen werkzaamheden gevonden</td></tr>";
+                    echo "<tr><td colspan='6'>Geen werkzaamheden gevonden</td></tr>";
                 }
                 ?>
             </tbody>
@@ -214,7 +294,6 @@ $result = $conn->query($sql);
 </div>
 
 </body>
-
 </html>
 
 <?php

@@ -12,249 +12,287 @@ try {
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Klanten Overzicht</title>
     <style>
+        :root {
+            --primary-color: #1a73e8;
+            --sidebar-bg: #f5f7fa;
+            --card-bg: #ffffff;
+            --text-color: #333;
+            --border-color: #ddd;
+            --hover-bg: #e0e7ff;
+            --button-bg: #1a73e8;
+            --button-hover-bg: #155ab6;
+            --button-success-bg: #1a73e8;
+            --button-success-hover-bg: #155ab6;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background-image: url('images/Simple chill wallpaper 1920 x 1080 - Wallpaper.jpg');
-            background-size: cover;
-            background-position: center center;
-            background-attachment: fixed;
             margin: 0;
-            padding: 0;
-            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--sidebar-bg);
+            color: var(--text-color);
+            min-height: 100vh;
         }
 
         .navbar {
             width: 100%;
-            background: #222;
-            padding: 15px;
-            position: fixed;
-            top: 0;
-            left: 0;
+            background-color: var(--card-bg);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 15px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: sticky;
+            top: 0;
             z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .navbar a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: color 0.2s ease;
+        }
+
+        .navbar a:hover {
+            color: var(--button-hover-bg);
+            text-decoration: underline;
         }
 
         .navbar img {
             height: 40px;
             width: auto;
-            margin-left: auto;
-        }
-
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            border-radius: 5px;
         }
 
         .navbar button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            font-size: 16px;
+            background-color: var(--button-bg);
             border: none;
-            border-radius: 5px;
+            color: white;
+            padding: 10px 18px;
+            font-size: 16px;
+            border-radius: 6px;
             cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-weight: 600;
         }
 
         .navbar button:hover {
-            background-color: #0056b3;
+            background-color: var(--button-hover-bg);
         }
 
         .container {
-            width: 80%;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: rgba(0, 0, 0, 0.6);
+            max-width: 1100px;
+            margin: 40px auto 60px auto;
+            background-color: var(--card-bg);
+            padding: 30px 40px;
             border-radius: 10px;
-            margin-top: 100px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
         }
 
         h1 {
+            margin-top: 0;
+            margin-bottom: 30px;
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 28px;
             text-align: center;
-            margin-bottom: 20px;
+        }
+
+        .add-btn-container {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .add-btn {
+            background-color: var(--button-success-bg);
+            color: white;
+            border: none;
+            padding: 12px 26px;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .add-btn:hover {
+            background-color: var(--button-success-hover-bg);
+            text-decoration: none;
+            color: white;
+        }
+
+        #zoekveld {
+            width: 90%;
+            display: block;
+            margin: 0 auto 30px auto;
+            padding: 12px 15px;
+            font-size: 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            transition: border-color 0.3s ease;
+        }
+
+        #zoekveld:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 8px var(--primary-color);
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
+            font-size: 16px;
         }
 
         th, td {
-            padding: 10px;
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border-color);
             text-align: left;
-            border-bottom: 1px solid #ddd;
+            vertical-align: middle;
         }
 
         th {
-            background-color: #333;
+            background-color: var(--primary-color);
             color: white;
+            font-weight: 600;
         }
 
-        .add-btn-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-
-        .add-btn {
-            padding: 10px 20px;
-            background-color: #5cb85c;
-            color: white;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        .add-btn:hover {
-            background-color: #4cae4c;
+        tbody tr:hover {
+            background-color: var(--hover-bg);
         }
 
         .button2 {
-            background-color: #28a745;
+            background-color: var(--button-success-bg);
             color: white;
-            padding: 5px 10px;
+            padding: 6px 14px;
             font-size: 14px;
             border: none;
-            border-radius: 5px;
+            border-radius: 6px;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: background-color 0.3s ease;
+            font-weight: 600;
         }
 
         .button2:hover {
-            background: #218838;
+            background-color: var(--button-success-hover-bg);
         }
 
         @media (max-width: 768px) {
             .container {
+                padding: 25px 20px;
+                margin: 20px auto 40px auto;
+            }
+
+            table, th, td {
+                font-size: 14px;
+            }
+
+            .add-btn, .button2 {
+                font-size: 14px;
+                padding: 10px 20px;
+            }
+
+            #zoekveld {
                 width: 95%;
-                padding: 15px;
+                font-size: 14px;
+                padding: 10px 12px;
             }
 
             .navbar {
-                padding: 10px;
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            h1 {
-                font-size: 24px;
-            }
-
-            table {
-                font-size: 14px;
-            }
-
-            th, td {
-                padding: 8px;
-            }
-
-            button, .add-btn {
-                font-size: 14px;
-                padding: 8px 16px;
+                padding: 10px 20px;
             }
         }
 
         @media (max-width: 480px) {
-            .navbar a {
-                font-size: 14px;
-                padding: 8px 15px;
-            }
-
-            table {
+            table, th, td {
                 font-size: 12px;
-            }
-
-            th, td {
-                padding: 6px;
             }
 
             .add-btn, .button2 {
                 font-size: 12px;
-                padding: 6px 10px;
+                padding: 8px 16px;
             }
-        }
 
-        .logo {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            width: 50px;
-            height: auto;
+            #zoekveld {
+                font-size: 12px;
+                padding: 8px 10px;
+            }
         }
     </style>
 </head>
+
 <script src="zoekfunctie.js"></script>
 
 <body>
-
-<div class="navbar">
-    <a href="hoofdpagina.php">⬅ Terug naar Home</a>
-    <img src="images/devopslogo.png" alt="Logo"> <!-- Logo toegevoegd aan de navigatiebalk -->
-    <button onclick="window.print()">PDF omzetten</button>
-</div>
-<img src="images/logo.png" alt="Mijn Logo" class="logo">
-
-<div class="container">
-    <h1>Klanten Overzicht</h1>
-    <div class="add-btn-container">
-        <a href="klanten_toevoegen.php"><button class="add-btn">Toevoegen</button></a>
+    <div class="navbar">
+        <a href="hoofdpagina.php">⬅ Terug naar Home</a>
+        <img src="images/devopslogo.png" alt="Logo">
+        <button onclick="window.print()">PDF omzetten</button>
     </div>
 
-    <input type="text" id="zoekveld" placeholder="Zoek naar naam, project, omschrijving..." onkeyup="zoekInTabel()" style="width: 90%; margin: 10px 5%; padding: 8px; font-size: 16px; border-radius: 5px;">
+    <div class="container">
+        <h1>Klanten Overzicht</h1>
 
-    <div style="overflow-x:auto;">
+        <div class="add-btn-container">
+            <a href="klanten_toevoegen.php" class="add-btn">Toevoegen</a>
+        </div>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Naam</th>
-                <th>Bedrijf</th>
-                <th>Functie</th>
-                <th>Telefoon</th>
-                <th>Adres</th>
-                <th>Email</th>
-                <th>Bericht</th>
-                <th>Acties</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            try {
-                $sql = "SELECT * FROM klanten";
-                $stmt = $pdo->query($sql);
-                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                    echo "<tr>
-                            <td>" . htmlspecialchars($row['naam']) . "</td>
-                            <td>" . htmlspecialchars($row['bedrijf']) . "</td>
-                            <td>" . htmlspecialchars($row['functie']) . "</td>
-                            <td>" . htmlspecialchars($row['telefoon']) . "</td>
-                            <td>" . htmlspecialchars($row['adres']) . "</td>
-                            <td>" . htmlspecialchars($row['email']) . "</td>
-                            <td>" . htmlspecialchars($row['bericht']) . "</td>
-                                <td class='actions-cell'>
-                              <a href='klantenbewerken.php?id=" . $row['id'] . "'>
-                                <button class='add-btn'>Bewerk</button>
-                              </a>
-                          </tr>";
-                }
-            } catch (PDOException $e) {
-                echo "<tr><td colspan='8'>Er is een fout opgetreden: " . $e->getMessage() . "</td></tr>";
-            }
-                ?>
-            </tbody>
-        </table>
+        <input type="text" id="zoekveld" placeholder="Zoek naar naam, project, omschrijving..." onkeyup="zoekInTabel()" />
+
+        <div style="overflow-x:auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Naam</th>
+                        <th>Bedrijf</th>
+                        <th>Functie</th>
+                        <th>Telefoon</th>
+                        <th>Adres</th>
+                        <th>Email</th>
+                        <th>Bericht</th>
+                        <th>Acties</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    try {
+                        $sql = "SELECT * FROM klanten";
+                        $stmt = $pdo->query($sql);
+                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                            echo "<tr>
+                                    <td>" . htmlspecialchars($row['naam']) . "</td>
+                                    <td>" . htmlspecialchars($row['bedrijf']) . "</td>
+                                    <td>" . htmlspecialchars($row['functie']) . "</td>
+                                    <td>" . htmlspecialchars($row['telefoon']) . "</td>
+                                    <td>" . htmlspecialchars($row['adres']) . "</td>
+                                    <td>" . htmlspecialchars($row['email']) . "</td>
+                                    <td>" . htmlspecialchars($row['bericht']) . "</td>
+                                    <td>
+                                        <a href='klantenbewerken.php?id=" . $row['id'] . "'>
+                                            <button class='button2'>Bewerk</button>
+                                        </a>
+                                    </td>
+                                  </tr>";
+                        }
+                    } catch (PDOException $e) {
+                        echo "<tr><td colspan='8'>Er is een fout opgetreden: " . htmlspecialchars($e->getMessage()) . "</td></tr>";
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
-
 </body>
 </html>
 

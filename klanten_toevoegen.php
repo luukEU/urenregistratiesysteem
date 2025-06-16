@@ -10,181 +10,195 @@ $email = htmlspecialchars($_SESSION['email']);
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Klantenformulier</title>
-  <style>
-    body {
-      background: url('images/Simple chill wallpaper 1920 x 1080 - Wallpaper.jpg') no-repeat center center fixed;
-      background-size: cover;
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Klantenformulier</title>
+<style>
+  :root {
+    --primary-color: #1a73e8;
+    --sidebar-bg: #f5f7fa;
+    --card-bg: #ffffff;
+    --text-color: #333;
+    --border-color: #ddd;
+    --input-bg: #f0f4ff;
+    --input-focus-bg: #e0e7ff;
+    --button-bg: #1a73e8;
+    --button-hover-bg: #155ab6;
+    --button-success-bg: #1a73e8;
+    --button-success-hover-bg: #155ab6;
+  }
 
-    .navbar {
-      width: 100%;
-      background: #222;
-      padding: 15px;
-      position: fixed;
-      top: 0;
-      left: 0;
-      box-sizing: border-box;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--sidebar-bg);
+    color: var(--text-color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .navbar {
+    width: 100%;
+    background-color: var(--card-bg);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .navbar a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    transition: color 0.2s ease;
+  }
+
+  .navbar a:hover {
+    color: var(--button-hover-bg);
+    text-decoration: underline;
+  }
+
+  .home-logo {
+    height: 40px;
+    cursor: pointer;
+  }
+
+  .container {
+    background-color: var(--card-bg);
+    padding: 30px 40px;
+    border-radius: 10px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    max-width: 400px;
+    width: 90%;
+    margin: 80px auto 60px;
+    color: var(--text-color);
+  }
+
+  h2 {
+    margin-top: 0;
+    margin-bottom: 25px;
+    color: var(--primary-color);
+    font-weight: 700;
+    font-size: 28px;
+    text-align: center;
+  }
+
+  label {
+    font-weight: 600;
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 6px;
+    text-align: left;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  textarea {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    font-family: inherit;
+    resize: none;
+  }
+
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  textarea:focus {
+    outline: none;
+    background-color: var(--input-focus-bg);
+    border-color: var(--primary-color);
+  }
+
+  textarea {
+    height: 100px;
+  }
+
+  input[readonly] {
+    background-color: #e8eaf6;
+    color: #555;
+    cursor: not-allowed;
+  }
+
+  button[type="submit"] {
+    background-color: var(--button-success-bg);
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    padding: 14px 0;
+    font-size: 17px;
+    font-weight: 700;
+    border-radius: 6px;
+    margin-top: 25px;
+    transition: background-color 0.3s ease;
+  }
+
+  button[type="submit"]:hover {
+    background-color: var(--button-success-hover-bg);
+  }
+
+  @media (max-width: 768px) {
+    .container {
+      width: 95%;
+      padding: 25px 20px;
     }
 
     .navbar a {
-      color: white;
-      text-decoration: none;
-      padding: 10px 20px;
-      font-size: 16px;
-      border-radius: 5px;
+      font-size: 14px;
+      padding: 8px 12px;
     }
+  }
 
-    .navbar a:hover {
-      background: #444;
-    }
-
-    .home-logo {
-      height: 40px;
-      margin-right: 10px;
-      cursor: pointer;
-    }
-
-    .extra-logo {
-      height: 40px;
-      margin-left: 10px;
-      cursor: pointer;
-    }
-
-    .center-logos {
-      display: flex;
-      align-items: center;
-    }
-
-    .container {
-      background: #222;
-      color: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-      width: 80%;
-      max-width: 350px;
-      text-align: center;
-      box-sizing: border-box;
-      margin-top: 80px;
-    }
-
+  @media (max-width: 400px) {
     h2 {
-      text-align: center;
-      color: white;
-      margin-bottom: 15px;
-      font-size: 18px;
+      font-size: 24px;
     }
 
     label {
-      font-weight: bold;
-      display: block;
-      margin-top: 8px;
-      color: white;
       font-size: 14px;
     }
 
     input, textarea {
-      width: 95%;
-      padding: 8px;
-      margin-top: 5px;
-      border: none;
-      border-radius: 6px;
-      font-size: 12px;
-      background: #333;
-      color: white;
-      box-sizing: border-box;
-    }
-
-    input:focus, textarea:focus {
-      outline: none;
-      background: #444;
-    }
-
-    textarea {
-      resize: none;
-      height: 80px;
-    }
-
-    input[readonly] {
-      background: #555;
-      cursor: not-allowed;
+      font-size: 14px;
     }
 
     button {
-      background: #28a745;
-      color: white;
-      padding: 10px;
-      border: none;
-      cursor: pointer;
-      width: 100%;
-      border-radius: 6px;
-      font-size: 14px;
-      font-weight: bold;
-      margin-top: 12px;
+      font-size: 15px;
+      padding: 12px 0;
     }
-
-    button:hover {
-      background: #218838;
-    }
-
-    @media (max-width: 600px) {
-      .container {
-        width: 90%;
-        padding: 15px;
-      }
-
-      .navbar {
-        padding: 10px;
-      }
-    }
-
-    @media (max-width: 400px) {
-      h2 {
-        font-size: 16px;
-      }
-
-      label {
-        font-size: 12px;
-      }
-
-      input, textarea {
-        font-size: 11px;
-      }
-
-      button {
-        font-size: 12px;
-        padding: 8px;
-      }
-    }
-  </style>
+  }
+</style>
 </head>
 <body>
   <div class="navbar">
     <a href="hoofdpagina.php">⬅ Terug naar Home</a>
-    <div class="center-logos">
-      <a href="klanteninfo.php">
-        <img src="images/devopslogo.png" alt="Home" class="home-logo">
-      </a>
-    </div>
+    <a href="klanteninfo.php">
+      <img src="images/devopslogo.png" alt="Home" class="home-logo" />
+    </a>
   </div>
 
   <div class="container">
     <h2>Klantenformulier</h2>
     <form action="klanten.php" method="POST">
       <label for="naam">Naam:</label>
-      <input type="text" id="naam" name="naam" value="<?php echo $username; ?>" readonly>
+      <input type="text" id="naam" name="naam" value="<?= $username ?>" readonly>
 
       <label for="bedrijf">Bedrijfsnaam:</label>
       <input type="text" id="bedrijf" name="bedrijf" placeholder="Bedrijfsnaam" required>
@@ -199,7 +213,7 @@ $email = htmlspecialchars($_SESSION['email']);
       <input type="text" id="adres" name="adres" placeholder="Straat, huisnummer, postcode, stad" required>
 
       <label for="email">E-mail:</label>
-      <input type="email" id="email" name="email" value="<?php echo $email; ?>" readonly>
+      <input type="email" id="email" name="email" value="<?= $email ?>" readonly>
 
       <label for="bericht">Bericht:</label>
       <textarea id="bericht" name="bericht" placeholder="Schrijf hier je bericht..." required></textarea>
