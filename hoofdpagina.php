@@ -32,7 +32,8 @@ $username = htmlspecialchars($_SESSION['username']);
             margin: 0;
             font-family: 'Segoe UI', sans-serif;
             display: flex;
-            height: 100vh;
+            flex-direction: row;
+            min-height: 100vh;
             color: var(--text-color);
             background-color: #f0f2f5;
         }
@@ -96,17 +97,53 @@ $username = htmlspecialchars($_SESSION['username']);
             margin: 0 0 10px;
         }
 
-        @media (max-width: 768px) {
-            .sidebar {
-                display: none;
-            }
+        /* Mobielvriendelijke aanpassingen */
+        .menu-toggle {
+            display: none;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            font-size: 18px;
+            padding: 10px 15px;
+            cursor: pointer;
+            margin: 10px;
+            border-radius: 5px;
+        }
 
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            padding: 0 10px;
+        }
+
+        .mobile-menu .nav-link {
+            font-size: 18px;
+            padding: 14px;
+        }
+
+        @media (max-width: 768px) {
             body {
                 flex-direction: column;
             }
 
+            .sidebar {
+                display: none;
+            }
+
             .main {
                 padding: 20px;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .mobile-menu.show {
+                display: flex;
+            }
+
+            .header h1 {
+                font-size: 24px;
             }
         }
     </style>
@@ -121,22 +158,38 @@ $username = htmlspecialchars($_SESSION['username']);
             <button class="nav-link" onclick="location.href='werkzaamhedeninfo.php'">Werkzaamheden</button>
             <button class="nav-link" onclick="location.href='holidays_overview.php'">Feestdagen</button>
             <button class="nav-link" onclick="location.href='jaaroverzicht.php'">Jaaroverzicht</button>
-
         <?php elseif ($rol === 'medewerker'): ?>
             <button class="nav-link" onclick="location.href='werkzaamhedeninfo.php'">Werkzaamheden</button>
             <button class="nav-link" onclick="location.href='medewerkersinfo.php'">Medewerkers</button>
             <button class="nav-link" onclick="location.href='holidays_overview.php'">Feestdagen</button>
-
         <?php elseif ($rol === 'klant'): ?>
             <button class="nav-link" onclick="location.href='klanteninfo.php'">Klanten</button>
             <button class="nav-link" onclick="location.href='aanvrageninfo.php'">Aanvragen</button>
-
         <?php else: ?>
             <p style="color: red;">Onbekende rol.</p>
         <?php endif; ?>
     </div>
 
     <div class="main">
+        <button class="menu-toggle" onclick="toggleMenu()">☰ Menu</button>
+        <div class="mobile-menu" id="mobileMenu">
+            <?php if ($rol === 'afdelingshoofd'): ?>
+                <button class="nav-link" onclick="location.href='klanteninfo.php'">Klanten</button>
+                <button class="nav-link" onclick="location.href='medewerkersinfo.php'">Medewerkers</button>
+                <button class="nav-link" onclick="location.href='aanvrageninfo.php'">Aanvragen</button>
+                <button class="nav-link" onclick="location.href='werkzaamhedeninfo.php'">Werkzaamheden</button>
+                <button class="nav-link" onclick="location.href='holidays_overview.php'">Feestdagen</button>
+                <button class="nav-link" onclick="location.href='jaaroverzicht.php'">Jaaroverzicht</button>
+            <?php elseif ($rol === 'medewerker'): ?>
+                <button class="nav-link" onclick="location.href='werkzaamhedeninfo.php'">Werkzaamheden</button>
+                <button class="nav-link" onclick="location.href='medewerkersinfo.php'">Medewerkers</button>
+                <button class="nav-link" onclick="location.href='holidays_overview.php'">Feestdagen</button>
+            <?php elseif ($rol === 'klant'): ?>
+                <button class="nav-link" onclick="location.href='klanteninfo.php'">Klanten</button>
+                <button class="nav-link" onclick="location.href='aanvrageninfo.php'">Aanvragen</button>
+            <?php endif; ?>
+        </div>
+
         <div class="header">
             <h1>Dashboard</h1>
             <p>Beheer eenvoudig je urenregistratie</p>
@@ -144,8 +197,14 @@ $username = htmlspecialchars($_SESSION['username']);
 
         <div class="card">
             <h3>Welkom terug, <?= $username ?>!</h3>
-            <p>Gebruik de navigatie links om je gegevens te beheren.</p>
+            <p>Gebruik de navigatie om je gegevens te beheren.</p>
         </div>
     </div>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById('mobileMenu').classList.toggle('show');
+        }
+    </script>
 </body>
 </html>

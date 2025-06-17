@@ -1,0 +1,44 @@
+
+
+    .flex-vakken {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 30px;
+        margin: 40px auto;
+        padding: 20px;
+        flex-wrap: wrap;
+        max-width: 90%;
+    }
+
+    .vak {
+        background: rgba(255, 255, 255, 0.9);
+        color: black;
+        padding: 20px;
+        border-radius: 10px;
+        width: 400px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+
+    .vak h3 {
+        margin-top: 0;
+        border-bottom: 2px solid #444;
+        padding-bottom: 5px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 8px;
+        border: 1px solid #ccc;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+
