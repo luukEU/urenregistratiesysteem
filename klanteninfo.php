@@ -12,16 +12,28 @@ $gebruiker_id = $_SESSION['gebruiker_id'];
 
 // Maak verbinding met de database
 $conn = new mysqli($servername, $username, $password, $dbname);
-
-// Controleer verbinding
 if ($conn->connect_error) {
     die("Verbinding mislukt: " . $conn->connect_error);
 }
 
-// Haal alleen de klanten op van de ingelogde gebruiker
-$sql = "SELECT * FROM klanten WHERE gebruiker_id = ?";
+// Haal de rol van de gebruiker op
+$sql = "SELECT role_id FROM gebruikers WHERE id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $gebruiker_id);
+$stmt->execute();
+$stmt->bind_result($role_id);
+$stmt->fetch();
+$stmt->close();
+
+// Haal klanten op, afhankelijk van de rol
+if ($role_id == 2) { // 2 = afdelingshoofd
+    $sql = "SELECT * FROM klanten";
+    $stmt = $conn->prepare($sql);
+} else {
+    $sql = "SELECT * FROM klanten WHERE gebruiker_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $gebruiker_id);
+}
 $stmt->execute();
 $result = $stmt->get_result();
 ?>
@@ -247,30 +259,8 @@ $result = $stmt->get_result();
             }
         }
     </style>
-    <script>
-    // Eenvoudige zoekfunctie op de tabel
-    function zoekInTabel() {
-        var input, filter, table, tr, td, i, j, txtValue, rowVisible;
-        input = document.getElementById("zoekveld");
-        filter = input.value.toLowerCase();
-        table = document.querySelector("table");
-        tr = table.getElementsByTagName("tr");
-        for (i = 1; i < tr.length; i++) {
-            rowVisible = false;
-            td = tr[i].getElementsByTagName("td");
-            for (j = 0; j < td.length - 1; j++) { // laatste kolom (knoppen) niet zoeken
-                if (td[j]) {
-                    txtValue = td[j].textContent || td[j].innerText;
-                    if (txtValue.toLowerCase().indexOf(filter) > -1) {
-                        rowVisible = true;
-                        break;
-                    }
-                }
-            }
-            tr[i].style.display = rowVisible ? "" : "none";
-        }
-    }
-    </script>
+    <script src="zoekfunctie.js"></script>
+
 </head>
 
 <body>

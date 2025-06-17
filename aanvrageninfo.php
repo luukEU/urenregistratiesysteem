@@ -1,16 +1,41 @@
 <?php
+session_start();
 require 'config.php';
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+// Check of gebruiker is ingelogd
+if (!isset($_SESSION['gebruiker_id'])) {
+    header("Location: inlog.php");
+    exit;
+}
 
-// Controleer verbinding
+$gebruiker_id = $_SESSION['gebruiker_id'];
+
+// Maak verbinding met de database
+$conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Verbinding mislukt: " . $conn->connect_error);
 }
 
-// Haal aanvragen op
-$sql = "SELECT * FROM aanvragen";
-$result = $conn->query($sql);
+// Haal de rol van de gebruiker op
+$sql = "SELECT role_id FROM gebruikers WHERE id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $gebruiker_id);
+$stmt->execute();
+$stmt->bind_result($role_id);
+$stmt->fetch();
+$stmt->close();
+
+// Haal aanvragen op, afhankelijk van de rol
+if ($role_id == 2) { // 2 = afdelingshoofd
+    $sql = "SELECT * FROM aanvragen";
+    $stmt = $conn->prepare($sql);
+} else {
+    $sql = "SELECT * FROM aanvragen WHERE gebruiker_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $gebruiker_id);
+}
+$stmt->execute();
+$result = $stmt->get_result();
 ?>
 
 <!DOCTYPE html>
