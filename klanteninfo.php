@@ -1,12 +1,29 @@
 <?php
+session_start();
 require 'config.php';
 
-try {
-    $pdo = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
-} catch (PDOException $e) {
-    die("Fout bij verbinden met database: " . $e->getMessage());
+// Check of gebruiker is ingelogd
+if (!isset($_SESSION['gebruiker_id'])) {
+    header("Location: inlog.php");
+    exit;
 }
+
+$gebruiker_id = $_SESSION['gebruiker_id'];
+
+// Maak verbinding met de database
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Controleer verbinding
+if ($conn->connect_error) {
+    die("Verbinding mislukt: " . $conn->connect_error);
+}
+
+// Haal alleen de klanten op van de ingelogde gebruiker
+$sql = "SELECT * FROM klanten WHERE gebruiker_id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $gebruiker_id);
+$stmt->execute();
+$result = $stmt->get_result();
 ?>
 
 <!DOCTYPE html>
@@ -230,9 +247,31 @@ try {
             }
         }
     </style>
+    <script>
+    // Eenvoudige zoekfunctie op de tabel
+    function zoekInTabel() {
+        var input, filter, table, tr, td, i, j, txtValue, rowVisible;
+        input = document.getElementById("zoekveld");
+        filter = input.value.toLowerCase();
+        table = document.querySelector("table");
+        tr = table.getElementsByTagName("tr");
+        for (i = 1; i < tr.length; i++) {
+            rowVisible = false;
+            td = tr[i].getElementsByTagName("td");
+            for (j = 0; j < td.length - 1; j++) { // laatste kolom (knoppen) niet zoeken
+                if (td[j]) {
+                    txtValue = td[j].textContent || td[j].innerText;
+                    if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                        rowVisible = true;
+                        break;
+                    }
+                }
+            }
+            tr[i].style.display = rowVisible ? "" : "none";
+        }
+    }
+    </script>
 </head>
-
-<script src="zoekfunctie.js"></script>
 
 <body>
     <div class="navbar">
@@ -248,7 +287,7 @@ try {
             <a href="klanten_toevoegen.php" class="add-btn">Toevoegen</a>
         </div>
 
-        <input type="text" id="zoekveld" placeholder="Zoek naar naam, project, omschrijving..." onkeyup="zoekInTabel()" />
+        <input type="text" id="zoekveld" placeholder="Zoek naar naam, bedrijf, functie, ... " onkeyup="zoekInTabel()" />
 
         <div style="overflow-x:auto;">
             <table>
@@ -266,27 +305,21 @@ try {
                 </thead>
                 <tbody>
                     <?php
-                    try {
-                        $sql = "SELECT * FROM klanten";
-                        $stmt = $pdo->query($sql);
-                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                            echo "<tr>
-                                    <td>" . htmlspecialchars($row['naam']) . "</td>
-                                    <td>" . htmlspecialchars($row['bedrijf']) . "</td>
-                                    <td>" . htmlspecialchars($row['functie']) . "</td>
-                                    <td>" . htmlspecialchars($row['telefoon']) . "</td>
-                                    <td>" . htmlspecialchars($row['adres']) . "</td>
-                                    <td>" . htmlspecialchars($row['email']) . "</td>
-                                    <td>" . htmlspecialchars($row['bericht']) . "</td>
-                                    <td>
-                                        <a href='klantenbewerken.php?id=" . $row['id'] . "'>
-                                            <button class='button2'>Bewerk</button>
-                                        </a>
-                                    </td>
-                                  </tr>";
-                        }
-                    } catch (PDOException $e) {
-                        echo "<tr><td colspan='8'>Er is een fout opgetreden: " . htmlspecialchars($e->getMessage()) . "</td></tr>";
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<tr>
+                                <td>" . htmlspecialchars($row['naam']) . "</td>
+                                <td>" . htmlspecialchars($row['bedrijf']) . "</td>
+                                <td>" . htmlspecialchars($row['functie']) . "</td>
+                                <td>" . htmlspecialchars($row['telefoon']) . "</td>
+                                <td>" . htmlspecialchars($row['adres']) . "</td>
+                                <td>" . htmlspecialchars($row['email']) . "</td>
+                                <td>" . htmlspecialchars($row['bericht']) . "</td>
+                                <td>
+                                    <a href='klantenbewerken.php?id=" . $row['id'] . "'>
+                                        <button class='button2'>Bewerk</button>
+                                    </a>
+                                </td>
+                              </tr>";
                     }
                     ?>
                 </tbody>
@@ -295,7 +328,7 @@ try {
     </div>
 </body>
 </html>
-
 <?php
-$pdo = null;
+$stmt->close();
+$conn->close();
 ?>

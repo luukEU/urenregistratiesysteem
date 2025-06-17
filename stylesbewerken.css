@@ -1,28 +1,92 @@
-
 body {
-            font-family: Arial;
-            background-color: #222;
-            color: white;
-            padding: 40px;
-        }
-        input, select {
-            padding: 10px;
-            width: 300px;
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-top: 10px;
-        }
-        button {
-            background-color: #28a745;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            margin-top: 20px;
-            cursor: pointer;
-        }
-        a {
-            color: #ccc;
-            text-decoration: none;
-        }
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f7fa; /*zelfde als var(--sidebar-bg)*/
+    color: #333; /*zelfde als var(--text-color)*/
+    padding: 40px;
+    margin: 0;
+}
+
+h1, h2, h3 {
+    color: #1a73e8; /*zelfde als var(--primary-color)*/
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-weight: 600;
+    text-align: left;
+}
+
+input, select {
+    padding: 10px 14px;
+    width: 300px;
+    font-size: 15px;
+    border: 1px solid #ddd; /*zelfde als var(--border-color)*/
+    border-radius: 6px;
+    background-color: #f0f4ff; /*zelfde als var(--input-bg)*/
+    color: #333; /*zelfde als var(--text-color)*/
+    font-family: inherit;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    margin-bottom: 15px;
+}
+
+input:focus, select:focus {
+    border-color: #1a73e8; /*zelfde als var(--primary-color)*/
+    background-color: #e0e7ff; /*zelfde als var(--input-focus-bg)*/
+    outline: none;
+}
+
+button {
+    background-color: #1a73e8; /*zelfde als var(--button-bg)*/
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    margin-top: 20px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #155ab6; /*zelfde als var(--button-hover-bg)*/
+}
+
+a {
+    color: #1a73e8; /*zelfde als var(--primary-color)*/
+    text-decoration: none;
+    font-weight: 600;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #155ab6; /*zelfde als var(--button-hover-bg)*/
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+}
+
+table th, table td {
+    padding: 12px;
+    border: 1px solid #ddd; /*zelfde als var(--border-color)*/
+    text-align: left;
+}
+
+table th {
+    background-color: #ffffff; /*zelfde als var(--card-bg)*/
+    color: #1a73e8; /*zelfde als var(--primary-color)*/
+}
+
+table tr:nth-child(even) {
+    background-color: #f0f4ff; /*zelfde als var(--input-bg)*/
+}
+
+table tr:hover {
+    background-color: #e0e7ff; /*zelfde als var(--input-focus-bg)*/
+}
