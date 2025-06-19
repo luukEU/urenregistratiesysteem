@@ -269,6 +269,7 @@ $result = $conn->query($sql);
     />
 
     <?php if ($result && $result->num_rows > 0): ?>
+           <div style="overflow-x:auto;">
         <table>
             <thead>
                 <tr>
@@ -300,6 +301,7 @@ $result = $conn->query($sql);
     <?php else: ?>
         <p>Geen medewerkers gevonden.</p>
     <?php endif; ?>
+    </div>
 </div>
 
 <?php $conn->close(); ?>
