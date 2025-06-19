@@ -305,11 +305,17 @@ $result = $stmt->get_result();
                                 <td>" . htmlspecialchars($row['email']) . "</td>
                                 <td>" . htmlspecialchars($row['bericht']) . "</td>
                                 <td>
-                                    <a href='klantenbewerken.php?id=" . $row['id'] . "'>
-                                        <button class='button2'>Bewerk</button>
-                                    </a>
-                                </td>
-                              </tr>";
+                                   <a href='klantenbewerken.php?id=" . $row['id'] . "'>
+                    <button class='button2'>Bewerk</button>
+                </a>";
+    if ($role_id == 2) {
+        echo "
+                <a href='factuur.php?id=" . $row['id'] . "'>
+                    <button class='button2'>Factuur</button>
+                </a>";
+    }
+    echo "  </td>
+          </tr>";
                     }
                     ?>
                 </tbody>

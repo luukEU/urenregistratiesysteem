@@ -2,7 +2,7 @@
 // Database configuratie
 $servername = "localhost"; // Of het IP-adres van je database
 $username = "root"; // Je database gebruikersnaam
-$password = ""; // Je database wachtwoord
+$password = "Ev1ja2ma3!"; // Je database wachtwoord
 $dbname = "klanten_db"; // De naam van je database
 $charset = 'utf8';
 
