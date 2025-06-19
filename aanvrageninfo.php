@@ -283,6 +283,7 @@ $result = $stmt->get_result();
         <input type="text" id="zoekveld" placeholder="Zoek naar naam, project, omschrijving..." onkeyup="zoekInTabel()" />
 
         <div class="table-container">
+        <div style="overflow-x:auto;">
             <table>
                 <thead>
                     <tr>
@@ -317,6 +318,7 @@ $result = $stmt->get_result();
                     <?php endif; ?>
                 </tbody>
             </table>
+                    </div>
         </div>
     </div>
 
